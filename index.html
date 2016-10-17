@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+  @import url(http://fonts.googleapis.com/css?family=Raleway:200,300,600);
+  @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+  ::-webkit-scrollbar {width:12px; height:12px}
+  ::-webkit-scrollbar-track {background:rgba(255,255,255,0.1)}
+  ::-webkit-scrollbar-thumb {background:rgba(255,255,255,0.5)}
+
+  body {background:black; font-family:'Open Sans',sans-serif;
+        font-size:12pt; max-width:600px; margin:100px auto }
+
+  #header span {font-family:'Raleway'; font-weight:600; font-size:24pt;
+                text-transform:uppercase}
+  #header .small {font-size:16px; color:#888a8c; font-weight:300;
+                  display:block}
+
+  #description a {display:block; color:#eee; margin:8px 0}
+  #description a::before {content:'+ '; color:#f09020}
+
+  #background {position:fixed; opacity:0.2; z-index:-1; left:0; width:100%}
+
+  .section {margin-top:100px; color:#aaa; border-top:solid 1px transparent}
+  .section:hover {color:#eceeef; border-top:solid 1px #f09020}
+  .section:hover img {opacity:1}
+
+  h1 {font-family:'Raleway'; font-weight:300;
+      text-transform:uppercase; font-size:20pt}
+
+  ul, ol {list-style-type:square}
+
+  a {text-decoration:none; color:#eceeef}
+
+  p {line-height:2em; text-align:justify; margin:2em 0}
+
+  .darken {display:inline-block; background:black; padding:0}
+  .darken img {display:block; opacity:0.3}
+
+  img {width:100%}
+  </style>
+</head>
+<body>
+  <img id='background' src='http://spencertipping.com/9whp.png'>
+  <div id='header'>
+    <a href='http://spencertipping.com'>
+    <span class='small'>spencertipping.com</span>
+    <span class='title'>Don't try this at work</span>
+    </a>
+
+    <div id='description'>
+      <a href='https://github.com/spencertipping'>Github</a>
+      <a href='https://linkedin.com/in/spencertipping'>LinkedIn</a>
+    </div>
+  </div>
+
+  <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
+    <div class='section'>
+      <h1>The GPS error experiment</h1>
+      <p>
+      GPS error isn't random, particularly for cost-optimized receivers like
+      the ones in cell phones. This writeup involves heading up to the roof to
+      build a horizon profile, then tracking each satellite over time to match
+      observed inaccuracies.
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/gpsa-measurement-0.png'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/ni'>
+    <div class='section'>
+      <h1>Saying "ni" to big data</h1>
+      <p>
+      I wanted a data analysis tool that leveraged UNIX process pipelines,
+      could install itself using an SSH connection, and that could visualize
+      arbitrarily large data and remain responsive. So far I'm quite enamored
+      with the result.
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/ni-jsplot-sinewave2.png'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/arduino-sonar.md'>
+    <div class='section'>
+      <h1>Sonar positioning for cell phones</h1>
+      <p>
+      You've got a dozen cell phones from ebay, and you want each one to
+      continuously know its 3D location down to about a centimeter. This
+      project goes through a sonar transmitter design, how to code it on an
+      Arduino, and the engineering required to optimize the carrier frequencies
+      for maximum accuracy.
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7460_BURST010e.jpg'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a>
+    <div class='section'>
+      <h1>Building an indoor bouldering wall</h1>
+      <p>
+      I missed the climbing wall at Google, so I got a bunch of lumber and
+      built one in the living room. Writeup pending...
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/rw-design.png'/>
+        <img src='http://spencertipping.com/rw-finished.jpg'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/browserpower'>
+    <div class='section'>
+      <h1>BrowserPower: using browsers as compute nodes</h1>
+      <p>
+      This was years ago, but still a cool project and simple to implement.
+      It's based around a node.js server that sends work to clients, collects
+      the results, and returns them to the job-runner page. May be of interest
+      if you need to write a raytracer in Javascript for some reason.
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/browserpower.png'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a>
+    <div class='section'>
+      <h1>Driving an alternator as a motor</h1>
+      <p>
+      Have you ever had too many alternators lying around? Me neither, but I
+      did notice that many were way cheaper than corresponding brushless motors
+      for the wattage ratings. So I hooked up a relay H-bridge to a very
+      unhappy bench power supply to build a synchronous motor driver. Writeup
+      and solid-state driver pending...
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/conspiracy/alternator-driver.jpg'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
+    <div class='section'>
+      <h1>"Uncommon uses for angle grinders," part 1</h1>
+      <p>
+      Actually, I suspect a lot of unwise people use angle grinders this way,
+      but I was pretty stoked not to have to shell out for a lathe.
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/IMG_20160827_155611e.jpg'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a>
+    <div class='section'>
+      <h1>Fixing the Gould DSO 610</h1>
+      <p>
+      I found it on eBay for $35, untested and "probably not working." It
+      turned out to be in unexpectedly good shape: two channels worked
+      normally and the other two were partially working but had some major
+      attenuation and distortion going on. The problem was a shorted
+      surface-mount capacitor that fried one of the diodes on the acquisition
+      board. After that fix it works flawlessly. (More details pending...)
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/conspiracy/inside-oscilloscope.jpg'/>
+        <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7461_BURST012e.jpg'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a>
+    <div class='section'>
+      <h1>The Octopipe: the world's ugliest fireplace heat exchanger</h1>
+      <p>
+      Wood stoves may be elegant, but they're a lot more expensive than iron
+      pipe, sheet metal, and a mini Shop-Vac. They're also a lot quieter.
+      Writeup pending...
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/octopipe.jpg'/>
+      </span>
+    </div>
+  </a>
+
+  <a>
+    <div class='section'>
+      <h1>Evaporative control with an Arduino</h1>
+      <p>
+      New Mexico has a desert climate that makes it possible to use
+      evaporative, rather than refrigerated, air conditioning. The energy
+      efficiency is awesome, but the control system leaves something to be
+      desired: because it's continuous-duty during the daytime, most houses
+      just have wall switches instead of a thermostat.
+      </p>
+      <p>
+      I decided to solve this by rewiring it to a relay board and using a
+      wireless Arduino controller. Joyce then wrote timer logic into a web UI
+      so we could program it. Writeup and code pending...
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/conspiracy/evaporative-arduino.jpg'/>
+      </span>
+      </p>
+    </div>
+  </a>
+
+  <a>
+    <div class='section'>
+      <h1>Bonding and VLANs for 2Gbps networking</h1>
+      <p>
+      I run two rackmount servers in the laundry room, one compute and one
+      storage. Each has multiple network ports, but all are 1Gbps. Thanks to an
+      interesting hack I found on StackOverflow, I managed to bond two ports
+      from each machine, work around the Linux IP/ARP debacle, set up some
+      VLANs, and get twice the throughput of a single port. Full writeup
+      pending...
+      </p>
+      <p>
+      <span class='darken'>
+        <img src='http://spencertipping.com/IMG_20161016_193810e.jpg'/>
+      </span>
+      </p>
+    </div>
+  </a>
+  </div>
+</body>
+</html>
