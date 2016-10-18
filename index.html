@@ -135,6 +135,21 @@
     </div>
   </a>
 
+  <a>
+    <div class='section'>
+      <h1>Deriving camera angles from ISS time-lapse videos</h1>
+      <p>
+      A hackathon project with Chris Bleakley that involved tracking the
+      satellite's position, correcting for drift, and using the Factual dataset
+      to match bright spots with real-world places to figure out the exact
+      camera angles. Writeup pending...
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/bz-split.jpg'/>
+      </p>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/browserpower'>
     <div class='section'>
       <h1>BrowserPower: using browsers as compute nodes</h1>
@@ -146,6 +161,19 @@
       </p>
       <p class='darken'>
       <img src='http://spencertipping.com/browserpower.png'/>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://www.factual.com/blog/how-geohashes-work'>
+    <div class='section'>
+      <h1>How geohashes work: a fast encoder/decoder</h1>
+      <p>
+      A lot of the overhead of geohash encoding can be eliminated using Morton
+      encoding and some float/int casts.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/geohash-screenshot.png'/>
       </p>
     </div>
   </a>
@@ -245,6 +273,20 @@
     </div>
   </a>
 
+  <a href='https://www.factual.com/blog/fast-indirect-sorting-in-java'>
+    <div class='section'>
+      <h1>Fast indirect sorting in Java</h1>
+      <p>
+      An interesting way to sort a list of objects by a list of doubles,
+      without using any custom comparators or value boxing. A good hack to know
+      about if you're writing performance-sensitive code.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/indirect-sorting-screenshot.png'/>
+      </p>
+    </div>
+  </a>
+
   <a>
     <div class='section'>
       <h1>The Octopipe: the world's ugliest fireplace heat exchanger</h1>
@@ -287,6 +329,23 @@
       </p>
       <p class='darken'>
       <img src='http://spencertipping.com/arduino-fngen.jpg'/>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://www.factual.com/blog/investigating-low-quality-location-data-1-app-permissions-lab-notes'>
+    <div class='section'>
+      <h1>Using the Fourier transform for data forensics</h1>
+      <p>
+      This one completely surprised me. I was looking for the exact spacing
+      being applied to some data and started seeing all kinds of interesting
+      stuff in the high-frequency range: spikes at 2<sup>17</sup> and
+      2<sup>18</sup> indicating single-precision truncation, powers of ten
+      indicating digit truncation, and in another (not yet published) analysis,
+      1/60 and 1/3600 from truncated DMS encoding.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/latitude-int-prec.png'/>
       </p>
     </div>
   </a>
