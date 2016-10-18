@@ -10,33 +10,35 @@
   ::-webkit-scrollbar-thumb {background:rgba(255,255,255,0.5)}
 
   body {background:black; font-family:'Open Sans',sans-serif;
-        font-size:12pt; max-width:600px; margin:100px auto }
+        font-size:12pt; max-width:600px; margin:100px auto}
 
   #header span {font-family:'Raleway'; font-weight:600; font-size:24pt;
                 text-transform:uppercase}
   #header .small {font-size:16px; color:#888a8c; font-weight:300;
                   display:block}
 
-  #description a {display:block; color:#eee; margin:8px 0}
+  #description a {display:block; color:#eee; margin:8px 0; font-size:16pt}
   #description a::before {content:'+ '; color:#f09020}
 
   #background {position:fixed; opacity:0.2; z-index:-1; left:0; width:100%}
 
-  .section {margin-top:100px; color:#aaa; border-top:solid 1px transparent}
-  .section:hover {color:#eceeef; border-top:solid 1px #f09020}
-  .section:hover img {opacity:1}
+  .section {margin-top:100px; color:#eceeef; border-top:solid 1px #f09020}
 
   h1 {font-family:'Raleway'; font-weight:300;
       text-transform:uppercase; font-size:20pt}
 
   ul, ol {list-style-type:square}
 
-  a {text-decoration:none; color:#eceeef}
-
-  p {line-height:2em; text-align:justify; margin:2em 0}
+  .section {margin-top:100px; color:#aaa; border-top:solid 1px transparent}
+  .section:hover {color:#eceeef; border-top:solid 1px #f09020}
+  .section:hover img {opacity:1}
 
   .darken {display:inline-block; background:black; padding:0}
   .darken img {display:block; opacity:0.3}
+
+  a {text-decoration:none; color:#eceeef}
+
+  p {line-height:2em; text-align:justify; margin:2em 0}
 
   img {width:100%}
   </style>
@@ -64,10 +66,8 @@
       build a horizon profile, then tracking each satellite over time to match
       observed inaccuracies.
       </p>
-      <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/gpsa-measurement-0.png'/>
-      </span>
+      <p class='darken'>
+      <img src='http://spencertipping.com/gpsa-measurement-0.png'/>
       </p>
     </div>
   </a>
@@ -81,10 +81,8 @@
       arbitrarily large data and remain responsive. So far I'm quite enamored
       with the result.
       </p>
-      <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/ni-jsplot-sinewave2.png'/>
-      </span>
+      <p class='darken'>
+      <img src='http://spencertipping.com/ni-jsplot-sinewave2.png'/>
       </p>
     </div>
   </a>
@@ -99,10 +97,8 @@
       Arduino, and the engineering required to optimize the carrier frequencies
       for maximum accuracy.
       </p>
-      <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7460_BURST010e.jpg'/>
-      </span>
+      <p class='darken'>
+      <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7460_BURST010e.jpg'/>
       </p>
     </div>
   </a>
@@ -114,11 +110,9 @@
       I missed the climbing wall at Google, so I got a bunch of lumber and
       built one in the living room. Writeup pending...
       </p>
-      <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/rw-design.png'/>
-        <img src='http://spencertipping.com/rw-finished.jpg'/>
-      </span>
+      <p class='darken'>
+      <img src='http://spencertipping.com/rw-design.png'/>
+      <img src='http://spencertipping.com/rw-finished.jpg'/>
       </p>
     </div>
   </a>
@@ -132,10 +126,8 @@
       the results, and returns them to the job-runner page. May be of interest
       if you need to write a raytracer in Javascript for some reason.
       </p>
-      <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/browserpower.png'/>
-      </span>
+      <p class='darken'>
+      <img src='http://spencertipping.com/browserpower.png'/>
       </p>
     </div>
   </a>
@@ -150,10 +142,23 @@
       unhappy bench power supply to build a synchronous motor driver. Writeup
       and solid-state driver pending...
       </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/conspiracy/alternator-driver.jpg'/>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/cd'>
+    <div class='section'>
+      <h1>A better "cd" for bash</h1>
       <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/conspiracy/alternator-driver.jpg'/>
-      </span>
+      sshfs, encfs, and FUSE in general are great tools, but managing the
+      mountpoints is more trouble than it could be. I wrote a new
+      <code>cd</code> function for bash that does this for you, and supports
+      custom overloading so you can add your own extensions.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/cd-screenshot.png'/>
       </p>
     </div>
   </a>
@@ -165,10 +170,27 @@
       Actually, I suspect a lot of unwise people use angle grinders this way,
       but I was pretty stoked not to have to shell out for a lathe.
       </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/IMG_20160827_155611e.jpg'/>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/canard/blob/circular/bin/canard.md'>
+    <div class='section'>
+      <h1>Writing a JIT in machine code</h1>
       <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/IMG_20160827_155611e.jpg'/>
-      </span>
+      This is an old project, but a lot of fun. I was interested in writing a
+      simple concatenative language based on Joy that had enough expressiveness
+      to build up to something like Lisp or Scheme. On a minimalistic streak, I
+      decided to write it in x86-64 machine code using a not-quite-assembler I
+      had written in Perl. The reader has a bug that prevents it from working,
+      but the design is workable and does some interesting stuff like using
+      machine code to represent data structures; that way <code>eval</code> is
+      simply a jump instruction.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/canard-screenshot.png'/>
       </p>
     </div>
   </a>
@@ -184,11 +206,9 @@
       surface-mount capacitor that fried one of the diodes on the acquisition
       board. After that fix it works flawlessly. (More details pending...)
       </p>
-      <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/conspiracy/inside-oscilloscope.jpg'/>
-        <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7461_BURST012e.jpg'/>
-      </span>
+      <p class='darken'>
+      <img src='http://spencertipping.com/conspiracy/inside-oscilloscope.jpg'/>
+      <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7461_BURST012e.jpg'/>
       </p>
     </div>
   </a>
@@ -201,10 +221,24 @@
       pipe, sheet metal, and a mini Shop-Vac. They're also a lot quieter.
       Writeup pending...
       </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/octopipe.jpg'/>
+      </p>
+    </div>
+  </a>
+
+  <a href='http://caterwauljs.org'>
+    <div class='section'>
+      <h1>Caterwaul: Lisp-style macros in Javascript</h1>
       <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/octopipe.jpg'/>
-      </span>
+      Javascript functions provide a <code>.toString()</code> method that
+      returns their source code in string form. Caterwaul uses this to parse,
+      transform, and recompile your code, adding arbitrary Lisp-style macros as
+      well as its own standard library.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/caterwaul-screenshot.png'/>
+      </p>
     </div>
   </a>
 
@@ -223,10 +257,24 @@
       wireless Arduino controller. Joyce then wrote timer logic into a web UI
       so we could program it. Writeup and code pending...
       </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/conspiracy/evaporative-arduino.jpg'/>
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/bash-lambda'>
+    <div class='section'>
+      <h1>Clojure in Bash (including GC)</h1>
       <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/conspiracy/evaporative-arduino.jpg'/>
-      </span>
+      The big idea behind this project was to replace things like Hadoop with
+      something hosted in bash, using SSH and other UNIX tools to process big
+      data in a distributed way. Predictably, it never reached that level of
+      utility; but I think this is still the only concurrent garbage collector
+      written in bash.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/bash-lambda-screenshot.png'/>
       </p>
     </div>
   </a>
@@ -242,10 +290,8 @@
       VLANs, and get twice the throughput of a single port. Full writeup
       pending...
       </p>
-      <p>
-      <span class='darken'>
-        <img src='http://spencertipping.com/IMG_20161016_193810e.jpg'/>
-      </span>
+      <p class='darken'>
+      <img src='http://spencertipping.com/IMG_20161016_193810e.jpg'/>
       </p>
     </div>
   </a>
