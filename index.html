@@ -9,7 +9,8 @@
   ::-webkit-scrollbar-track {background:rgba(255,255,255,0.1)}
   ::-webkit-scrollbar-thumb {background:rgba(255,255,255,0.5)}
 
-  body {background:black; font-family:'Open Sans',sans-serif;
+  body {position:relative;
+        background:black; font-family:'Open Sans',sans-serif;
         font-size:12pt; max-width:600px; margin:100px auto}
 
   #header span {font-family:'Raleway'; font-weight:600; font-size:24pt;
@@ -18,7 +19,8 @@
                   display:block}
 
   #description a {display:block; color:#eee; margin:8px 0; font-size:16pt}
-  #description a::before {content:'+ '; color:#f09020}
+  #description a::before {content:'+ '; color:#444}
+  #description a:hover::before {content:'+ '; color:#f09020}
 
   #background {position:fixed; opacity:0.2; z-index:-1; left:0; width:100%}
 
@@ -56,6 +58,8 @@
       <a href='https://linkedin.com/in/spencertipping'>LinkedIn</a>
     </div>
   </div>
+
+  <div id='left'></div>
 
   <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
     <div class='section'>
@@ -369,5 +373,20 @@
   </a>
 
   </div>
+
+  <!--
+  TODO: table of contents
+  <script src='http://code.jquery.com/jquery.min.js'></script>
+  <script>
+  $(function () {
+    $('.section').each(function () {
+      var t    = $(this);
+      var text = t.find('h1').text();
+      var name = text.replace(/\W+/g, '-');
+      t.attr('id', name);
+      $('#left').append($('<a>').text(text).attr('href', '#' + name));
+    });
+  });
+  </script> -->
 </body>
 </html>
