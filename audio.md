@@ -113,7 +113,20 @@ the edge artifact noise we'd have otherwise.
 
 ## Are different types of music visibly different?
 ### Bach Cello Suite
-![image]()
+![image](http://storage7.static.itmages.com/i/17/0506/h_1494103922_2126006_26c18b70a0.jpeg)
+
+Key change:
+
+![image](http://storage5.static.itmages.com/i/17/0506/h_1494104437_7701830_0b1e84f207.jpeg)
+
+Large-scale structure:
+
+![image](http://storage6.static.itmages.com/i/17/0506/h_1494104630_8105947_a8effbe9aa.jpeg)
+
+Harmonics during a scale (since the frequencies are log-transformed, they
+appear to converge):
+
+![image](http://storage7.static.itmages.com/i/17/0506/h_1494104708_2211608_86c9859802.jpeg)
 
 ### U2: Mysterious Ways
 ![image](http://storage1.static.itmages.com/i/17/0506/h_1494102140_4736862_0dd2d4a590.jpeg)
@@ -121,4 +134,11 @@ the edge artifact noise we'd have otherwise.
 ### Penguin Cafe Orchestra: Perpetuum Mobile
 ![image](http://storage2.static.itmages.com/i/17/0506/h_1494102699_1853566_e0df5678fe.jpeg)
 
-### 
+### Molly Johnson: Must have Left My Heart
+![image](http://storage5.static.itmages.com/i/17/0506/h_1494103523_9209194_fc8ba072d8.jpeg)
+
+This one is kind of interesting because the bass drum occupies the same
+frequency range as the electric bass line, but they appear distinct by looking
+at timing:
+
+![image](http://storage2.static.itmages.com/i/17/0506/h_1494103771_4048927_3049f89e53.jpeg)
