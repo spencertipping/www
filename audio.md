@@ -151,3 +151,30 @@ at timing:
 
 ### Norah Jones: Sunrise
 ![image](http://storage9.static.itmages.com/i/17/0506/h_1494108034_2373520_cdf5d62112.jpeg)
+
+## What does compression look like?
+I'm going to compress Cold Shoulder because it has frequencies at both
+extremes.
+
+### Original
+![image](http://storage5.static.itmages.com/i/17/0506/h_1494108809_6176614_8717821472.jpeg)
+![image](http://storage7.static.itmages.com/i/17/0506/h_1494108861_5969353_6542d2a754.jpeg)
+
+### MP3, 128kbps
+No noticeable differences:
+
+![image](http://storage6.static.itmages.com/i/17/0506/h_1494109406_2061431_78d3ed9e9d.jpeg)
+![image](http://storage7.static.itmages.com/i/17/0506/h_1494109449_8849695_b02d4e3ce2.jpeg)
+
+### MP3, 64kbps
+No visible differences here either, though 64kbps is definitely audible:
+
+![image](http://storage9.static.itmages.com/i/17/0506/h_1494109941_7149809_9d52503577.jpeg)
+![image](http://storage3.static.itmages.com/i/17/0506/h_1494109978_7560711_333a861524.jpeg)
+
+### MP3, 32kbps
+Definite differences here. Some high frequencies have disappeared, and the low
+frequencies are now quantized:
+
+![image](http://storage8.static.itmages.com/i/17/0506/h_1494110345_6954197_2dba09dfce.jpeg)
+![image](http://storage1.static.itmages.com/i/17/0506/h_1494110398_7718929_02656309df.jpeg)
