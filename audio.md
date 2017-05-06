@@ -128,6 +128,9 @@ appear to converge):
 
 ![image](http://storage7.static.itmages.com/i/17/0506/h_1494104708_2211608_86c9859802.jpeg)
 
+### Beethoven's Ninth Symphony, mvmt 2
+![image](http://storage2.static.itmages.com/i/17/0506/h_1494106709_4616716_ac13c20e92.jpeg)
+
 ### U2: Mysterious Ways
 ![image](http://storage1.static.itmages.com/i/17/0506/h_1494102140_4736862_0dd2d4a590.jpeg)
 
@@ -142,3 +145,9 @@ frequency range as the electric bass line, but they appear distinct by looking
 at timing:
 
 ![image](http://storage2.static.itmages.com/i/17/0506/h_1494103771_4048927_3049f89e53.jpeg)
+
+### Adele: Cold Shoulder
+![image](http://storage1.static.itmages.com/i/17/0506/h_1494106483_6619307_fb6a90cb83.jpeg)
+
+### Norah Jones: Sunrise
+![image](http://storage9.static.itmages.com/i/17/0506/h_1494108034_2373520_cdf5d62112.jpeg)
