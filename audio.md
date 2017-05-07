@@ -8,6 +8,20 @@ quarter-second:
 
 ![image](http://storage7.static.itmages.com/i/17/0506/h_1494093989_2534502_b5faae72de.jpeg)
 
+## How to replicate this setup
+1. Install [ni](https://github.com/spencertipping/ni). This is just one
+   command, and ni has no dependencies.
+2. Install Python+NumPy (`apt install python-numpy` on Ubuntu).
+3. Install ffmpeg (`apt install ffmpeg` on Ubuntu).
+
+I also use [youtube-dl](https://en.wikipedia.org/wiki/Youtube-dl) to get
+compressed audio files.
+
+Once you've installed that stuff, you should be able to run `ni --js` in a
+terminal, pop open a browser to `localhost:8090`, and enter commands into the
+top bar as shown in the screenshots. (You'll have to do some
+panning/zooming/etc to get the view to line up correctly.)
+
 ## What's going on here
 Let's start with the command line. I've got these basic steps:
 
