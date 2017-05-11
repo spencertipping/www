@@ -27,6 +27,17 @@ studs in the wall. Each 2x6 has three lag bolts in the top half, and the bottom
 half hangs. (This is structurally sound due to the tensile strength of wood
 parallel to the grain.)
 
+The baseboard heater is 3kW and has aluminum fins spaced about 1/4" apart over
+a span of 13'. Conservatively estimating each fin at 2 square inches:
+
+```sh
+$ units -t '3 kW / (2 in^2 / 0.25 in * 13 ft)' 'kW/m^2'
+3.725969
+```
+
+So no more than 4x full-sun heat density, which should be fine (i.e. won't
+ignite anything by convection).
+
 ![image](http://spencertipping.com/rockwall-frame.jpg)
 ![image](http://storage3.static.itmages.com/i/17/0511/h_1494501139_7811429_cf77052439.jpeg)
 
@@ -57,4 +68,32 @@ hindsight.)
 
 ## Paneling
 It's common to use 3/4" plywood for the climbing surface, but that stuff is
-expensive and I wanted to try using OSB instead.
+expensive and I wanted to try using OSB instead. This made the project about
+30% cheaper and the extra weight didn't seem to cause any problems. It also has
+TruFlor logos all over it, which matches Joyce's interior decor aesthetic.
+
+![image](http://spencertipping.com/rockwall-panel1.jpg)
+
+3/4" OSB is also quite strong under bending, as I found out when load testing:
+
+![image](http://spencertipping.com/rockwall-panel2.jpg)
+
+Getting the holds mounted was straightforward enough. The first step was to
+chalkline a grid onto each panel:
+
+![image](http://spencertipping.com/rockwall-panel3.jpg)
+
+Then I drilled out the grid points with small pilot holes. It's important to
+make the T-nut holes properly perpendicular to the surface, which even at 3/4"
+isn't guaranteed with a hand drill. I ended up using a plunge router to finish
+each hole, then conscripted an offspring for the hard part:
+
+![image](http://spencertipping.com/rockwall-panel4.jpg)
+
+Two-dude final load test:
+
+![image](http://spencertipping.com/rockwall-panel5.jpg)
+
+Yep, totally solid. (And very safe.)
+
+![image](http://spencertipping.com/safetyscrew.jpg)
