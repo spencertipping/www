@@ -45,48 +45,53 @@ $ units -t '822W * 0.17USD/(kW*hour)' USD/month
 ```
 
 That sounds like a lot, but EC2 prices for similar hardware are much higher per
-hour. There are cheaper ones down the page, but anything with >100GB of memory
-is over $1/hour:
+hour. Anything with >100GB of memory is over $1:
 
 ![image](http://storage9.static.itmages.com/i/17/0608/h_1496924691_3768431_b3128d7946.png)
 
 If you ran the `r4.4xlarge`, the cheapest >100GB machine, for a month you'd
-have a much higher bill -- enough to buy your own server in fact:
+have enough to buy your own server:
 
 ```sh
 $ units -t '1.064 USD/hour' USD/month
 777.2354
 ```
 
-## Practical considerations: amps, heat, and noise
+That also isn't counting any data transfer costs. In addition to the Amazon
+data-out $0.10/GB, I found out that CenturyLink (and most ISPs most likely) is
+very unhappy if you download 2TB of data in a month. So I can't treat a remote
+server as being similarly available even though my connection bandwidth is
+theoretically high enough.
+
+## Practical considerations: power, heat, and noise
 There are two issues around power:
 
 1. Residential power isn't especially reliable -- we probably get three or four
-   multi-second outages per year
+   multi-second outages per year, plus weird voltage sags every now and then
 2. If your servers share a circuit with other stuff, you could easily hit a
    breaker limit
 
 I did a power+disk stress test on all four servers and got up to 1380W of the
 1800W breaker limit, so that leaves just 3.5 amps for the washer, chest
 freezer, ceiling light, and water softener that share the circuit. This means I
-can't realistically build out this setup any further.
+can't realistically build out this setup any further and I should probably
+suspend CPU-heavy stuff when we're running the laundry.
 
-If you're just running one or two servers, though, you're unlikely to overload
-stuff. Any power issues you run into are probably going to be caused by
-[homemade chaos
+If you're just running one or two servers, though, you'll probably be fine. Any
+power issues you run into are probably going to be caused by [homemade chaos
 monkeys](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey).
 
 ![image](http://storage2.static.itmages.com/i/17/0608/h_1496928747_9496741_92706f5d35.jpeg)
 
 ### Dealing with heat
 Servers are space heaters, and 900W is about equivalent to a 1-square-meter
-skylight in full sun. Our laundry room is about 20F warmer than the rest of the
-house, often just above 100F. The servers also heat the adjacent guest bath to
-about 90F -- interior walls aren't insulated.
+skylight in full sun. Our laundry room is about 20-30F warmer than the rest of
+the house, often just above 100F -- and the adjacent guest bath stays about 90F
+because interior walls aren't insulated.
 
-For the most part it isn't a bad situation for the servers themselves; heat
-radiates proportionally to the temperature difference so the room doesn't have
-runaway thermal problems. But a couple of things to keep in mind:
+For the most part the heat isn't a bad situation for the servers themselves;
+heat radiates proportionally to the temperature difference so the room doesn't
+have runaway thermal problems. But a couple of things to keep in mind:
 
 1. Hotspots - you want the hot air to travel as far as possible before reaching
    the intake vents (or I guess more specifically, you want it to cool down as
@@ -98,6 +103,12 @@ runaway thermal problems. But a couple of things to keep in mind:
    your power bill. I didn't figure cooling costs into my setup because our
    house has a flat roof and evaporative cooling (which is about 1/10th the
    power usage of refrigerated air, but only works in the desert).
+
+It's also worth considering that server fans use a nontrivial amount of wattage
+themselves; one of the servers has six 12V, 3.4A fans -- theoretically a
+maximum of just over 200W output. So fans running at high speeds will
+_increase_ the total heat output of a server, possibly by a double-digit
+percentage.
 
 ### Dealing with noise
 The main compute server is an HP DL380 G6, and it's mostly silent unless the
@@ -117,8 +128,8 @@ inefficient rack that adds 2" of overhead per 2U device:
 
 ![image](http://pix.toile-libre.org/upload/original/1497631781.jpg)
 
-That said, it's a tight fit. No more room for anything, including the wifi
-access point (which is why it's hanging out with the dryer):
+It's a tight fit though. No more room for anything, including the wifi access
+point (which is why it's hanging out with the dryer):
 
 ![image](http://pix.toile-libre.org/upload/original/1497631960.jpg)
 
@@ -130,12 +141,11 @@ out of wood.
 ## Configuring stuff
 ### Bonding for 2Gbps network on gigabit hardware
 You can't get 2x throughput on bonded links using an unmanaged gigabit switch,
-and you probably don't want to live with 125MB/s NFS IO. To get 250MB/s, you
+and you probably don't want to live with 125MB/s NFS IO. To get 250MB/s you
 need either two unmanaged switches or one managed switch with vlan support.
 [This
 post](http://louwrentius.com/achieving-450-mbs-network-file-transfers-using-linux-bonding.html)
-explains the technique involved; in more practical terms, here's the
-configuration I did:
+explains the technique involved. Here's the configuration I'm using:
 
 #### `/etc/modules`
 You have to load the `bonding` module or nothing will work. Found this out the
@@ -207,11 +217,9 @@ The idea here is that there are three interfaces on the gateway, two bonded to
 gateway server using the bonding setup if you just have two network interfaces.
 
 #### Switch configuration
-I use a Dell PowerConnect 5324, and the going rate appears to be about $50 on
-ebay. You'll also need a USB-serial connector to configure it; once that's
-plugged in you should be able to run `screen /dev/ttyUSB0 9600` or similar to
-log into the switch's console. Here's the section of configuration that sets up
-vlans:
+I used a USB-serial connector to configure the switch; once that's plugged in
+you should be able to run `screen /dev/ttyUSB0 9600` or similar to log into the
+console. Here's the section of configuration that sets up vlans:
 
 ```
 > show running-config
@@ -229,8 +237,7 @@ arp timeout 60
 ...
 ```
 
-This creates two square 2x2 blocks on the front, one for each of the two
-parallel 10.X vlans:
+This creates two square 2x2 blocks on the front:
 
 ![image](http://pix.toile-libre.org/upload/original/1497633404.jpg)
 
