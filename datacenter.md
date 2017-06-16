@@ -110,6 +110,23 @@ So although it's not to the level of causing hearing loss, you don't want a
 server running in your living room. Having it behind one closed door drops the
 noise to ~48dB and behind two closed doors it's nearly inaudible at ~27dB.
 
+### Space
+Rackmount stuff isn't small, but it is flat. All of the equipment fits in about
+14" of vertical room under the laundry machines, and that's including a fairly
+inefficient rack that adds 2" of overhead per 2U device:
+
+![image](http://pix.toile-libre.org/upload/original/1497631781.jpg)
+
+That said, it's a tight fit. No more room for anything, including the wifi
+access point (which is why it's hanging out with the dryer):
+
+![image](http://pix.toile-libre.org/upload/original/1497631960.jpg)
+
+It would be possible to get another 2U of space on each side by using thinner
+racking, but in my case power + heat would make that impractical -- and the
+rack would also be more expensive to build since it probably couldn't be made
+out of wood.
+
 ## Configuring stuff
 ### Bonding for 2Gbps network on gigabit hardware
 You can't get 2x throughput on bonded links using an unmanaged gigabit switch,
