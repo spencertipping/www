@@ -8,7 +8,8 @@ curiosity. I was surprised to find that you can get a used server for next to
 nothing; in short order I found an HP unit with 12 Xeons, 144GB of memory, and
 four 300GB disks for $500 + $70 shipping. Thus began the Cheap Home Datacenter,
 which has now become a formidable space heating apparatus and provides the
-compute resources for all of my projects.
+compute resources for all of my projects. It also runs our internal Gitlab
+server and continuous integration.
 
 ## Specs + cost
 Here are all the major components (mostly servers):
