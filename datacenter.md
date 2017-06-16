@@ -134,18 +134,105 @@ and you probably don't want to live with 125MB/s NFS IO. To get 250MB/s, you
 need either two unmanaged switches or one managed switch with vlan support.
 [This
 post](http://louwrentius.com/achieving-450-mbs-network-file-transfers-using-linux-bonding.html)
-explains the technique involved.
+explains the technique involved; in more practical terms, here's the
+configuration I did:
 
+#### `/etc/modules`
+You have to load the `bonding` module or nothing will work. Found this out the
+hard way.
+
+```sh
+# /etc/modules: kernel modules to load at boot time.
+#
+# This file contains the names of kernel modules that should be loaded
+# at boot time, one per line. Lines beginning with "#" are ignored.
+
+bonding
+```
+
+#### `/etc/network/interfaces`
+This is verbatim from one of the servers. Server 1, the compute server, runs a
+NAT (linked below) and has address `10.35.0.2`, so everything on the 10.X
+network uses it as a gateway. Any connections going the other way are done with
+[sshuttle](https://github.com/apenwarr/sshuttle).
+
+```sh
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto enp2s0
+iface enp2s0 inet manual
+bond-master bond0
+
+auto enp3s0
+iface enp3s0 inet manual
+bond-master bond0
+
+auto bond0
+iface bond0 inet static
+address 10.35.0.4
+netmask 255.255.0.0
+gateway 10.35.0.2
+dns-nameservers 8.8.8.8 8.8.4.4
+bond-mode 0
+bond-miimon 100
+bond-slaves enp2s0 enp3s0
+```
+
+#### NAT for the gateway server
+This is a script that gets run when the server boots up:
+
+```sh
+#!/bin/bash
+# Sets up NAT from the 10.35.0.0/16 network.
+# Usage: sudo ./nat
+
+sysctl sys.net.ipv4.ip_forward=1
+
+iptables -t nat -A POSTROUTING -o enp4s0f0 -j MASQUERADE
+iptables -A FORWARD -i enp4s0f0 -o bond0 \
+         -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i bond0 -o enp4s0f0 -j ACCEPT
+```
+
+The idea here is that there are three interfaces on the gateway, two bonded to
+`bond0` and one on the 192.168 network. As far as I know you can't have a
+gateway server using the bonding setup if you just have two network interfaces.
+
+#### Switch configuration
 I use a Dell PowerConnect 5324, and the going rate appears to be about $50 on
 ebay. You'll also need a USB-serial connector to configure it; once that's
 plugged in you should be able to run `screen /dev/ttyUSB0 9600` or similar to
-log into the switch's console.
+log into the switch's console. Here's the section of configuration that sets up
+vlans:
 
-One of the nice things about having vlans is that you can create secure
-networks within the same hardware switch; right now I've got a 10.x network for
-internal stuff like NFS, and it's separated from the 192.168.X network shared
-with the wifi. (I use [sshuttle](https://github.com/apenwarr/sshuttle) to
-connect wifi clients to the internal network.)
+```
+> show running-config
+...
+vlan database
+vlan 2-3
+exit
+interface range ethernet g(17-20)
+switchport access vlan 2
+exit
+interface range ethernet g(21-24)
+switchport access vlan 3
+exit
+arp timeout 60
+...
+```
+
+This creates two square 2x2 blocks on the front, one for each of the two
+parallel 10.X vlans:
+
+![image](http://pix.toile-libre.org/upload/original/1497633404.jpg)
 
 ### TODO: more stuff
 I'm trying to think of other configuration that wasn't obvious when I was doing
