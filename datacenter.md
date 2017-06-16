@@ -1,73 +1,75 @@
 # The cheap home datacenter
-![image](http://storage9.static.itmages.com/i/17/0608/h_1496922906_2417586_86eea04b33.jpeg)
+![image](http://pix.toile-libre.org/upload/original/1497628328.jpg)
+
+It's difficult to be cold in our laundry room.
 
 About a year ago I searched for "rackmount servers" on ebay, mostly out of
 curiosity. I was surprised to find that you can get a used server for next to
 nothing; in short order I found an HP unit with 12 Xeons, 144GB of memory, and
 four 300GB disks for $500 + $70 shipping. Thus began the Cheap Home Datacenter,
-which has grown a bit but is still providing all of my compute power for
-various projects and heating our laundry room.
+which has now become a formidable space heating apparatus and provides the
+compute resources for all of my projects.
 
-## Why run your own servers?
+## Specs + cost
+Here are all the major components (mostly servers):
+
+Server | CPUs              | Memory | Disks   | Cost with shipping
+-------|-------------------|--------|---------|-------------------
+1      | 12HT (24 logical) | 144GB  | 4x300GB | $570
+2      | 12                | 64GB   | 8x72GB  | $230
+3      | 8HT (16 logical)  | 16GB   | 12x2TB  | $580
+4      | 8                 | 24GB   | 4x3TB   | $330
+
+The UPS is a used Dell 1920W I got for $220 shipped, and the network switch is
+a Dell PowerConnect 5324 that ran about $80 when I got it a few years ago (now
+they're about $50 on ebay). I built the rack from about $10 of 2x4s -- so the
+total hardware cost here is $2020, maybe $2100 if you count cables.
+
+## Why run your own servers when there's stuff like EC2?
 Two big reasons. First, the learning experience. If you rent an EC2 instance
 (which I also do), Amazon takes care of sysops for you -- but where's the fun
 in that? Running your own servers means you're thinking about amps, cooling,
 cable organization, RAID controllers, network performance, and where to buy
 hard drives.
 
-Second, it might be cheaper than EC2 or similar even considering the cost of
-power. It's almost certainly cheaper if you're transferring tons of data; most
-ISPs cap or complain if you download more than a few hundred GB of data per
-month. We pay about $0.17/kWh and the server's power supply is 750W, so that
-comes up to:
+Second, it's _much_ cheaper than EC2 for the specs, even including power. I'm
+running servers 1, 3, and 4 right now and the UPS is showing 822W of output.
+
+![image](http://pix.toile-libre.org/upload/original/1497629398.jpg)
+
+At $0.17/kWh, that comes to:
 
 ```sh
-$ units -t '750W * 0.17USD/(kW*hour)' USD/month         # worst case
-93.136761
+$ units -t '822W * 0.17USD/(kW*hour)' USD/month
+102.07789
 ```
 
 That sounds like a lot, but EC2 prices for similar hardware are much higher per
-hour (there are cheaper ones down the page, but anything with >100GB of memory
-is over $1/hour):
+hour. There are cheaper ones down the page, but anything with >100GB of memory
+is over $1/hour:
 
 ![image](http://storage9.static.itmages.com/i/17/0608/h_1496924691_3768431_b3128d7946.png)
 
 If you ran the `r4.4xlarge`, the cheapest >100GB machine, for a month you'd
-have a much higher bill:
+have a much higher bill -- enough to buy your own server in fact:
 
 ```sh
 $ units -t '1.064 USD/hour' USD/month
 777.2354
 ```
 
-The other thing is that the power supply is rated at 750W, but most of the time
-the server isn't using that much. For example, I've got the CPUs pegged with a
-load average of just over 300:
-
-![image](http://storage4.static.itmages.com/i/17/0608/h_1496927204_3515236_ae20e029b5.png)
-
-The overall system wattage, though, is quite low -- just 320W:
-
-![image](http://storage1.static.itmages.com/i/17/0608/h_1496927337_6812679_620fcb85b1.png)
-
-```sh
-# revised power cost
-$ units -t '320W * 0.17USD/(kW*hour)' USD/month
-39.738351
-```
-
 ## Practical considerations: amps, heat, and noise
-The most inflexible of these is probably amps. I'm currently running two
-servers and would like to add a third, but given that they're sharing a circuit
-with a managed switch, a freezer, and a washing machine it's likely I'll
-overload the breaker. Most breakers will give you a little time before cutting
-the power -- useful for inductive loads like freezer compressors, which draw a
-bunch of power at startup and then taper off. But if your breakers are fast you
-have to be especially careful.
+There are two issues around power:
 
-(A possibility I haven't tried yet is to run the servers from the 220 outlet
-powering the dryer. That would double the wattage per amp, but might overload
-the dryer circuit and would probably require some wiring changes.)
+1. Residential power isn't especially reliable -- we probably get three or four
+   multi-second outages per year
+2. If your servers share a circuit with other stuff, you could easily hit a
+   breaker limit
+
+I did a power+disk stress test on all four servers and got up to 1380W of the
+1800W breaker limit, so that leaves just 3.5 amps for the washer, chest
+freezer, ceiling light, and water softener that share the circuit. This means I
+can't realistically build out this setup any further.
 
 If you're just running one or two servers, though, you're unlikely to overload
 stuff. Any power issues you run into are probably going to be caused by
@@ -77,37 +79,75 @@ monkeys](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey).
 ![image](http://storage2.static.itmages.com/i/17/0608/h_1496928747_9496741_92706f5d35.jpeg)
 
 ### Dealing with heat
-Whatever heat your server generates is probably fine if it has decent airflow.
-Our laundry room is about 100F, higher than recommended for servers, and I've
-never had a thermal shutoff. I have gone through a few iterations of airflow
-management, though, because I've got the servers in a fairly constrained space.
-The right answer would be to build a rack for them but I haven't gotten around
-to it yet.
+Servers are space heaters, and 900W is about equivalent to a 1-square-meter
+skylight in full sun. Our laundry room is about 20F warmer than the rest of the
+house, often just above 100F. The servers also heat the adjacent guest bath to
+about 90F -- interior walls aren't insulated.
 
-I found a hotspot, which unsurprisingly was directly above the servers, and
-then put a furnace blower there. It blows the air across the room, which
-increases the temperature of the ceiling -- and that's useful because heat
-transfer is proportional to temperature difference x area. This causes the
-overall room temperature to be lower and prevents heat build-up around the
-intake vents.
+For the most part it isn't a bad situation for the servers themselves; heat
+radiates proportionally to the temperature difference so the room doesn't have
+runaway thermal problems. But a couple of things to keep in mind:
 
-![image](http://storage5.static.itmages.com/i/17/0608/h_1496929603_2204802_39c52450bd.jpeg)
-
-Something I didn't expect is that once I added the blower, every adjacent room
-also got warmer because interior walls aren't insulated. So our guest bath is
-about 90F most of the time. (On the upside, this is good news for cooling
-because it means more area per watt.)
+1. Hotspots - you want the hot air to travel as far as possible before reaching
+   the intake vents (or I guess more specifically, you want it to cool down as
+   much as possible by contacting walls/ceilings/etc). In my initial setup I
+   had some major airflow problems that caused the server fans to run a lot
+   more than they should have.
+2. Cooling - if you have central AC or the server room has a lot of interior
+   walls, the heat is going to radiate into your house. This can add more to
+   your power bill. I didn't figure cooling costs into my setup because our
+   house has a flat roof and evaporative cooling (which is about 1/10th the
+   power usage of refrigerated air, but only works in the desert).
 
 ### Dealing with noise
-The main server is an HP DL380 G6, and it's mostly silent unless the fans are
-running. Once they are, there are about ten different levels -- but the ones
-near the top are serious business; I just measured the noise levels at 78dBA
-using a free app that [might be reasonably
+The main compute server is an HP DL380 G6, and it's mostly silent unless the
+fans are running. Once they are, there are about ten different levels -- but
+the ones near the top are serious business; I just measured the noise levels at
+78dBA using a free app that [might be reasonably
 accurate](https://blogs.cdc.gov/niosh-science-blog/2014/04/09/sound-apps/).
 
 So although it's not to the level of causing hearing loss, you don't want a
 server running in your living room. Having it behind one closed door drops the
 noise to ~48dB and behind two closed doors it's nearly inaudible at ~27dB.
+
+## Configuring stuff
+### Bonding for 2Gbps network on gigabit hardware
+You can't get 2x throughput on bonded links using an unmanaged gigabit switch,
+and you probably don't want to live with 125MB/s NFS IO. To get 250MB/s, you
+need either two unmanaged switches or one managed switch with vlan support.
+[This
+post](http://louwrentius.com/achieving-450-mbs-network-file-transfers-using-linux-bonding.html)
+explains the technique involved.
+
+I use a Dell PowerConnect 5324, and the going rate appears to be about $50 on
+ebay. You'll also need a USB-serial connector to configure it; once that's
+plugged in you should be able to run `screen /dev/ttyUSB0 9600` or similar to
+log into the switch's console.
+
+One of the nice things about having vlans is that you can create secure
+networks within the same hardware switch; right now I've got a 10.x network for
+internal stuff like NFS, and it's separated from the 192.168.X network shared
+with the wifi. (I use [sshuttle](https://github.com/apenwarr/sshuttle) to
+connect wifi clients to the internal network.)
+
+### TODO: more stuff
+I'm trying to think of other configuration that wasn't obvious when I was doing
+the server setup:
+
+- RAID configuration (server 3 runs a 20TB RAID6 volume)
+- NFS -- surprisingly straightforward except for `no_root_squash`
+- The same-subnet ARP reply issue (on Linux, interfaces will reply to ARP
+  requests for same-subnet IP addresses they don't own)
+- Docker
+- Gitlab + CI (which is awesome!)
+
+There's probably more; I'll write these up as I think of them.
+
+# Appendix: notes from the original writeup
+A drive failed as I was writing up the original version of this post, so I got
+some more hardware and did some overdue maintenance like racking the servers.
+Original post snippets below, including stuff like cost estimates for various
+sizes of hard drives.
 
 ## Procuring the hardware
 There are a surprising number of rackmount servers on ebay all the time; I
@@ -190,22 +230,3 @@ covers 12 years of the extra power at 24TB, ~6 years at 48TB.
 that's cheaper than the baseline cost of the drives, although they're used and
 some might not work. It's a decent deal whether or not the drives are in good
 shape. ...so once that gets in, this writeup might change a bit.
-
-### Ok, back to the hardware stuff: networking gear
-You can't get 2x throughput on bonded links using an unmanaged gigabit switch,
-and you probably don't want to live with 125MB/s NFS IO. To get 250MB/s, you
-need either two unmanaged switches or one managed switch with vlan support.
-[This
-post](http://louwrentius.com/achieving-450-mbs-network-file-transfers-using-linux-bonding.html)
-explains the technique involved.
-
-I use a Dell PowerConnect 5324, and the going rate appears to be about $50 on
-ebay. You'll also need a USB-serial connector to configure it; once that's
-plugged in you should be able to run `screen /dev/ttyUSB0 9600` or similar to
-log into the switch's console.
-
-One of the nice things about having vlans is that you can create secure
-networks within the same hardware switch; right now I've got a 10.x network for
-internal stuff like NFS, and it's separated from the 192.168.X network shared
-with the wifi. (I use [sshuttle](https://github.com/apenwarr/sshuttle) to
-connect wifi clients to the internal network.)
