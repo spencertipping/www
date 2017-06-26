@@ -18,9 +18,9 @@
   #header .small {font-size:16px; color:#888a8c; font-weight:300;
                   display:block}
 
-  #description a {display:block; color:#eee; margin:8px 0; font-size:16pt}
-  #description a::before {content:'+ '; color:#444}
-  #description a:hover::before {content:'+ '; color:#f09020}
+  #description {padding-top:12px}
+  #description a {display:inline-block; color:#eee; margin-right:8px; font-size:12pt; text-transform:uppercase}
+  #description a:hover {color:#f09020}
 
   #background {position:fixed; opacity:0.2; z-index:-1; left:0; width:100%}
 
@@ -31,7 +31,7 @@
 
   ul, ol {list-style-type:square}
 
-  .section {margin-top:100px; color:#aaa; border-top:solid 1px transparent}
+  .section {margin-top:100px; color:#aaa; clear:right; border-top:solid 1px transparent}
   .section:hover {color:#eceeef; border-top:solid 1px #f09020}
   .section:hover img {opacity:1}
 
@@ -43,14 +43,18 @@
   p {line-height:2em; text-align:justify; margin:2em 0}
 
   img {width:100%}
+
+  #toc {padding-top:40px}
+  #toc a {display:block; font-size:12pt; text-transform:uppercase; color:#888}
+  #toc a:hover {color:#f09020}
   </style>
 </head>
 <body>
   <img id='background' src='http://spencertipping.com/9whp.png'>
   <div id='header'>
     <a href='http://spencertipping.com'>
-    <span class='small'>spencertipping.com</span>
-    <span class='title'>Don't try this at work</span>
+      <span class='small'>spencertipping.com</span>
+      <span class='title'>Don't try this at work</span>
     </a>
 
     <div id='description'>
@@ -59,12 +63,12 @@
       <a href='https://linkedin.com/in/spencertipping'>LinkedIn</a>
       <a href='http://spencertipping.com/resume.pdf'>Resume</a>
     </div>
+
+    <div id='toc'></div>
   </div>
 
-  <div id='left'></div>
-
   <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
-    <div class='section'>
+    <div class='section' data-topic='datascience'>
       <h1>The GPS error experiment</h1>
       <p>
       GPS error isn't random, particularly for cost-optimized receivers like
@@ -78,9 +82,22 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/www/blob/master/datacenter.md'>
+    <div class='section' data-topic='infrastructure'>
+      <h1>The laundry room datacenter</h1>
+      <p>
+      eBay makes it possible to build a very powerful home computing setup on a
+      small budget. This writeup covers some of the issues I ran into building
+      a datacenter from used rackmount equipment.
+      </p>
+      <p class='darken'>
+      <img src='http://spencertipping.com/IMG_20161016_193810e.jpg'/>
+      </p>
+    </div>
+  </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/audio.md'>
-    <div class='section'>
+    <div class='section' data-topic='datascience'>
       <h1>ni for audio</h1>
       <p>
       ni includes all the basic tools required to stream compressed audio into
@@ -95,7 +112,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/ni'>
-    <div class='section'>
+    <div class='section' data-topic='datascience'>
       <h1>Saying "ni" to big data</h1>
       <p>
       I wanted a data analysis tool that leveraged UNIX process pipelines,
@@ -110,7 +127,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/arduino-sonar.md'>
-    <div class='section'>
+    <div class='section' data-topic='engineering'>
       <h1>Sonar positioning for cell phones</h1>
       <p>
       You've got a dozen cell phones from ebay, and you want each one to
@@ -126,7 +143,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/jit-tutorial'>
-    <div class='section'>
+    <div class='section' data-topic='compsci'>
       <h1>A quick JIT compiler tutorial</h1>
       <p>
       A lot of people assume that JIT compilers are complicated, but the core
@@ -140,7 +157,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/perl-objects'>
-    <div class='section'>
+    <div class='section' data-topic='compsci'>
       <h1>Self-modifying Perl scripts: objects for your filesystem</h1>
       <p>
       This was a terrible idea that ended up being really cool. I used a bunch
@@ -154,7 +171,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/rockwall.md'>
-    <div class='section'>
+    <div class='section' data-topic='engineering'>
       <h1>Building an indoor bouldering wall</h1>
       <p>
       I missed the climbing wall at Google, so I got a bunch of lumber and
@@ -168,7 +185,7 @@
   </a>
 
   <a>
-    <div class='section'>
+    <div class='section' data-topic='datascience'>
       <h1>Deriving camera angles from ISS time-lapse videos</h1>
       <p>
       A hackathon project with Chris Bleakley that involved tracking the
@@ -183,7 +200,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/browserpower'>
-    <div class='section'>
+    <div class='section' data-topic='compsci'>
       <h1>BrowserPower: using browsers as compute nodes</h1>
       <p>
       This was years ago, but still a cool project and simple to implement.
@@ -198,7 +215,7 @@
   </a>
 
   <a href='https://www.factual.com/blog/how-geohashes-work'>
-    <div class='section'>
+    <div class='section' data-topic='compsci'>
       <h1>How geohashes work: a fast encoder/decoder</h1>
       <p>
       A lot of the overhead of geohash encoding can be eliminated using Morton
@@ -211,7 +228,7 @@
   </a>
 
   <a>
-    <div class='section'>
+    <div class='section' data-topic='engineering'>
       <h1>Driving an alternator as a motor</h1>
       <p>
       Have you ever had too many alternators lying around? Me neither, but I
@@ -227,7 +244,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/cd'>
-    <div class='section'>
+    <div class='section' data-topic='infrastructure'>
       <h1>A better "cd" for bash</h1>
       <p>
       sshfs, encfs, and FUSE in general are great tools, but managing the
@@ -242,7 +259,7 @@
   </a>
 
   <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
-    <div class='section'>
+    <div class='section' data-topic='engineering'>
       <h1>"Uncommon uses for angle grinders," part 1</h1>
       <p>
       Actually, I suspect a lot of unwise people use angle grinders this way,
@@ -255,7 +272,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/canard/blob/circular/bin/canard.md'>
-    <div class='section'>
+    <div class='section' data-topic='compsci'>
       <h1>Writing a JIT in machine code</h1>
       <p>
       This is an old project, but a lot of fun. I was interested in writing a
@@ -479,23 +496,6 @@
 
   <a>
     <div class='section'>
-      <h1>Bonding and VLANs for 2Gbps networking</h1>
-      <p>
-      I run two rackmount servers in the laundry room, one compute and one
-      storage. Each has multiple network ports, but all are 1Gbps. Thanks to an
-      interesting hack I found on StackOverflow, I managed to bond two ports
-      from each machine, work around the Linux IP/ARP debacle, set up some
-      VLANs, and get twice the throughput of a single port. Full writeup
-      pending...
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/IMG_20161016_193810e.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a>
-    <div class='section'>
       <h1>The Safety Ladder</h1>
       <p>
       Evaporative coolers require a lot of maintenance, and I like having roof
@@ -528,8 +528,7 @@
   </div>
 
   <!--
-  TODO: table of contents
-  <script src='http://code.jquery.com/jquery.min.js'></script>
+  <script src='https://code.jquery.com/jquery.min.js'></script>
   <script>
   $(function () {
     $('.section').each(function () {
@@ -537,9 +536,10 @@
       var text = t.find('h1').text();
       var name = text.replace(/\W+/g, '-');
       t.attr('id', name);
-      $('#left').append($('<a>').text(text).attr('href', '#' + name));
+      $('#toc').append($('<a>').text(text).attr('href', '#' + name));
     });
   });
-  </script> -->
+  </script>
+  -->
 </body>
 </html>
