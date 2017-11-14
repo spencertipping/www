@@ -16,7 +16,7 @@ but these are some of the good ones):
 
 ## Extracting note images
 Joyce used a ScanSnap, which is a two-sided sheet feed scanner that produces
-PDFs. The first step was to pull the individual pages out using ImageMagick, and
+PDFs. The first step was to pull the individual pages out using ImageMagick,
 inverting each in the process:
 
 ```sh
