@@ -4,15 +4,15 @@ Joyce scanned them in so I could store digital copies. Some fairly aimless
 scripting later, I ended up with a bunch of generated backgrounds (thousands,
 but these are some of the good ones):
 
-![image](http://spencertipping.com/note-wallpaper-1.png)
+![image](http://spencertipping.com/note-wallpaper-1.jpg)
 
-![image](http://spencertipping.com/note-wallpaper-2.png)
+![image](http://spencertipping.com/note-wallpaper-2.jpg)
 
-![image](http://spencertipping.com/note-wallpaper-3.png)
+![image](http://spencertipping.com/note-wallpaper-3.jpg)
 
-![image](http://spencertipping.com/note-wallpaper-4.png)
+![image](http://spencertipping.com/note-wallpaper-4.jpg)
 
-![image](http://spencertipping.com/note-wallpaper-5.png)
+![image](http://spencertipping.com/note-wallpaper-5.jpg)
 
 ## Extracting note images
 Joyce used a ScanSnap, which is a two-sided sheet feed scanner that produces
@@ -33,7 +33,7 @@ in a linear way. So each output file looks something like this:
 I opened a bunch of them in the GIMP and selected/rotated/cropped to get
 correctly-oriented note snippets like this:
 
-![image](http://spencertipping.com/note-wallpaper-extracted-2.png)
+![image](http://spencertipping.com/note-wallpaper-extracted-2.jpg)
 
 The last change was to convert black to alpha and blur the images a bit.
 Blurring hides the fact that the scanner dropped the images to monochrome, which
@@ -178,10 +178,10 @@ low-precision strategy, which is ok because it's quick to go through the images
 and throw out the ones I don't like (or more accurately, rescue the few that I
 do). Here are some that didn't make the cut:
 
-![image](http://spencertipping.com/note-wallpaper-bogus-1.png)
+![image](http://spencertipping.com/note-wallpaper-bogus-1.jpg)
 
-![image](http://spencertipping.com/note-wallpaper-bogus-2.png)
+![image](http://spencertipping.com/note-wallpaper-bogus-2.jpg)
 
-![image](http://spencertipping.com/note-wallpaper-bogus-3.png)
+![image](http://spencertipping.com/note-wallpaper-bogus-3.jpg)
 
-![image](http://spencertipping.com/note-wallpaper-bogus-4.png)
+![image](http://spencertipping.com/note-wallpaper-bogus-4.jpg)
