@@ -10,6 +10,10 @@ but these are some of the good ones):
 
 ![image](http://spencertipping.com/note-wallpaper-3.png)
 
+![image](http://spencertipping.com/note-wallpaper-4.png)
+
+![image](http://spencertipping.com/note-wallpaper-5.png)
+
 ## Extracting note images
 Joyce used a ScanSnap, which is a two-sided sheet feed scanner that produces
 PDFs. The first step was to pull the individual pages out using ImageMagick, and
