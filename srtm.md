@@ -92,10 +92,20 @@ idea:
 - `p'r a, b+d/3600, e'` to get correct `lat lng height`
 
 We can scale `YCp...` because each row out of `bp` is independent. I'm also
-going to export 1/10000th of the data instead of the ridiculously small fraction
-we had above.
+going to export 1/1000th of the data instead of the ridiculously small fraction
+we had above. I'll also encode this as `ffn` binary again to save space. It's ok
+(and necessary) to use full coordinates per point because we're working with a
+sparse representation.
+
+I'm also going to use gzip instead of lz4 here. LZ4 generally gets its advantage
+from repeated pieces of data, whereas gzip also includes a Huffman stage that
+should get a bit of leverage from the common-ranged values (maybe from the
+sign/exponent bits in the floats).
+
+The other thing is that ni's `rp` unpacker can't saturate LZ4's output speed,
+nor even gzip's as far as I know.
 
 ```sh
-$ ni srtm1.ffn3600 bp'r rp"ffn3600"' S24YCr.0001p'r a, b+d/3600, e' \
-     z4\>srtm1.llhsample
+$ ni srtm1.ffn3600 bp'r rp"ffn3600"' S24YCr.001p'r a, b+d/3600, e' \
+     p'wp "ffn", F_' z\>srtm1.ffnsample
 ```
