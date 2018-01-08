@@ -88,10 +88,13 @@ This is enough of a reduction that preprocessing makes sense. Here's the basic
 idea:
 
 - `bp'r rp"ffn3600"'` to unpack the format into a single row of `lat lng pts...`
+  - Actually, anytime the `pack` template is fixed-length, `bp'r rp"..."'` is
+    faster written as `bf'...'` because ni can precompute the binary length of
+    each data item and load multiple at once.
 - `YC` to sparsify the heights; now we have `lat lng row col height`
 - `p'r a, b+d/3600, e'` to get correct `lat lng height`
 
-We can scale `YCp...` because each row out of `bp` is independent. I'm also
+We can scale `YCp...` because each row out of `bf` is independent. I'm also
 going to export 1/1000th of the data instead of the ridiculously small fraction
 we had above. I'll also encode this as `ffn` binary again to save space. It's ok
 (and necessary) to use full coordinates per point because we're working with a
@@ -102,10 +105,14 @@ from repeated pieces of data, whereas gzip also includes a Huffman stage that
 should get a bit of leverage from the common-ranged values (maybe from the
 sign/exponent bits in the floats).
 
-The other thing is that ni's `rp` unpacker can't saturate LZ4's output speed,
+The other thing is that ni's `bf` unpacker can't saturate LZ4's output speed,
 nor even gzip's as far as I know.
 
 ```sh
-$ ni srtm1.ffn3600 bp'r rp"ffn3600"' S24YCr.001p'r a, b+d/3600, e' \
+$ ni srtm1.ffn3600 bfffn3600 S24YCr.001p'r a, b+d/3600, e' \
      p'wp "ffn", F_' z\>srtm1.ffnsample
 ```
+
+Now we can visualize that result:
+
+![image](http://storage9.static.itmages.com/i/18/0108/h_1515427638_8884282_a0c1c4b469.png)
