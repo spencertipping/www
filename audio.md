@@ -1,4 +1,7 @@
 # Using ni to visualize audio files
+**NOTE:** The image host I was using went down a while back; I need to
+regenerate the screenshots. Sorry for the wall of text.
+
 I wrote the [binary interfacing for
 ni](https://github.com/spencertipping/ni/blob/develop/doc/binary.md#binary-decoding)
 with the intention of doing signal processing, but until recently I haven't

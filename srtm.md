@@ -1,4 +1,7 @@
 # Visualizing global elevation
+**NOTE:** The image host I was using went down a while back; I need to
+regenerate the screenshots. Sorry for the wall of text.
+
 SRTM tiles are encoded in a very simple format; for the SRTM1 (one arc-second
 per sample) dataset, this is just a 3601x3601 list of big-endian signed short
 integers. Here's what four of them look like:
