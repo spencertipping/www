@@ -71,8 +71,8 @@ Before/after:
 One interesting thing about these photos is that the five pins on the bottom
 side of U3 are all commoned together, yet there was still a lot of corrosion.
 This surprised me because I had assumed the corrosion came from current flowing
-through stuff -- but it seems like it's just a result of water sitting on the
-pins.
+across the water -- but it seems like it happens if water even comes in contact
+with the pins (absent any potential differences).
 
 ### An hour later: signs of life
 Mostly-full reassembly, power up, and...
