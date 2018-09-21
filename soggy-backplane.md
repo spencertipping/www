@@ -14,7 +14,7 @@ left, and the bottom-most bay on the second from the left. This was pretty
 consistent over several reboots, including a day later.
 
 ## Opening up the server
-I started by taking out all of the drives and fans:
+I started by removing the drives and fans:
 
 ![image](http://spencertipping.com/soggy-backplane-images/IMG_20180921_101533.jpg)
 
@@ -31,10 +31,11 @@ plastic hardware to hold the drive trays in place.
 
 ![image](http://spencertipping.com/soggy-backplane-images/IMG_20180921_103623.jpg)
 
-I started by running the board under a hot shower -- hot because the water
-softener applies only to the hot line, and I figured fewer minerals == better
-outcome. This was just a pre-clean though, mostly to get the worst of the dust
-off.
+You're supposed to put circuitboards in the dishwasher to clean them, but Joyce
+was running some dishes and I didn't want to wait. So I ran it under a hot
+shower -- hot because the water softener applies only to the hot line, and I
+figured fewer minerals == better outcome. This was just a pre-clean though,
+mostly to get the worst of the dust off.
 
 Next up, Serious Power Tools: isopropyl alcohol and q-tips.
 
