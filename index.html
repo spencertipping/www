@@ -2,163 +2,132 @@
 <html>
 <head>
   <style>
-  @import url(http://fonts.googleapis.com/css?family=Raleway:200,300,600);
   @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
-  ::-webkit-scrollbar {width:12px; height:12px}
-  ::-webkit-scrollbar-track {background:rgba(255,255,255,0.1)}
-  ::-webkit-scrollbar-thumb {background:rgba(255,255,255,0.5)}
+  body { position:relative;
+         background:#eee; font-family:'Open Sans',sans-serif;
+         font-size:11pt; margin:0 }
 
-  body {position:relative;
-        background:black; font-family:'Open Sans',sans-serif;
-        font-size:12pt; max-width:600px; margin:100px auto}
+  img { width:100% }
+  a { text-decoration:none; color:#777 }
+  p { line-height:1.6em; text-align:justify; margin:2em 0 }
 
-  #header span {font-family:'Raleway'; font-weight:600; font-size:24pt;
-                text-transform:uppercase}
-  #header .small {font-size:16px; color:#888a8c; font-weight:300;
-                  display:block}
+  .header .text { position:relative; height:0; top:-130px }
 
-  #description {padding-top:12px}
-  #description a {display:inline-block; color:#eee; margin-right:8px; font-size:12pt; text-transform:uppercase}
-  #description a:hover {color:#f09020}
+  .header h1 { margin:0; padding:60px 0 40px 40px; font-size:30px;
+               font-weight:normal; color:#ccc }
 
-  #background {position:fixed; opacity:0.2; z-index:-1; left:0; width:100%}
+  .header h1.bright { color:white }
+  .header h1:hover { color:#f92 }
+  .header h1::after { content: ' >>'; color: #888 }
+  .header h1.bright::after { content: ' >>'; color: #ccc }
 
-  .section {margin-top:100px; color:#eceeef; border-top:solid 1px #f09020}
+  .notfirst { margin-top: 10px }
 
-  h1 {font-family:'Raleway'; font-weight:300;
-      text-transform:uppercase; font-size:20pt}
+  #links { font-size:12pt; padding:12px 0 12px 40px; left:0; right:0; position:fixed; z-index:10; top:0 }
+  #links a { display:inline-block; color:white; margin-right:8px }
+  #links a:hover {color:#f09020}
 
-  ul, ol {list-style-type:square}
+  #goto { float:right }
+  #goto::before { content: '// '; color: #888 }
 
-  .section {margin-top:100px; color:#aaa; clear:right; border-top:solid 1px transparent}
-  .section:hover {color:#eceeef; border-top:solid 1px #f09020}
-  .section:hover img {opacity:1}
+  #description { color: #ccc }
+  #description::after { content: ' //'; color:#888 }
 
-  /*.darken {display:inline-block; background:black; padding:0}
-  .darken img {display:block; opacity:0.3}*/
+  .horiz { display:block; vertical-align:top; position:relative;
+           margin:12px 0 20px 0px; color:#eee }
+  .horiz img { width:600px }
 
-  a {text-decoration:none; color:#eceeef}
+  .horiz h1 { margin:0; font-size:20px; font-weight:normal; width:520px;
+              top:0; padding:10px 40px; z-index:1; background:black }
+  .horiz p { position:absolute; top:0; left:600px; bottom:4px; margin:0;
+             color:white;
+             background:#222; padding:12px 20px; right:0; z-index:1 }
 
-  p {line-height:2em; text-align:justify; margin:2em 0}
+  .vert { display:inline-block; vertical-align:top; position:relative;
+          width:480px; margin:12px 0 20px 40px; color:#222 }
+  .vert img { width:100% }
 
-  img {width:100%}
+  .vert h1 { margin:0; font-size:20px; font-weight:normal; right:0;
+             top:0; padding:10px 0; z-index:1 }
+  .vert p { top:0; bottom:0; margin:0; right:20px; z-index:1 }
 
-  #toc {padding-top:40px}
-  #toc a {display:block; font-size:12pt; text-transform:uppercase; color:#888}
-  #toc a:hover {color:#f09020}
+  h1.dark { color:black }
+
+  .shaded { background: rgba(0,0,0,0.9) }
   </style>
 </head>
 <body>
-  <img id='background' src='http://spencertipping.com/9whp.png'>
-  <div id='header'>
-    <a href='http://spencertipping.com'>
-      <span class='small'>spencertipping.com</span>
-      <span class='title'>Don't try this at work</span>
-    </a>
+  <script src='https://code.jquery.com/jquery.min.js'></script>
+  <script>
+    $(function () {
+      $(window).on('scroll', function () {
+        // Is the top bar inside any image? If not, darken it.
+        var bar_top    = $(window).scrollTop();
+        var bar_bottom = bar_top + $('#links').height();
+        var inside_any = false;
 
-    <div id='description'>
-      <a href='https://github.com/spencertipping'>Github</a>
-      <a href='https://dev.spencertipping.com'>Development chat/support</a>
-      <a href='https://www.youtube.com/channel/UCXGpYbyPcJC6iPv-VWqEqOg'>YouTube</a>
-      <a href='https://linkedin.com/in/spencertipping'>LinkedIn</a>
-      <a href='http://spencertipping.com/resume.pdf'>Resume</a>
-    </div>
+        $('.headerimage, .horiz').each(function () {
+          var this_top    = $(this).offset().top;
+          var this_bottom = this_top + $(this).height();
+          inside_any |= bar_top >= this_top && bar_bottom <= this_bottom - 80;
+        });
 
-    <div id='toc'></div>
+        $('#links').toggleClass('shaded', !inside_any);
+      });
+
+      var resize = function () {
+        var w     = $(window).width() - 80 || 1;
+        var cols  = w / 420 | 0;
+        var extra = (w - cols*420) / cols | 0;
+        $('.vert').css({width: 380 + extra});
+      };
+
+      $(window).on('resize', resize);
+      setTimeout(resize, 1);
+    });
+  </script>
+
+  <div id='links'>
+    <span id='description'>spencer tipping</span>
+
+    <span id='toc'>
+      <a href='#datasci'>datasci</a>
+      <a href='#compsci'>compsci</a>
+      <a href='#linux'>linux</a>
+      <a href='#research'>research</a>
+      <a href='#hardware'>hardware</a>
+    </span>
+
+    <span id='goto'>
+      <a href='https://github.com/spencertipping'>github</a>
+      <a href='https://dev.spencertipping.com'>development chat/support</a>
+      <a href='https://linkedin.com/in/spencertipping'>linkedin</a>
+      <a href='http://spencertipping.com/resume.pdf'>resume</a>
+    </span>
   </div>
 
-  <a href='https://github.com/spencertipping/www/blob/master/soggy-backplane.md'>
-    <div class='section'>
-      <h1>Repairing a water-damaged RAID server</h1>
-      <p>
-      I didn't expect this to end well. It turns out that laundry rooms have
-      some downsides as datacenters, one of which being that servers get soggy
-      if things go wrong. A hot shower and some isopropyl alcohol later, this
-      machine was up and running again.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/soggy-backplane-images/my_photo-183.jpg'/>
-      </p>
+  <div class='header'>
+    <img class='headerimage' src='small-images/header-datasci.jpg'>
+    <div class='text' id='datasci'>
+      <a href='#datasci'><h1>data science</h1></a>
     </div>
-  </a>
+  </div>
 
-  <a href='https://github.com/spencertipping/www/blob/master/srtm.md'>
-    <div class='section'>
-      <h1>Visualizing SRTM1 elevation data</h1>
+  <a href='https://github.com/spencertipping/ni'>
+    <div class='horiz'>
+      <h1>ni: two-fisted data science</h1>
       <p>
-      SRTM1 is a one arc-second resolution heightmap you can download in an
-      efficient binary format. I used ni's binary operators to repack the tiles
-      into a more usable geometric format to make it easier to visualize the
-      full planet.
+      I wanted a data analysis tool that leveraged UNIX process pipelines,
+      could install itself using an SSH connection, and that could visualize
+      arbitrarily large data and remain responsive. So I wrote ni.
       </p>
-      <!--
-      <p class='darken'>
-      <img src='http://storage3.static.itmages.com/i/18/0108/h_1515427869_8526042_e964819413.png'/>
-      </p> -->
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/www/blob/master/metalpen.md'>
-    <div class='section'>
-      <h1>Machining a pen from steel round</h1>
-      <p>
-      This one is mediocre, but it could be the start of something amazing. It's
-      heavy, requires tools to refill, and makes it past TSA with no problems at
-      all. Full writeup pending when I build the next one.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/feh_004757_000004_IMG_20170925_072803.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/www/blob/master/note-wallpapers.md'>
-    <div class='section'>
-      <h1>Sort-of procedural wallpapers</h1>
-      <p>
-      Using ImageMagick to automatically generate thousands of randomized
-      wallpapers from photos and scans of handwriting. This went better than I
-      thought it would, and ended up being surprisingly easy.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/note-wallpaper-3.jpg'/>
-      <img src='http://spencertipping.com/note-wallpaper-1.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
-    <div class='section' data-topic='datascience'>
-      <h1>The GPS error experiment</h1>
-      <p>
-      GPS error isn't random, particularly for cost-optimized receivers like
-      the ones in cell phones. This writeup involves heading up to the roof to
-      build a horizon profile, then tracking each satellite over time to match
-      observed inaccuracies.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/gpsa-measurement-0.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/www/blob/master/datacenter.md'>
-    <div class='section' data-topic='infrastructure'>
-      <h1>The laundry room datacenter</h1>
-      <p>
-      eBay makes it possible to build a very powerful home computing setup on a
-      small budget. This writeup covers some of the issues I ran into building
-      a datacenter from used rackmount equipment.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/IMG_20161016_193810e.jpg'/>
-      </p>
+      <img src='small-images/ni-jsplot-sinewave2.jpg'/>
     </div>
   </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/audio.md'>
-    <div class='section' data-topic='datascience'>
+    <div class='vert'>
       <h1>ni for audio</h1>
       <p>
       ni includes all the basic tools required to stream compressed audio into
@@ -166,175 +135,117 @@
       for windowed FFT processing. Those can be visualized directly in the web
       UI.
       </p>
-      <!--
-      <p class='darken'>
-      <img src='http://storage7.static.itmages.com/i/17/0506/h_1494093989_2534502_b5faae72de.jpeg'/>
-      </p> -->
+      <img src='small-images/niaudio1.jpg'>
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/ni'>
-    <div class='section' data-topic='datascience'>
-      <h1>Saying "ni" to big data</h1>
+  <a href='https://github.com/spencertipping/www/blob/master/srtm.md'>
+    <div class='vert'>
+      <h1>Visualizing SRTM1 elevation data</h1>
       <p>
-      I wanted a data analysis tool that leveraged UNIX process pipelines,
-      could install itself using an SSH connection, and that could visualize
-      arbitrarily large data and remain responsive. So far I'm quite enamored
-      with the result.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/ni-jsplot-sinewave2.png'/>
+      SRTM1 is a one arc-second resolution heightmap you can download in an
+      efficient binary format. I used ni's binary operators to repack the tiles
+      into a more usable geometric format to make it easier to visualize the
+      full planet.
       </p>
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/www/blob/master/arduino-sonar.md'>
-    <div class='section' data-topic='engineering'>
-      <h1>Sonar positioning for cell phones</h1>
+  <a href='https://www.factual.com/blog/investigating-low-quality-location-data-1-app-permissions-lab-notes'>
+    <div class='vert'>
+      <h1>Using the Fourier transform for data forensics</h1>
       <p>
-      You've got a dozen cell phones from ebay, and you want each one to
-      continuously know its 3D location down to about a centimeter. This
-      project goes through a sonar transmitter design, how to code it on an
-      Arduino, and the engineering required to optimize the carrier frequencies
-      for maximum accuracy.
+      This one completely surprised me. I was looking for the exact spacing
+      being applied to some data and started seeing all kinds of interesting
+      stuff in the high-frequency range: spikes at 2<sup>17</sup> and
+      2<sup>18</sup> indicating single-precision truncation, powers of ten
+      indicating digit truncation, and in another (not yet published) analysis,
+      1/60 and 1/3600 from truncated DMS encoding.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7460_BURST010e.jpg'/>
-      </p>
+      <img src='small-images/latitude-int-prec.jpg'/>
     </div>
   </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/osm-animation.md'>
+    <div class='vert'>
+      <h1>Rendering OSM's full history</h1>
+      <p>
+      How to produce a YouTube video of OSM's full history starting with the
+      planet download. Uses gnuplot, ffmpeg, ImageMagick, and ni.
+      </p>
+      <img src='small-images/hqdefault.jpg'>
+    </div>
+  </a>
+
+  <div class='header notfirst'>
+    <img class='headerimage' src='small-images/header-compsci.jpg'>
+    <div class='text' id='compsci'>
+      <a href='#compsci'><h1 class='bright'>computer science</h1></a>
+    </div>
+  </div>
 
   <a href='https://github.com/spencertipping/jit-tutorial'>
-    <div class='section' data-topic='compsci'>
+    <div class='horiz' data-topic='compsci'>
       <h1>A quick JIT compiler tutorial</h1>
       <p>
       A lot of people assume that JIT compilers are complicated, but the core
       mechanics of writing one are surprisingly straightforward. I wrote up a
       short tutorial that covers the basics in C.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/jit-tutorial-screenshot.jpg'/>
+      <img src='small-images/jit-tutorial-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='http://caterwauljs.org'>
+    <div class='horiz'>
+      <h1>Caterwaul: Lisp-style macros in Javascript</h1>
+      <p>
+      Javascript functions provide a <code>.toString()</code> method that
+      returns their source code in string form. Caterwaul uses this to parse,
+      transform, and recompile your code, adding arbitrary Lisp-style macros as
+      well as its own standard library.
+      </p>
+      <img src='small-images/caterwaul-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/shell-tutorial'>
+    <div class='vert' data-topic='compsci'>
+      <h1>How to write a UNIX shell</h1>
+      <p>
+      A quick tutorial that covers the basics of writing a UNIX shell, along
+      with related background (e.g. <code>fork</code>, <code>exec</code>, and
+      file descriptors).
       </p>
     </div>
   </a>
 
   <a href='https://github.com/spencertipping/perl-objects'>
-    <div class='section' data-topic='compsci'>
+    <div class='vert' data-topic='compsci'>
       <h1>Self-modifying Perl scripts: objects for your filesystem</h1>
       <p>
       This was a terrible idea that ended up being really cool. I used a bunch
       of these objects as data containers for various projects before finally
       switching to a more traditional development style years later.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/perl-object-screenshot.png'/>
-      </p>
+      <img src='small-images/perl-object-screenshot.jpg'/>
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/www/blob/master/rockwall.md'>
-    <div class='section' data-topic='engineering'>
-      <h1>Building an indoor bouldering wall</h1>
+  <a href='http://spencertipping.com/cheloniidae'>
+    <div class='vert'>
+      <h1>Cheloniidae: overengineered 3D turtle graphics in Java</h1>
       <p>
-      I missed the climbing wall at Google, so I got a bunch of lumber and
-      built one in the living room.
+      This started as a weekend replacement for a proprietary library about ten
+      years ago, but ended up accumulating a bunch of interesting features like
+      turtle forking, 3D coordinate systems, triangle rendering, etc.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/rw-design.png'/>
-      <img src='http://spencertipping.com/rw-finished.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a>
-    <div class='section' data-topic='datascience'>
-      <h1>Deriving camera angles from ISS time-lapse videos</h1>
-      <p>
-      A hackathon project with Chris Bleakley that involved tracking the
-      satellite's position, correcting for drift, and using the Factual dataset
-      to match bright spots with real-world places to figure out the exact
-      camera angles. Writeup pending...
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/bz-split.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/browserpower'>
-    <div class='section' data-topic='compsci'>
-      <h1>BrowserPower: using browsers as compute nodes</h1>
-      <p>
-      This was years ago, but still a cool project and simple to implement.
-      It's based around a node.js server that sends work to clients, collects
-      the results, and returns them to the job-runner page. May be of interest
-      if you need to write a raytracer in Javascript for some reason.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/browserpower.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://www.factual.com/blog/how-geohashes-work'>
-    <div class='section' data-topic='compsci'>
-      <h1>How geohashes work: a fast encoder/decoder</h1>
-      <p>
-      A lot of the overhead of geohash encoding can be eliminated using Morton
-      encoding and some float/int casts.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/geohash-screenshot.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a>
-    <div class='section' data-topic='engineering'>
-      <h1>Driving an alternator as a motor</h1>
-      <p>
-      Have you ever had too many alternators lying around? Me neither, but I
-      did notice that many were way cheaper than corresponding brushless motors
-      for the wattage ratings. So I hooked up a relay H-bridge to a very
-      unhappy bench power supply to build a synchronous motor driver. Writeup
-      and solid-state driver pending...
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/conspiracy/alternator-driver.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/cd'>
-    <div class='section' data-topic='infrastructure'>
-      <h1>A better "cd" for bash</h1>
-      <p>
-      sshfs, encfs, and FUSE in general are great tools, but managing the
-      mountpoints is more trouble than it could be. I wrote a new
-      <code>cd</code> function for bash that does this for you, and supports
-      custom overloading so you can add your own extensions.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/cd-screenshot.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
-    <div class='section' data-topic='engineering'>
-      <h1>"Uncommon uses for angle grinders," part 1</h1>
-      <p>
-      Actually, I suspect a lot of unwise people use angle grinders this way,
-      but I was pretty stoked not to have to shell out for a lathe.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/IMG_20160827_155611e.jpg'/>
-      </p>
+      <img src='small-images/morecircles.jpg'/>
     </div>
   </a>
 
   <a href='https://github.com/spencertipping/canard/blob/circular/bin/canard.md'>
-    <div class='section' data-topic='compsci'>
+    <div class='vert' data-topic='compsci'>
       <h1>Writing a JIT in machine code</h1>
       <p>
       This is an old project, but a lot of fun. I was interested in writing a
@@ -346,187 +257,60 @@
       machine code to represent data structures; that way <code>eval</code> is
       simply a jump instruction.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/canard-screenshot.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='http://spencertipping.com/cheloniidae'>
-    <div class='section'>
-      <h1>Cheloniidae: overengineered 3D turtle graphics in Java</h1>
-      <p>
-      This started as a weekend replacement for a proprietary library about ten
-      years ago, but ended up accumulating a bunch of interesting features like
-      turtle forking, 3D coordinate systems, triangle rendering, etc.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/cheloniidae/site/3.0-screenshots/morecircles.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a>
-    <div class='section'>
-      <h1>Fixing the Gould DSO 610</h1>
-      <p>
-      I found it on eBay for $35, untested and "probably not working." It
-      turned out to be in unexpectedly good shape: two channels worked
-      normally and the other two were partially working but had some major
-      attenuation and distortion going on. The problem was a shorted
-      surface-mount capacitor that fried one of the diodes on the acquisition
-      board. After that fix it works flawlessly. (More details pending...)
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/conspiracy/inside-oscilloscope.jpg'/>
-      <img src='http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7461_BURST012e.jpg'/>
-      </p>
+      <img src='small-images/canard-screenshot.jpg'/>
     </div>
   </a>
 
   <a href='https://www.factual.com/blog/fast-indirect-sorting-in-java'>
-    <div class='section'>
+    <div class='vert'>
       <h1>Fast indirect sorting in Java</h1>
       <p>
       An interesting way to sort a list of objects by a list of doubles,
       without using any custom comparators or value boxing. A good hack to know
       about if you're writing performance-sensitive code.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/indirect-sorting-screenshot.png'/>
-      </p>
+      <img src='small-images/indirect-sorting-screenshot.jpg'/>
     </div>
   </a>
 
-  <a>
-    <div class='section'>
-      <h1>The Octopipe: the world's ugliest fireplace heat exchanger</h1>
+  <a href='https://github.com/spencertipping/browserpower'>
+    <div class='vert' data-topic='compsci'>
+      <h1>BrowserPower: using browsers as compute nodes</h1>
       <p>
-      Wood stoves may be elegant, but they're a lot more expensive than iron
-      pipe, sheet metal, and a mini Shop-Vac. They're also a lot quieter.
-      Writeup pending...
+      This was years ago, but still a cool project and simple to implement.
+      It's based around a node.js server that sends work to clients, collects
+      the results, and returns them to the job-runner page. May be of interest
+      if you need to write a raytracer in Javascript for some reason.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/octopipe.jpg'/>
+      <img src='small-images/browserpower.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://www.factual.com/blog/how-geohashes-work'>
+    <div class='vert' data-topic='compsci'>
+      <h1>How geohashes work: a fast encoder/decoder</h1>
+      <p>
+      A lot of the overhead of geohash encoding can be eliminated using Morton
+      encoding and some float/int casts.
       </p>
+      <img src='small-images/geohash-screenshot.jpg'/>
     </div>
   </a>
 
   <a href='http://spencertipping.com/js-in-ten-minutes/js-in-ten-minutes.pdf'>
-    <div class='section'>
+    <div class='vert'>
       <h1>Javascript in ten minutes</h1>
       <p>
       The now-infamous guide I wrote years ago, and which I'm sure is no longer
       current. I can't vouch for its quality or brevity, but it's my most
       popular Github project to date.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/js-in-ten-minutes-screenshot.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='http://caterwauljs.org'>
-    <div class='section'>
-      <h1>Caterwaul: Lisp-style macros in Javascript</h1>
-      <p>
-      Javascript functions provide a <code>.toString()</code> method that
-      returns their source code in string form. Caterwaul uses this to parse,
-      transform, and recompile your code, adding arbitrary Lisp-style macros as
-      well as its own standard library.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/caterwaul-screenshot.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/arduino-fngen'>
-    <div class='section'>
-      <h1>An awful two-channel, 12-bit function generator</h1>
-      <p>
-      This was one of my first Arduino projects. It used an R2R DAC and split
-      each of three port registers across both channels so there would be no
-      timing difference. That's where its virtues ended though; because you can
-      only write to one port register per cycle, the signal contained 125ns
-      distortions and it could only emit about 1MS/s. It also had clipping
-      issues due to the op-amp voltage margins. Postmortem pending...
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/arduino-fngen.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://www.factual.com/blog/investigating-low-quality-location-data-1-app-permissions-lab-notes'>
-    <div class='section'>
-      <h1>Using the Fourier transform for data forensics</h1>
-      <p>
-      This one completely surprised me. I was looking for the exact spacing
-      being applied to some data and started seeing all kinds of interesting
-      stuff in the high-frequency range: spikes at 2<sup>17</sup> and
-      2<sup>18</sup> indicating single-precision truncation, powers of ten
-      indicating digit truncation, and in another (not yet published) analysis,
-      1/60 and 1/3600 from truncated DMS encoding.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/latitude-int-prec.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a>
-    <div class='section'>
-      <h1>DIY table saw sled</h1>
-      <p>
-      Not the best design, but cheap and precise after some tuning. I used a
-      circle saw and router to cut the plywood, then 3/16" aluminum bar stock
-      for the guides. Writeup pending...
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/table-saw-sled.jpg'/>
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/quickdupe'>
-    <div class='section'>
-      <h1>Quickdupe: fast duplicate file detection</h1>
-      <p>
-      I used to use <code>sha256sum</code> on every file to find duplicates,
-      but it turns out to be a very slow approach for most real-world
-      filesystems. Quickdupe uses the fastest accurate algorithm I know of, in
-      many cases avoiding file reads altogether.
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/quickdupe-screenshot.png'/>
-      </p>
-    </div>
-  </a>
-
-  <a>
-    <div class='section'>
-      <h1>Evaporative control with an Arduino</h1>
-      <p>
-      New Mexico has a desert climate that makes it possible to use
-      evaporative, rather than refrigerated, air conditioning. The energy
-      efficiency is awesome, but the control system leaves something to be
-      desired: because it's continuous-duty during the daytime, most houses
-      just have wall switches instead of a thermostat.
-      </p>
-      <p>
-      I decided to solve this by rewiring it to a relay board and using a
-      wireless Arduino controller. Joyce then wrote timer logic into a web UI
-      so we could program it. Writeup and code pending...
-      </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/conspiracy/evaporative-arduino.jpg'/>
-      </p>
+      <img src='small-images/js-in-ten-minutes-screenshot.jpg'/>
     </div>
   </a>
 
   <a href='https://github.com/spencertipping/bash-lambda'>
-    <div class='section'>
+    <div class='vert'>
       <h1>Clojure in Bash (including GC)</h1>
       <p>
       The big idea behind this project was to replace things like Hadoop with
@@ -535,14 +319,45 @@
       utility; but I think this is still the only concurrent garbage collector
       written in bash.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/bash-lambda-screenshot.png'/>
+      <img src='small-images/bash-lambda-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <div class='header notfirst'>
+    <img class='headerimage stripe' src='small-images/header-linux.jpg'>
+    <div class='text' id='linux'>
+    <a href='#linux'><h1 class='bright'>linux</h1></a>
+    </div>
+  </div>
+
+  <a href='https://github.com/spencertipping/cd'>
+    <div class='vert'>
+      <h1>A better "cd" for bash</h1>
+      <p>
+      sshfs, encfs, and FUSE in general are great tools, but managing the
+      mountpoints is more trouble than it could be. I wrote a new
+      <code>cd</code> function for bash that does this for you, and supports
+      custom overloading so you can add your own extensions.
       </p>
+      <img src='small-images/cd-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/quickdupe'>
+    <div class='vert'>
+      <h1>Quickdupe: fast duplicate file detection</h1>
+      <p>
+      I used to use <code>sha256sum</code> on every file to find duplicates,
+      but it turns out to be a very slow approach for most real-world
+      filesystems. Quickdupe uses the fastest accurate algorithm I know of, in
+      many cases avoiding file reads altogether.
+      </p>
+      <img src='small-images/quickdupe-screenshot.jpg'/>
     </div>
   </a>
 
   <a href='https://github.com/spencertipping/conky-compiler'>
-    <div class='section'>
+    <div class='vert'>
       <h1>Conky compiler: absolute positioning</h1>
       <p>
       Conky is great, but by default it lays everything out using text flow
@@ -550,14 +365,147 @@
       absolute and relative offsets into your conkyrc to get arbitrary
       positioning for each element.
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/conky-desktop.png'/>
+      <img src='small-images/conky-desktop.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/bash-prompt'>
+    <div class='vert'>
+      <h1>Right-handed prompt indicators for bash</h1>
+      <p>
+      zsh users are understandably fond of right-hand prompt indicators, but it
+      turns out that you can do the same thing in bash with a bit of escape
+      character trickery.
       </p>
+      <img src='small-images/bash-prompt-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/datacenter.md'>
+    <div class='vert' data-topic='infrastructure'>
+      <h1>The laundry room datacenter</h1>
+      <p>
+      eBay makes it possible to build a very powerful home computing setup on a
+      small budget. This writeup covers some of the issues I ran into building
+      a datacenter from used rackmount equipment.
+      </p>
+      <img src='small-images/IMG_20161016_193810e.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/note-wallpapers.md'>
+    <div class='horiz'>
+      <h1>Sort-of procedural wallpapers</h1>
+      <p>
+      Using ImageMagick to automatically generate thousands of randomized
+      wallpapers from photos and scans of handwriting. This went better than I
+      thought it would, and ended up being surprisingly easy.
+      </p>
+      <img src='small-images/note-wallpaper-1.jpg'/>
+    </div>
+  </a>
+
+  <div class='header notfirst'>
+    <img class='headerimage stripe' src='small-images/header-research.jpg'>
+    <div class='text' id='research'>
+    <a href='#research'><h1>research</h1></a>
+    </div>
+  </div>
+
+  <a href='https://github.com/spencertipping/www/blob/master/arduino-sonar.md'>
+    <div class='vert' data-topic='engineering'>
+      <h1>Sonar positioning for cell phones</h1>
+      <p>
+      Audio and trilateration for precise cell phone positioning. This
+      unfinished project goes through a sonar transmitter design, how to code it
+      on an Arduino, and the engineering required to optimize the carrier
+      frequencies for maximum accuracy.
+      </p>
+      <img src='small-images/IMAG7460_BURST010e.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
+    <div class='vert' data-topic='datascience'>
+      <h1>The GPS error experiment</h1>
+      <p>
+      GPS error isn't random, particularly for cost-optimized receivers like
+      the ones in cell phones. This writeup involves heading up to the roof to
+      build a horizon profile, then tracking each satellite over time to match
+      observed inaccuracies.
+      </p>
+      <img src='small-images/gpsa-measurement-0.jpg'/>
     </div>
   </a>
 
   <a>
-    <div class='section'>
+    <div class='vert' data-topic='datascience'>
+      <h1>Deriving camera angles from ISS time-lapse videos</h1>
+      <p>
+      A hackathon project with Chris Bleakley that involved tracking the
+      satellite's position, correcting for drift, and using the Factual dataset
+      to match bright spots with real-world places to figure out the exact
+      camera angles. Writeup pending...
+      </p>
+      <img src='small-images/bz-split.jpg'/>
+    </div>
+  </a>
+
+  <div class='header notfirst'>
+    <img class='headerimage stripe' src='small-images/header-hardware.jpg'>
+    <div class='text' id='hardware'>
+    <a href='#hardware'><h1 class='bright'>hardware</h1></a>
+    </div>
+  </div>
+
+  <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
+    <div class='horiz' data-topic='engineering'>
+      <h1>"Uncommon uses for angle grinders," part 1</h1>
+      <p>
+      A pre-lathe turning project.
+      </p>
+      <img src='small-images/IMG_20160827_155611e.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/metalpen.md'>
+    <div class='horiz'>
+      <h1>Machining a pen from steel round</h1>
+      <p>
+      This one is mediocre, but it could be the start of something amazing. It's
+      heavy, requires tools to refill, and makes it past TSA with no problems at
+      all. Full writeup pending when I build the next one.
+      </p>
+      <img src='small-images/feh_004757_000004_IMG_20170925_072803.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/soggy-backplane.md'>
+    <div class='vert'>
+      <h1>Repairing a water-damaged RAID server</h1>
+      <p>
+      I didn't expect this to end well. It turns out that laundry rooms have
+      some downsides as datacenters, one of which being that servers get soggy
+      if things go wrong. A hot shower and some isopropyl alcohol later, this
+      machine was up and running again.
+      </p>
+      <img src='small-images/my_photo-183.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/rockwall.md'>
+    <div class='vert' data-topic='engineering'>
+      <h1>Building an indoor bouldering wall</h1>
+      <p>
+      I missed the climbing wall at Google, so I got a bunch of lumber and
+      built one in the living room.
+      </p>
+      <img src='small-images/rw-design.jpg'/>
+    </div>
+  </a>
+
+  <a>
+    <div class='vert'>
       <h1>The Safety Ladder</h1>
       <p>
       Evaporative coolers require a lot of maintenance, and I like having roof
@@ -567,41 +515,84 @@
       with a wooden lever clamp and the weight is transferred straight to the
       ground. Writeup pending...
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/safety-ladder.jpg'/>
-      </p>
+      <img src='small-images/safety-ladder.jpg'/>
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/bash-prompt'>
-    <div class='section'>
-      <h1>Right-handed prompt indicators for bash</h1>
+  <a>
+    <div class='vert'>
+      <h1>Evaporative control with an Arduino</h1>
       <p>
-      zsh users are understandably fond of right-hand prompt indicators, but it
-      turns out that you can do the same thing in bash with a bit of escape
-      character trickery.
+      New Mexico has a desert climate that makes it possible to use
+      evaporative, rather than refrigerated, air conditioning. The energy
+      efficiency is awesome, but the control system leaves something to be
+      desired -- so I made my own. Writeup pending...
       </p>
-      <p class='darken'>
-      <img src='http://spencertipping.com/bash-prompt-screenshot.png'/>
-      </p>
+      <img src='small-images/evaporative-arduino.jpg'/>
     </div>
   </a>
 
-  </div>
+  <a>
+    <div class='vert'>
+      <h1>Fixing the Gould DSO 610</h1>
+      <p>
+      I found it on eBay for $35, untested and "probably not working." It
+      turned out to be in unexpectedly good shape: two channels worked
+      normally and the other two were partially working but had some major
+      attenuation and distortion going on. Writeup pending...
+      </p>
+      <img src='small-images/inside-oscilloscope.jpg'/>
+    </div>
+  </a>
 
-  <!--
-  <script src='https://code.jquery.com/jquery.min.js'></script>
-  <script>
-  $(function () {
-    $('.section').each(function () {
-      var t    = $(this);
-      var text = t.find('h1').text();
-      var name = text.replace(/\W+/g, '-');
-      t.attr('id', name);
-      $('#toc').append($('<a>').text(text).attr('href', '#' + name));
-    });
-  });
-  </script>
-  -->
+  <a>
+    <div class='vert'>
+      <h1>The Octopipe: the world's ugliest fireplace heat exchanger</h1>
+      <p>
+      Wood stoves may be elegant, but they're a lot more expensive than iron
+      pipe, sheet metal, and a mini Shop-Vac. They're also a lot quieter.
+      Writeup pending...
+      </p>
+      <img src='http://spencertipping.com/octopipe.jpg'/>
+    </div>
+  </a>
+
+  <a>
+    <div class='vert' data-topic='engineering'>
+      <h1>Driving an alternator as a motor</h1>
+      <p>
+      Writeup pending...
+      </p>
+      <img src='http://spencertipping.com/conspiracy/alternator-driver.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/arduino-fngen'>
+    <div class='vert'>
+      <h1>An awful two-channel, 12-bit function generator</h1>
+      <p>
+      This was one of my first Arduino projects. It used an R2R DAC and split
+      each of three port registers across both channels so there would be no
+      timing difference. That's where its virtues ended though; because you can
+      only write to one port register per cycle, the signal contained 125ns
+      distortions and it could only emit about 1MS/s. It also had clipping
+      issues due to the op-amp voltage margins. Postmortem pending...
+      </p>
+      <img src='http://spencertipping.com/arduino-fngen.jpg'/>
+    </div>
+  </a>
+
+  <a>
+    <div class='vert'>
+      <h1>DIY table saw sled</h1>
+      <p>
+      Not the best design, but cheap and precise after some tuning. I used a
+      circle saw and router to cut the plywood, then 3/16" aluminum bar stock
+      for the guides. Writeup pending...
+      </p>
+      <img src='http://spencertipping.com/table-saw-sled.jpg'/>
+    </div>
+  </a>
+  </div>
 </body>
 </html>

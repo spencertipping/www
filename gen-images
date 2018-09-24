@@ -1,0 +1,60 @@
+#!/bin/bash
+
+rm -r small-images
+mkdir small-images
+
+header() {
+  convert images/$1 -quality 0.95 small-images/${1%.*}.jpg
+}
+
+small() {
+  convert images/$1 -quality 0.95 -resize 400x400\> \
+          small-images/${1%.*}.jpg
+}
+
+large() {
+  convert images/$1 -quality 0.95 -resize 500x500\> \
+          small-images/${1%.*}.jpg
+}
+
+header header-datasci.jpg
+header header-compsci.jpg
+header header-linux.jpg
+header header-research.png
+header header-hardware.jpg
+
+small hqdefault.jpg
+small js-in-ten-minutes-screenshot.png
+small conky-desktop.png
+small latitude-int-prec.png
+small rw-design.png
+small browserpower.png
+small bash-prompt-screenshot.png
+small bash-lambda-screenshot.png
+small geohash-screenshot.png
+small my_photo-183.jpg
+small quickdupe-screenshot.png
+small perl-object-screenshot.png
+small indirect-sorting-screenshot.png
+small canard-screenshot.png
+small morecircles.png
+small inside-oscilloscope.jpg
+small alternator-driver.jpg
+small table-saw-sled.jpg
+small arduino-fngen.jpg
+small evaporative-arduino.jpg
+small IMG_20161016_193810e.jpg
+small octopipe.jpg
+small IMAG7460_BURST010e.jpg
+small niaudio1.png
+small safety-ladder.jpg
+small bz-split.jpg
+small IMG_20160827_155611e.jpg
+small gpsa-measurement-0.png
+
+large jit-tutorial-screenshot.jpg
+large quickdupe-screenshot.png
+large cd-screenshot.png
+large feh_004757_000004_IMG_20170925_072803.jpg
+large ni-jsplot-sinewave2.png
+large note-wallpaper-1.jpg
