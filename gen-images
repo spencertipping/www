@@ -9,7 +9,7 @@ header() {
 }
 
 small() {
-  convert images/$1 -quality 0.95 -resize 400x400\> \
+  convert images/$1 -quality 0.95 -resize 780x780\> \
           small-images/${1%.*}.jpg
 }
 
