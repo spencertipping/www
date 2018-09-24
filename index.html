@@ -215,7 +215,7 @@
   </a>
 
   <a href='http://spencertipping.com/cheloniidae'>
-    <div class='vert'>
+    <div class='vert' data-topic='compsci'>
       <h1>Cheloniidae: overengineered 3D turtle graphics in Java</h1>
       <p>
       This started as a weekend replacement for a proprietary library about ten
@@ -244,7 +244,7 @@
   </a>
 
   <a href='https://www.factual.com/blog/fast-indirect-sorting-in-java'>
-    <div class='vert'>
+    <div class='vert' data-topic='compsci'>
       <h1>Fast indirect sorting in Java</h1>
       <p>
       An interesting way to sort a list of objects by a list of doubles,
@@ -507,7 +507,7 @@
   </div>
 
   <a href='https://github.com/spencertipping/www/blob/master/metalpen.md'>
-    <div class='vert'>
+    <div class='vert' data-topic='hardware'>
       <h1>Machining a pen from steel round</h1>
       <p>
       This one is mediocre, but it could be the start of something amazing. It's
@@ -672,6 +672,8 @@
 
 
       $('.vert, .horiz').each(function () {
+        $(this).attr('data-topic') || alert($(this).text() + ' is missing a topic');
+
         var text = $(this).find('h1').text();
         var id   = text.replace(/\W/g, '-');
         $(this).attr({id: id});
