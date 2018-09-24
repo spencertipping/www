@@ -56,18 +56,27 @@
   h1.dark { color:black }
 
   .shaded { background: rgba(0,0,0,0.9) }
+
+  #navshadow { position:fixed; z-index:10 }
+  .shadow { display:none; width:480px; background:rgba(0,0,0,0.9);
+            padding:12px 0 }
+  .shadow a { display:block; width:440px; color:#eee;
+              padding:4px 24px; text-transform:lowercase }
+
+  .shadow a::before { content: '>> '; color:#ccc }
+  .shadow a:hover { color:#f92 }
   </style>
 </head>
 <body>
   <div id='links'>
     <span id='description'>spencer tipping</span>
 
-    <span id='toc'>
-      <a href='#datasci'>datasci</a>
-      <a href='#compsci'>compsci</a>
-      <a href='#linux'>linux</a>
-      <a href='#research'>research</a>
-      <a href='#hardware'>hardware</a>
+    <span id='nav'>
+      <a id='datasci-link'  href='#datasci'>datasci</a>
+      <a id='compsci-link'  href='#compsci'>compsci</a>
+      <a id='linux-link'    href='#linux'>linux</a>
+      <a id='research-link' href='#research'>research</a>
+      <a id='hardware-link' href='#hardware'>hardware</a>
     </span>
 
     <span id='goto'>
@@ -79,6 +88,8 @@
     </span>
   </div>
 
+  <div id='navshadow'></div>
+
   <div class='header'>
     <img class='headerimage' src='small-images/header-datasci.jpg'>
     <div class='text' id='datasci'>
@@ -87,7 +98,7 @@
   </div>
 
   <a href='https://github.com/spencertipping/ni'>
-    <div class='horiz'>
+    <div class='horiz' data-topic='datasci'>
       <h1>ni: two-fisted data science</h1>
       <p>
       I wanted a data analysis tool that leveraged UNIX process pipelines,
@@ -99,7 +110,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/audio.md'>
-    <div class='vert'>
+    <div class='vert' data-topic='datasci'>
       <h1>ni for audio</h1>
       <p>
       ni includes all the basic tools required to stream compressed audio into
@@ -112,7 +123,7 @@
   </a>
 
   <a href='https://www.factual.com/blog/investigating-low-quality-location-data-1-app-permissions-lab-notes'>
-    <div class='vert'>
+    <div class='vert' data-topic='datasci'>
       <h1>Using the Fourier transform for data forensics</h1>
       <p>
       This one completely surprised me. I was looking for the exact spacing
@@ -127,8 +138,8 @@
   </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/osm-animation.md'>
-    <div class='vert'>
-      <h1>Rendering OSM's full history</h1>
+    <div class='vert' data-topic='datasci'>
+      <h1>Rendering OSM's full history in 4k</h1>
       <p>
       How to produce a YouTube video of OSM's full history starting with the
       planet download. Uses gnuplot, ffmpeg, ImageMagick, and ni.
@@ -138,7 +149,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/srtm.md'>
-    <div class='vert'>
+    <div class='vert' data-topic='datasci'>
       <h1>Visualizing SRTM1 elevation data</h1>
       <p>
       SRTM1 is a one arc-second resolution heightmap you can download in an
@@ -146,6 +157,18 @@
       into a more usable geometric format to make it easier to visualize the
       full planet.
       </p>
+    </div>
+  </a>
+
+  <a href='https://www.factual.com/blog/investigating-low-quality-location-data-2-suspicious-activity-over-greenland/'>
+    <div class='vert' data-topic='datasci'>
+      <h1>Mobile ad fraud and random number generator misuse</h1>
+      <p>
+      What looked at first like a sloppy ad fraud attempt ended up revealing an
+      interesting bug in the way the data was generated; that helped us build a
+      faster classifier for it.
+      </p>
+      <img src='small-images/2016-02-10-greenland-image_2.jpg'/>
     </div>
   </a>
 
@@ -165,19 +188,6 @@
       short tutorial that covers the basics in C.
       </p>
       <img src='small-images/jit-tutorial-screenshot.jpg'/>
-    </div>
-  </a>
-
-  <a href='http://caterwauljs.org'>
-    <div class='horiz'>
-      <h1>Caterwaul: Lisp-style macros in Javascript</h1>
-      <p>
-      Javascript functions provide a <code>.toString()</code> method that
-      returns their source code in string form. Caterwaul uses this to parse,
-      transform, and recompile your code, adding arbitrary Lisp-style macros as
-      well as its own standard library.
-      </p>
-      <img src='small-images/caterwaul-screenshot.jpg'/>
     </div>
   </a>
 
@@ -245,6 +255,30 @@
     </div>
   </a>
 
+  <a href='https://www.factual.com/blog/how-geohashes-work'>
+    <div class='vert' data-topic='compsci'>
+      <h1>How geohashes work: a fast encoder/decoder</h1>
+      <p>
+      A lot of the overhead of geohash encoding can be eliminated using Morton
+      encoding and some float/int casts.
+      </p>
+      <img src='small-images/geohash-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='http://caterwauljs.org'>
+    <div class='horiz' data-topic='compsci'>
+      <h1>Caterwaul: Lisp-style macros in Javascript</h1>
+      <p>
+      Javascript functions provide a <code>.toString()</code> method that
+      returns their source code in string form. Caterwaul uses this to parse,
+      transform, and recompile your code, adding arbitrary Lisp-style macros as
+      well as its own standard library.
+      </p>
+      <img src='small-images/caterwaul-screenshot.jpg'/>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/browserpower'>
     <div class='vert' data-topic='compsci'>
       <h1>BrowserPower: using browsers as compute nodes</h1>
@@ -258,19 +292,8 @@
     </div>
   </a>
 
-  <a href='https://www.factual.com/blog/how-geohashes-work'>
-    <div class='vert' data-topic='compsci'>
-      <h1>How geohashes work: a fast encoder/decoder</h1>
-      <p>
-      A lot of the overhead of geohash encoding can be eliminated using Morton
-      encoding and some float/int casts.
-      </p>
-      <img src='small-images/geohash-screenshot.jpg'/>
-    </div>
-  </a>
-
   <a href='http://spencertipping.com/js-in-ten-minutes/js-in-ten-minutes.pdf'>
-    <div class='vert'>
+    <div class='vert' data-topic='compsci'>
       <h1>Javascript in ten minutes</h1>
       <p>
       The now-infamous guide I wrote years ago, and which I'm sure is no longer
@@ -281,8 +304,19 @@
     </div>
   </a>
 
+  <a href='https://www.factual.com/blog/data-pipeline-performance/'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Data pipeline performance</h1>
+      <p>
+      A blog post I wrote while I was working at Factual, discussing some
+      considerations for constructing fast data pipelines. A look at assembly
+      and some libc functions from a scripting perspective.
+      </p>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/bash-lambda'>
-    <div class='vert'>
+    <div class='vert' data-topic='compsci'>
       <h1>Clojure in Bash (including GC)</h1>
       <p>
       The big idea behind this project was to replace things like Hadoop with
@@ -302,21 +336,8 @@
     </div>
   </div>
 
-  <a href='https://github.com/spencertipping/cd'>
-    <div class='vert'>
-      <h1>A better "cd" for bash</h1>
-      <p>
-      sshfs, encfs, and FUSE in general are great tools, but managing the
-      mountpoints is more trouble than it could be. I wrote a new
-      <code>cd</code> function for bash that does this for you, and supports
-      custom overloading so you can add your own extensions.
-      </p>
-      <img src='small-images/cd-screenshot.jpg'/>
-    </div>
-  </a>
-
   <a href='https://github.com/spencertipping/quickdupe'>
-    <div class='vert'>
+    <div class='vert' data-topic='linux'>
       <h1>Quickdupe: fast duplicate file detection</h1>
       <p>
       I used to use <code>sha256sum</code> on every file to find duplicates,
@@ -329,7 +350,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/conky-compiler'>
-    <div class='vert'>
+    <div class='vert' data-topic='linux'>
       <h1>Conky compiler: absolute positioning</h1>
       <p>
       Conky is great, but by default it lays everything out using text flow
@@ -342,7 +363,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/bash-prompt'>
-    <div class='vert'>
+    <div class='vert' data-topic='linux'>
       <h1>Right-handed prompt indicators for bash</h1>
       <p>
       zsh users are understandably fond of right-hand prompt indicators, but it
@@ -353,8 +374,21 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/cd'>
+    <div class='horiz' data-topic='linux'>
+      <h1>A better "cd" for bash</h1>
+      <p>
+      sshfs, encfs, and FUSE in general are great tools, but managing the
+      mountpoints is more trouble than it could be. I wrote a new
+      <code>cd</code> function for bash that does this for you, and supports
+      custom overloading so you can add your own extensions.
+      </p>
+      <img src='small-images/cd-screenshot.jpg'/>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/www/blob/master/datacenter.md'>
-    <div class='vert' data-topic='infrastructure'>
+    <div class='vert' data-topic='linux'>
       <h1>The laundry room datacenter</h1>
       <p>
       eBay makes it possible to build a very powerful home computing setup on a
@@ -365,8 +399,18 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/www/blob/master/open-infrastructure.md'>
+    <div class='vert' data-topic='linux'>
+      <h1>Open-source software deployments</h1>
+      <p>
+      A rundown of open-source infrastructure I run on the servers (and some
+      public EC2s).
+      </p>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/www/blob/master/note-wallpapers.md'>
-    <div class='horiz'>
+    <div class='vert' data-topic='linux'>
       <h1>Sort-of procedural wallpapers</h1>
       <p>
       Using ImageMagick to automatically generate thousands of randomized
@@ -385,7 +429,7 @@
   </div>
 
   <a href='https://github.com/spencertipping/www/blob/master/arduino-sonar.md'>
-    <div class='vert' data-topic='engineering'>
+    <div class='vert' data-topic='research'>
       <h1>Sonar positioning for cell phones</h1>
       <p>
       Audio and trilateration for precise cell phone positioning. This
@@ -397,8 +441,18 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/troll-o-matic'>
+    <div class='vert' data-topic='research'>
+      <h1>Finding coordinated trolls on Reddit</h1>
+      <p>
+      Looking for patterns of behavior that would indicate that a set of users
+      are acting in tandem.
+      </p>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
-    <div class='vert' data-topic='datascience'>
+    <div class='vert' data-topic='research'>
       <h1>The GPS error experiment</h1>
       <p>
       GPS error isn't random, particularly for cost-optimized receivers like
@@ -410,8 +464,30 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/phi'>
+    <div class='vert' data-topic='research'>
+      <h1>phi: my last programming language</h1>
+      <p>
+      A functional JIT-compiled language with a computed grammar, written in
+      machine code. It borrows elements from Lisp, FORTH, and Smalltalk. Hoping
+      to ship this end of 2018.
+      </p>
+    </div>
+  </a>
+
+  <a href='https://www.factual.com/blog/a-day-in-the-life-of-a-factual-engineer-polygon-compression/'>
+    <div class='vert' data-topic='research'>
+      <h1>Polygon compression strategies</h1>
+      <p>
+      Looking for ways to exploit the nonuniform distributions of polygon edge
+      lengths and angles.
+      </p>
+      <img src='small-images/2015-03-31-image_13.jpg'/>
+    </div>
+  </a>
+
   <a>
-    <div class='vert' data-topic='datascience'>
+    <div class='vert' data-topic='research'>
       <h1>Deriving camera angles from ISS time-lapse videos</h1>
       <p>
       A hackathon project with Chris Bleakley that involved tracking the
@@ -430,18 +506,8 @@
     </div>
   </div>
 
-  <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
-    <div class='horiz' data-topic='engineering'>
-      <h1>"Uncommon uses for angle grinders," part 1</h1>
-      <p>
-      A pre-lathe turning project.
-      </p>
-      <img src='small-images/IMG_20160827_155611e.jpg'/>
-    </div>
-  </a>
-
   <a href='https://github.com/spencertipping/www/blob/master/metalpen.md'>
-    <div class='horiz'>
+    <div class='vert'>
       <h1>Machining a pen from steel round</h1>
       <p>
       This one is mediocre, but it could be the start of something amazing. It's
@@ -452,8 +518,29 @@
     </div>
   </a>
 
+  <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
+    <div class='vert' data-topic='hardware'>
+      <h1>"Uncommon uses for angle grinders," part 1</h1>
+      <p>
+      A pre-lathe turning project.
+      </p>
+      <img src='small-images/IMG_20160827_155611e.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/rockwall.md'>
+    <div class='vert' data-topic='hardware'>
+      <h1>Building an indoor bouldering wall</h1>
+      <p>
+      I missed the climbing wall at Google, so I got a bunch of lumber and
+      built one in the living room.
+      </p>
+      <img src='small-images/rw-design.jpg'/>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/www/blob/master/soggy-backplane.md'>
-    <div class='vert'>
+    <div class='horiz' data-topic='hardware'>
       <h1>Repairing a water-damaged RAID server</h1>
       <p>
       I didn't expect this to end well. It turns out that laundry rooms have
@@ -465,19 +552,18 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/www/blob/master/rockwall.md'>
-    <div class='vert' data-topic='engineering'>
-      <h1>Building an indoor bouldering wall</h1>
+  <a href='https://github.com/spencertipping/ODrive/tree/master/simulator'>
+    <div class='vert' data-topic='hardware'>
+      <h1>A simulator for the ODrive and BLDC motors</h1>
       <p>
-      I missed the climbing wall at Google, so I got a bunch of lumber and
-      built one in the living room.
+      A work in progress; I don't quite understand electrodynamics well enough
+      to get the math right yet.
       </p>
-      <img src='small-images/rw-design.jpg'/>
     </div>
   </a>
 
   <a>
-    <div class='vert'>
+    <div class='vert' data-topic='hardware'>
       <h1>The Safety Ladder</h1>
       <p>
       Evaporative coolers require a lot of maintenance, and I like having roof
@@ -492,7 +578,7 @@
   </a>
 
   <a>
-    <div class='vert'>
+    <div class='vert' data-topic='hardware'>
       <h1>Evaporative control with an Arduino</h1>
       <p>
       New Mexico has a desert climate that makes it possible to use
@@ -505,7 +591,7 @@
   </a>
 
   <a>
-    <div class='vert'>
+    <div class='vert' data-topic='hardware'>
       <h1>Fixing the Gould DSO 610</h1>
       <p>
       I found it on eBay for $35, untested and "probably not working." It
@@ -518,7 +604,7 @@
   </a>
 
   <a>
-    <div class='vert'>
+    <div class='vert' data-topic='hardware'>
       <h1>The Octopipe: the world's ugliest fireplace heat exchanger</h1>
       <p>
       Wood stoves may be elegant, but they're a lot more expensive than iron
@@ -530,7 +616,7 @@
   </a>
 
   <a>
-    <div class='vert' data-topic='engineering'>
+    <div class='vert' data-topic='hardware'>
       <h1>Driving an alternator as a motor</h1>
       <p>
       Writeup pending...
@@ -540,7 +626,7 @@
   </a>
 
   <a href='https://github.com/spencertipping/arduino-fngen'>
-    <div class='vert'>
+    <div class='vert' data-topic='hardware'>
       <h1>An awful two-channel, 12-bit function generator</h1>
       <p>
       This was one of my first Arduino projects. It used an R2R DAC and split
@@ -555,7 +641,7 @@
   </a>
 
   <a>
-    <div class='vert'>
+    <div class='vert' data-topic='hardware'>
       <h1>DIY table saw sled</h1>
       <p>
       Not the best design, but cheap and precise after some tuning. I used a
@@ -569,6 +655,39 @@
   <script src='https://code.jquery.com/jquery.min.js'></script>
   <script>
     $(function () {
+      // Index all of the entries into a table of contents underneath each
+      // navbar link.
+      $('#nav a').each(function () {
+        var navname = $(this).attr('href').substr(1);
+        $('#navshadow').append(
+          $('<div>').attr({class: 'shadow', id: 'shadow-' + navname}));
+
+        $(this).on('mouseenter', function () {
+                 $('#navshadow').css({top: $('#links').height() + 24,
+                                      left: $(this).offset().left - 24});
+                 $('.shadow').hide();
+                 $('#shadow-' + navname).show();
+               });
+      });
+
+
+      $('.vert, .horiz').each(function () {
+        var text = $(this).find('h1').text();
+        var id   = text.replace(/\W/g, '-');
+        $(this).attr({id: id});
+        $('#shadow-' + $(this).attr('data-topic')).append(
+          $('<a>').attr({href: '#' + id}).text(text)
+                  .click(function (e) {
+                    e.preventDefault();
+                    window.scrollTo(0, $('#' + id).offset().top
+                                       - ($('#links').height() + 32));
+                  }));
+      });
+
+      $('.shadow').on('mouseleave', function () {
+        $(this).hide();
+      });
+
       $(window).on('scroll', function () {
         // Is the top bar inside any image? If not, darken it.
         var bar_top    = $(window).scrollTop();
@@ -588,7 +707,7 @@
         var w     = $(window).width() - 80 || 1;
         var cols  = w / 420 | 0;
         var extra = (w - cols*420) / cols | 0;
-        $('.vert').css({width: 380 + extra});
+        $('.vert').css({width: Math.min(600, 380 + extra)});
       };
 
       $(window).on('resize', resize);
