@@ -4,7 +4,8 @@ rm -r small-images
 mkdir small-images
 
 header() {
-  convert images/$1 -quality 0.95 small-images/${1%.*}.jpg
+  convert images/$1 -quality 0.95 -resize 1920x664\> \
+          small-images/${1%.*}.jpg
 }
 
 small() {

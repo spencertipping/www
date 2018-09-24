@@ -58,36 +58,6 @@
   </style>
 </head>
 <body>
-  <script src='https://code.jquery.com/jquery.min.js'></script>
-  <script>
-    $(function () {
-      $(window).on('scroll', function () {
-        // Is the top bar inside any image? If not, darken it.
-        var bar_top    = $(window).scrollTop();
-        var bar_bottom = bar_top + $('#links').height();
-        var inside_any = false;
-
-        $('.headerimage, .horiz').each(function () {
-          var this_top    = $(this).offset().top;
-          var this_bottom = this_top + $(this).height();
-          inside_any |= bar_top >= this_top && bar_bottom <= this_bottom - 80;
-        });
-
-        $('#links').toggleClass('shaded', !inside_any);
-      });
-
-      var resize = function () {
-        var w     = $(window).width() - 80 || 1;
-        var cols  = w / 420 | 0;
-        var extra = (w - cols*420) / cols | 0;
-        $('.vert').css({width: 380 + extra});
-      };
-
-      $(window).on('resize', resize);
-      setTimeout(resize, 1);
-    });
-  </script>
-
   <div id='links'>
     <span id='description'>spencer tipping</span>
 
@@ -139,18 +109,6 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/www/blob/master/srtm.md'>
-    <div class='vert'>
-      <h1>Visualizing SRTM1 elevation data</h1>
-      <p>
-      SRTM1 is a one arc-second resolution heightmap you can download in an
-      efficient binary format. I used ni's binary operators to repack the tiles
-      into a more usable geometric format to make it easier to visualize the
-      full planet.
-      </p>
-    </div>
-  </a>
-
   <a href='https://www.factual.com/blog/investigating-low-quality-location-data-1-app-permissions-lab-notes'>
     <div class='vert'>
       <h1>Using the Fourier transform for data forensics</h1>
@@ -174,6 +132,18 @@
       planet download. Uses gnuplot, ffmpeg, ImageMagick, and ni.
       </p>
       <img src='small-images/hqdefault.jpg'>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/www/blob/master/srtm.md'>
+    <div class='vert'>
+      <h1>Visualizing SRTM1 elevation data</h1>
+      <p>
+      SRTM1 is a one arc-second resolution heightmap you can download in an
+      efficient binary format. I used ni's binary operators to repack the tiles
+      into a more usable geometric format to make it easier to visualize the
+      full planet.
+      </p>
     </div>
   </a>
 
@@ -593,6 +563,35 @@
       <img src='small-images/table-saw-sled.jpg'/>
     </div>
   </a>
-  </div>
+
+  <script src='https://code.jquery.com/jquery.min.js'></script>
+  <script>
+    $(function () {
+      $(window).on('scroll', function () {
+        // Is the top bar inside any image? If not, darken it.
+        var bar_top    = $(window).scrollTop();
+        var bar_bottom = bar_top + $('#links').height();
+        var inside_any = false;
+
+        $('.headerimage, .horiz').each(function () {
+          var this_top    = $(this).offset().top;
+          var this_bottom = this_top + $(this).height();
+          inside_any |= bar_top >= this_top && bar_bottom <= this_bottom - 80;
+        });
+
+        $('#links').toggleClass('shaded', !inside_any);
+      });
+
+      var resize = function () {
+        var w     = $(window).width() - 80 || 1;
+        var cols  = w / 420 | 0;
+        var extra = (w - cols*420) / cols | 0;
+        $('.vert').css({width: 380 + extra});
+      };
+
+      $(window).on('resize', resize);
+      setTimeout(resize, 1);
+    });
+  </script>
 </body>
 </html>
