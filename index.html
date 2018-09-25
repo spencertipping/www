@@ -160,6 +160,17 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/nfu'>
+    <div class='vert' data-topic='datasci'>
+      <h1>nfu: the tool that inspired ni</h1>
+      <p>
+      ni is a much more powerful version of nfu, a Perl script I wrote to
+      shorten command-line data queries. ni inherits a lot from nfu, including
+      the central pipeline mechanics and concatenative syntax.
+      </p>
+    </div>
+  </a>
+
   <a href='https://www.factual.com/blog/investigating-low-quality-location-data-2-suspicious-activity-over-greenland/'>
     <div class='vert' data-topic='datasci'>
       <h1>Mobile ad fraud and random number generator misuse</h1>
@@ -169,6 +180,17 @@
       faster classifier for it.
       </p>
       <img src='small-images/2016-02-10-greenland-image_2.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/nfu/blob/master/humongous-survival-guide.md'>
+    <div class='vert' data-topic='datasci'>
+      <h1>Humongous nfu survival guide</h1>
+      <p>
+      A fairly comprehensive look at the types of things you can do with nfu and
+      command-line streaming tools in general. I still use nfu for some of these
+      things, particularly interactive <code>gnuplot</code>.
+      </p>
     </div>
   </a>
 
@@ -226,6 +248,18 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/sdoc'>
+    <div class='vert' data-topic='compsci'>
+      <h1>SDoc: literate programming</h1>
+      <p>
+      This format ended up being more trouble than it was worth, but I used it
+      for a number of years. This was the project that got me into the habit of
+      writing literate code, something I still tend to do if the language has
+      adequate block comment support.
+      </p>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/canard/blob/circular/bin/canard.md'>
     <div class='vert' data-topic='compsci'>
       <h1>Writing a JIT in machine code</h1>
@@ -243,6 +277,18 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/information-theory-in-ten-minutes/blob/master/information-theory-in-ten-minutes.pdf'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Information Theory in Ten Minutes</h1>
+      <p>
+      A fairly quick introduction to randomness, entropy, and data compression
+      fundamentals. If you want to know the difference between <code>gzip</code>
+      and <code>ppmd</code> or what arithmetic coding is, this is the guide for
+      you.
+      </p>
+    </div>
+  </a>
+
   <a href='https://www.factual.com/blog/fast-indirect-sorting-in-java'>
     <div class='vert' data-topic='compsci'>
       <h1>Fast indirect sorting in Java</h1>
@@ -252,6 +298,16 @@
       about if you're writing performance-sensitive code.
       </p>
       <img src='small-images/indirect-sorting-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/writing-self-modifying-perl/blob/master/writing-self-modifying-perl.pdf'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Writing self-modifying Perl</h1>
+      <p>
+      A writeup that describes step-by-step how you would construct a
+      self-modifying Perl script and why you might want to.
+      </p>
     </div>
   </a>
 
@@ -279,6 +335,29 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/catastrophe'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Catastrophe: a tracing debugger written in Caterwaul</h1>
+      <p>
+      This was a fun project: it would rewrite your code to track the evaluation
+      of specified expressions, logging the results into a searchable data
+      structure you could then query.
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/lazytest'>
+    <div class='vert' data-topic='compsci'>
+      <h1>LazyTest: test your documentation</h1>
+      <p>
+      This is the system I use to generate the unit tests for ni. ni's
+      documentation is written in Markdown and contains examples of interactive
+      shell sessions, which lazytest then converts into a shell script to verify
+      that it behaves as advertised.
+      </p>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/browserpower'>
     <div class='vert' data-topic='compsci'>
       <h1>BrowserPower: using browsers as compute nodes</h1>
@@ -292,6 +371,29 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/caterwaul-splunge'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Splunge: a lazy realtime graphing library for Caterwaul</h1>
+      <p>
+      One of my first attempts to write a visualization layer for data too large
+      to fit into memory. This library had some cool ideas, and I ended up using
+      it at Factual to visualize large clusters.
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/flotsam'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Flotsam: base-94 floating point serialization</h1>
+      <p>
+      When I wrote this, it was faster (in CPU terms) than serializing floats
+      into JSON; since then v8 has improved and Flotsam is nowhere near
+      competitive. Flotsam was useful, though, because its output could be
+      dropped into JSON without generating very many escaped characters.
+      </p>
+    </div>
+  </a>
+
   <a href='http://spencertipping.com/js-in-ten-minutes/js-in-ten-minutes.pdf'>
     <div class='vert' data-topic='compsci'>
       <h1>Javascript in ten minutes</h1>
@@ -301,6 +403,18 @@
       popular Github project to date.
       </p>
       <img src='small-images/js-in-ten-minutes-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/rather-insane-serialization'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Rather Insane Serialization for Javascript</h1>
+      <p>
+      A library that can handle circular references and other such data,
+      resulting a base-94 string that can be packed 1:1 into JSON (i.e. it
+      avoids JSON-escaped characters). I later used a similar format for
+      Flotsam, a floating-point serialization format also written in Javascript.
+      </p>
     </div>
   </a>
 
@@ -326,6 +440,19 @@
       written in bash.
       </p>
       <img src='small-images/bash-lambda-screenshot.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/infuse-js'>
+    <div class='vert' data-topic='compsci'>
+      <h1>Infuse JS: linked mutable data structures</h1>
+      <p>
+      With Infuse, <code>xs.map(f)</code> returns a value that itself will
+      update if you subsequently append entries to <code>xs</code>. This was
+      challenging to write because it's easy to create space leaks and other
+      pathological behavior when you're tracking object modifications. I never
+      used this project in production, but learned a lot putting it together.
+      </p>
     </div>
   </a>
 
@@ -485,6 +612,19 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/xv'>
+    <div class='vert' data-topic='research'>
+      <h1>xv: userspace process virtualization for linux</h1>
+      <p>
+      An unfinished project that replaced the <code>syscall</code> instruction
+      with a two-byte illegal instruction, then trapped <code>SIGILL</code> to
+      provide virtualized behavior. I didn't know about vsyscalls when I
+      designed this, nor did I realize that most people solved the problem by
+      preloading a libc wrapper.
+      </p>
+    </div>
+  </a>
+
   <a href='https://www.factual.com/blog/a-day-in-the-life-of-a-factual-engineer-polygon-compression/'>
     <div class='vert' data-topic='research'>
       <h1>Polygon compression strategies</h1>
@@ -493,6 +633,30 @@
       lengths and angles.
       </p>
       <img src='small-images/2015-03-31-image_13.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/manhattan-model'>
+    <div class='vert' data-topic='research'>
+      <h1>Reconstructing 3D cities from youtube video</h1>
+      <p>
+      An attempt to build detailed 3D models of cities from youtube footage of
+      people driving through them, in this case starting with Manhattan. Uses ni
+      to unpack streaming video frames, and PDL to do FFT phase correlation of
+      image tiles.
+      </p>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/bake'>
+    <div class='vert' data-topic='research'>
+      <h1>bake: <code>make</code> for bash</h1>
+      <p>
+      An early attempt to provide file-based dependency management to bash. More
+      design than reality; I ran into some fundamental problems with the
+      approach, as well as egregious performance issues with bash arrays (which
+      I think have since been fixed).
+      </p>
     </div>
   </a>
 
@@ -506,6 +670,17 @@
       camera angles. Writeup pending...
       </p>
       <img src='small-images/bz-split.jpg'/>
+    </div>
+  </a>
+
+  <a href='https://github.com/spencertipping/cpp-template-lisp/blob/master/src/interpreter.pdf'>
+    <div class='vert' data-topic='research'>
+      <h1>Lisp in C++ templates</h1>
+      <p>
+      An unfinished project before I understood how difficult it would be to
+      implement, and before I realized that <code>chaos_pp</code> and
+      <code>order_pp</code> existed.
+      </p>
     </div>
   </a>
 
