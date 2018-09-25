@@ -873,21 +873,25 @@
                });
       });
 
+      Array.prototype.sort.call(
+        $('.vert, .horiz'), function (a, b) {
+          return $(a).find('h1').text().localeCompare($(b).find('h1').text());
+        })
+        .each(function () {
+          $(this).attr('data-topic') ||
+            console.log($(this).text() + ' is missing a topic');
 
-      $('.vert, .horiz').each(function () {
-        $(this).attr('data-topic') || alert($(this).text() + ' is missing a topic');
-
-        var text = $(this).find('h1').text();
-        var id   = text.replace(/\W/g, '-');
-        $(this).attr({id: id});
-        $('#shadow-' + $(this).attr('data-topic')).append(
-          $('<a>').attr({href: '#' + id}).text(text)
-                  .click(function (e) {
-                    e.preventDefault();
-                    window.scrollTo(0, $('#' + id).offset().top
-                                       - ($('#links').height() + 32));
-                  }));
-      });
+          var text = $(this).find('h1').text();
+          var id   = text.replace(/\W/g, '-');
+          $(this).attr({id: id});
+          $('#shadow-' + $(this).attr('data-topic')).append(
+            $('<a>').attr({href: '#' + id}).text(text)
+                    .click(function (e) {
+                      e.preventDefault();
+                      window.scrollTo(0, $('#' + id).offset().top
+                                         - ($('#links').height() + 32));
+                    }));
+        });
 
       $('.shadow').on('mouseleave', function () {
         $(this).hide();
