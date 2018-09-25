@@ -59,11 +59,10 @@
 
   #navshadow { position:fixed; z-index:10 }
   .shadow { display:none; width:480px; background:rgba(0,0,0,0.9);
-            padding:12px 0 }
+            padding:11px 0 12px 0; border-top:solid 1px #f92 }
   .shadow a { display:block; width:440px; color:#eee;
-              padding:4px 24px; text-transform:lowercase }
+              padding:4px 12px; text-transform:lowercase }
 
-  .shadow a::before { content: '>> '; color:#ccc }
   .shadow a:hover { color:#f92 }
   </style>
 </head>
@@ -849,7 +848,7 @@
 
         $(this).on('mouseenter', function () {
                  $('#navshadow').css({top: $('#links').height() + 24,
-                                      left: $(this).offset().left - 24});
+                                      left: $(this).offset().left - 12});
                  $('.shadow').hide();
                  $('#shadow-' + navname).show();
                });
