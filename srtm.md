@@ -1,20 +1,18 @@
 # Visualizing global elevation
-**NOTE:** The image host I was using went down a while back; I need to
-regenerate the screenshots. Sorry for the wall of text.
-
 SRTM tiles are encoded in a very simple format; for the SRTM1 (one arc-second
 per sample) dataset, this is just a 3601x3601 list of big-endian signed short
-integers. Here's what four of them look like:
+integers. We can use ni's binary operators to convert this to a format that's
+easier to use, then `ni --js` to visualize.
 
-![image](http://storage5.static.itmages.com/i/17/0517/h_1495052873_3796138_5ed0950cf4.jpeg)
+The first order of business is data conversion.
 
-## Visualizing a single tile
-[ni](https://github.com/spencertipping/ni) provides the `bp` operator to enter a
-binary Perl context. We can use that to unpack the binary files into rows of
-heights in TSV:
+## Unpacking a single tile
+[ni](https://github.com/spencertipping/ni) provides the `bf` operator to unpack
+a fixed-width `pack` template. We can use that to unpack the binary files into
+rows of heights in TSV:
 
 ```sh
-$ ni srtm1/N35W106.hgt bp'r rp"n3601"' Y r10
+$ ni srtm1/N35W106.hgt bfn3601 Y r10
 0       0       1821
 0       1       1819
 0       2       1816
@@ -27,22 +25,10 @@ $ ni srtm1/N35W106.hgt bp'r rp"n3601"' Y r10
 0       9       1805
 ```
 
-Breaking this down:
-
-- `bp'...'` evaluate `...` as perl within a binary reader context
-  - `rp"3601"`: binary-read the pack string `n3601` (3601 unsigned big-endian
-    shorts), advance the cursor, and return the array of results
-  - `r @ints`: write a TSV row of the ints
-- `Y`: convert a dense matrix to a sparse one
-
-If you load this up in `ni --js`, you'll get this after some viewport scaling:
-
-![image](http://storage8.static.itmages.com/i/18/0107/h_1515294960_3694975_44a0e8ba27.png)
-
 The challenging part from here is making the coordinates consistent if we want
 to look at multiple tiles.
 
-## Combining everything
+## Combining everything across tiles
 Rather than combining stuff, we just need to convert each tile into a sparse
 form that includes absolute lat/lng coordinates for each height sample. We can
 use `f[]` to drop the tile name (which contains its base coordinates) into a
@@ -90,10 +76,7 @@ $ units -t '5million/(3600*3600*360*180)' 1/1000
 This is enough of a reduction that preprocessing makes sense. Here's the basic
 idea:
 
-- `bp'r rp"ffn3600"'` to unpack the format into a single row of `lat lng pts...`
-  - Actually, anytime the `pack` template is fixed-length, `bp'r rp"..."'` is
-    faster written as `bf'...'` because ni can precompute the binary length of
-    each data item and load multiple at once.
+- `bf'ffn3600'` to unpack the format into a single row of `lat lng pts...`
 - `YC` to sparsify the heights; now we have `lat lng row col height`
 - `p'r a, b+d/3600, e'` to get correct `lat lng height`
 
@@ -112,10 +95,82 @@ The other thing is that ni's `bf` unpacker can't saturate LZ4's output speed,
 nor even gzip's as far as I know.
 
 ```sh
-$ ni srtm1.ffn3600 bfffn3600 S24YCr.001p'r a, b+d/3600, e' \
+$ ni srtm1.ffn3600 bf'ffn3600' S24YCr.001p'r a, b+d/3600, e' \
      p'wp "ffn", F_' z\>srtm1.ffnsample
 ```
 
-Now we can visualize that result:
+Awesome. Now we're ready to use `ni --js` and take a look.
 
-![image](http://storage9.static.itmages.com/i/18/0108/h_1515427638_8884282_a0c1c4b469.png)
+## Visualizing this dataset
+The `ffnsample` data is very easy to work with; it's pretty much already in a
+form `ni --js` can consume. Let's load it up directly, skipping most datapoints
+by using `x1000` (each `ffn` tuple is 10 bytes long, so we're grabbing just
+under 1%):
+
+```sh
+$ ni --js
+http://localhost:8090/                  # open this in a browser
+```
+
+Here's the command I'm using in the top bar:
+
+```
+srtm1.ffnsample bf'ffnx1000'
+```
+
+![image](strm-images/28fd3fe2-c184-11e8-adf3-5bca1096307d.png)
+
+We can see some continental outlines, and a bunch of elevation proceeding into
+the screen (+Z axis). Let's do a few things:
+
+1. Scale down the elevations so they're easier to work with
+2. Swap latitude and longitude
+3. Use `ni --js`'s X and Z axes for longitude and latitude, Y for elevation
+4. Remove invalid elevations (>= 60000 meters)
+
+Here's how each step works:
+
+1. Elevation is in field `c` and has range [0..10000] for most of the planet, so
+   `p'r a, b, c / 1000'` should do it. We can apply more scaling in the UI.
+2. `a` is latitude and `b` is longitude, so: `p'r b, a, c / 1000'`.
+3. Swapping Y and Z: `p'r b, c / 1000, a'`
+4. We can prepend a filter: `rp'c < 60000' p'r b, c / 1000, a'`
+
+The new top bar command:
+
+```
+srtm1.ffnsample bf'ffnx1000' rp'c < 60000' p'r b, c / 1000, a'
+```
+
+Using shift-drag to rotate the view into position:
+
+![image](srtm-images/srtm-rotation.gif)
+
+### Exploring the dataset
+We can change the axis scaling in realtime to examine elevations in more detail:
+
+![image](srtm-images/srtm-scale.gif)
+
+We can also highlight high-elevation regions in a couple of ways, both involving
+axis mapping. `ni --js` has five input channels, four of which are mapped by
+default (`A` = X, `B` = Y, `C` = Z, `D` = chroma, `E` = opacity). We can map
+input field `B` to chroma or opacity to add a dimension to elevation:
+
+![image](srtm-images/srtm-channels.gif)
+
+### Constructing a globe
+...because why not.
+
+We can use `prec(rho, theta)` to convert from polar to rectangular coordinates.
+In this case we have two dimensions to convert; let's start with latitude to go
+from spherical to cylindrical, then to cubic. I'm adding a baseline elevation so
+we have a sphere instead of a point; and I'm also exporting the un-transformed
+elevation as a fourth channel so we can map it to opacity.
+
+```pl
+my ($radius, $y) = prec 40 + c / 1000, 90 - a;  # a = latitude, c = elevation
+my ($x, $z) = prec $radius, b;                  # b = longitude
+r $x, $y, $z, c / 1000;
+```
+
+![image](srtm-images/srtm-globe.gif)
