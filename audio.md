@@ -1,7 +1,4 @@
 # Using ni to visualize audio files
-**NOTE:** The image host I was using went down a while back; I need to
-regenerate the screenshots. Sorry for the wall of text.
-
 I wrote the [binary interfacing for
 ni](https://github.com/spencertipping/ni/blob/develop/doc/binary.md#binary-decoding)
 with the intention of doing signal processing, but until recently I haven't
@@ -9,21 +6,41 @@ used it much. This weekend I decided to try some spectral visualizations for
 audio. Here's Bonobo's Black Sands album, log-frequency FFT at every
 quarter-second:
 
-![image](http://storage7.static.itmages.com/i/17/0506/h_1494093989_2534502_b5faae72de.jpeg)
+![image](images/niaudio1.png)
 
-## How to replicate this setup
-1. Install [ni](https://github.com/spencertipping/ni). This is just one
-   command, and ni has no dependencies.
-2. Install Python+NumPy (`apt install python-numpy` on Ubuntu).
-3. Install ffmpeg (`apt install ffmpeg` on Ubuntu).
+## Things you'll need to install if you want to do this
+1. [ni](https://github.com/spencertipping/ni), which is just one script with no
+   dependencies.
+2. NumPy (`apt install python-numpy` on Ubuntu)
+3. `ffmpeg` (`apt install ffmpeg`)
 
-I also use [youtube-dl](https://en.wikipedia.org/wiki/Youtube-dl) to get
-compressed audio files.
+## Taking a look at some audio sample data
+Before we get into anything too heavy, let's figure out how to access the sample
+data from the audio. There are three steps involved:
 
-Once you've installed that stuff, you should be able to run `ni --js` in a
-terminal, pop open a browser to `localhost:8090`, and enter commands into the
-top bar as shown in the screenshots. (You'll have to do some
-panning/zooming/etc to get the view to line up correctly.)
+1. Use `ffmpeg` to stream from Vorbis to WAV
+2. Use ni's `bf` operator to unpack unsigned short stereo samples (`bf'ss'`)
+3. Seek to the end of silence, about 236000 samples in
+
+![image](audio-images/sample-extract.gif)
+
+This is almost the right format for `ni --js`. The only thing we need to do is
+prepend the sample index using the left-column-juxtapose operator `W` and the
+stream `n` (an infinite stream of ascending integers). I'm also truncating the
+input data (`r100000`) and limiting it to just the left channel to keep it
+two-dimensional (`fAB` -- we've dropped field `C`). Here's the command:
+
+```
+bonobo-black-sands-04.ogg e[ffmpeg -i - -f wav -] bfss r-236000 Wn r100000 fAB
+```
+
+Note that file paths are relative to wherever `ni --js` is running. I started it
+from the same terminal I had open to look at the samples.
+
+The data's bounds are larger than `ni --js` is configured for by default, so we
+increase the view distance to zoom out.
+
+![image](audio-images/nijs-samples.gif)
 
 ## What's going on here
 Let's start with the command line. I've got these basic steps:
