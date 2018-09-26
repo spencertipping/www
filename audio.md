@@ -245,4 +245,4 @@ bonobo-black-sands-04.ogg               # send data still compressed
       YB fCDA rp'a < 22050' ,LAB rxB ,AB fCBA]]
 ```
 
-(Image pending)
+![image](audio-images/764c961e-c1b4-11e8-b56c-8f754de4e126.png)
