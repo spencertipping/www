@@ -42,173 +42,207 @@ increase the view distance to zoom out.
 
 ![image](audio-images/nijs-samples.gif)
 
-## What's going on here
-Let's start with the command line. I've got these basic steps:
+## Collecting sample windows
+The next order of business is to break the audio into windows, each one second
+long and spaced 1/4 second apart. The overlap is deliberate; later on we'll
+multiply by a Hann window to attenuate the edges.
 
-- `/home/spencertipping/r/glacial/music/orig/bonobo-black-sands-2.ogg`: the
-  compressed audio file
-- `sr1[...]`: run `...` on the `r1` server using an SSH connection
-  - `e[ffmpeg -i - -f wav -]`: decode ogg audio to wav
-  - `bp'r rp"ss"'`: run perl in a binary context: extract two packed short ints
-    per record and emit them as text
-  - `r-100`: drop rows from the header, give or take
-  - `pa+b`: add left+right channels together to get mono
-  - `p'r $., pl(44100), rl(10000)'`: grab and emit windows of 44100 samples,
-    and advance forward by 10000 samples per output row. Each output will be
-    prefixed with the sample offset (`$.`, which is the input line number in
-    Perl).
-  - `S24[...]`: horizontally scale `...` by a factor of 24, since `r1` has 24
-    processors
-    - `NB'x = abs(fft.fft(x * sin(array(range(x.shape[1]))*pi / x.shape[1])**2))'`:
-      windowed FFT of each row of samples; `sin(...)**2` is a Hann window
-    - `p'r a, $F[$_], log $_ for 1..FM>>1'`: flatten the row of FFT outputs to
-      a series of rows, each of the form `(time offset, amplitude,
-      log(frequency))`. Take only the first half, since the second half is a
-      mirror image.
-    - `p'r a, (1-rand()*rand())*b/1000000, c for 1..b/1000000'`: a way to get
-      the graphics to look better. We output multiple dots per FFT point,
-      weighted by amplitude; this accentuates spikes.
+Right now the sample data is a vertical stream:
 
-Here's what it looks like to develop this pipeline:
-
-### Step 1: audio samples
-If you just have the audio samples and plot them in 2D, you'll see correlation
-between left/right channels.
-
-![image](http://storage1.static.itmages.com/i/17/0506/h_1494094637_5688458_19ffc0abf4.jpeg)
-
-You can add the sample offset as the third dimension to see the waveform:
-
-![image](http://storage7.static.itmages.com/i/17/0506/h_1494095964_3353417_8c4145a645.jpeg)
-
-The intro also has some channel covariance caused by phase shifting:
-
-![image](http://storage1.static.itmages.com/i/17/0506/h_1494096070_9303399_7b5c8b0c31.jpeg)
-
-### Step 2: rows of sample windows
-I've added some of the later commands to convert the data into something that
-can be visualized.
-
-At this point we have windows of audio in the time-domain. Windows overlap
-about 80% with each other, and are just over one second long.
-
-![image](http://storage6.static.itmages.com/i/17/0506/h_1494095296_4207275_53e85423cb.jpeg)
-
-### Step 3: FFT with rectangular window
-Each of the above sample windows gets individually Fourier-transformed.
-Initially it doesn't look like much:
-
-![image](http://storage8.static.itmages.com/i/17/0506/h_1494095502_8079697_8b07b8d8a1.jpeg)
-
-To make this easier to parse, let's log-transform the frequency (that's how we
-perceive pitch), chop off the FFT mirror image, and alias amplitude as color:
-
-![image](http://storage1.static.itmages.com/i/17/0506/h_1494099405_2952072_cce25d4ea3.jpeg)
-
-### Step 4: Highlighting peaks
-We can't see much here because so many values are zero or near-zero. Let's use
-`rp'b>1000000'` to remove small values:
-
-![image](http://storage2.static.itmages.com/i/17/0506/h_1494099691_7978016_22145367fe.jpeg)
-
-Now we need a way to make the peaks stand out. A simple strategy is to make
-multiple copies of tall points, each jittered slightly downwards from the top.
-I'm also going to divide each amplitude by 1000000 so the view axes are scaled
-more evenly.
-
-![image](http://storage3.static.itmages.com/i/17/0506/h_1494100141_7789332_d6217e7182.jpeg)
-
-### Step 5: Hann windowing
-Windowing helps focus the frequencies we're measuring, and it also narrows the
-effective time range of each FFT row (which is good because they overlap). We
-can generate a Hann window in numpy like this:
-
-```py
-# here, N is the window width in samples
-hann = sin(array(range(N))*pi / N)**2
+```
+1  left1  right1
+2  left2  right2
+...
 ```
 
-Here's what that window looks like:
+Our windowed data structure will look a little different. First, let's stick to
+just a single channel -- in this case the left one. Second, we want one window
+per line, each prefixed with its time offset:
 
-![image](http://storage7.static.itmages.com/i/17/0506/h_1494100361_4240090_40f493b18a.jpeg)
+```
+0     left1      left2      left3     ... left44100
+0.25  left11026  left11027  left11028 ... left55125
+...
+```
 
-And here's the log of the FFT:
+We can build this up from the wav binary by changing the `bf` template to unpack
+11025 left-samples at a time (`bf'(sx2)11025'`) and then using nondestructive
+readahead ("peek lines", `pl(n)`) in a perl mapper context. Perl defines `$.` as
+the current line number, so we can prepend the window timestamps in the same
+step. I subtract three from it because ni advances perl's internal line counter
+when we peek lines.
 
-![image](http://storage8.static.itmages.com/i/17/0506/h_1494100511_3997480_e5e7513490.jpeg)
+Note that I skip the first window (`r-1`, "drop one row") because it contains
+WAV header data. This means our first window begins just before 0.25 seconds.
 
-For comparison, here's the log FFT of a rectangular window:
+![image](audio-images/sample-windows.gif)
 
-![image](http://storage9.static.itmages.com/i/17/0506/h_1494100691_3959704_e633564bcf.jpeg)
+Here's the code we have so far:
 
-So when we multiply the signal by the Hann function, we'll eliminate a lot of
-the edge artifact noise we'd have otherwise.
+```sh
+$ ni bonobo-black-sands-04.ogg \
+     e[ffmpeg -i - -f wav -] \
+     bf'(sx2)11025' \
+     p'r +($.-3)*0.25, $_, pl(3)' \
+     r-1
+```
 
-![image](http://storage8.static.itmages.com/i/17/0506/h_1494101036_9127080_fac73e0ffb.jpeg)
+## Visualizing our windows
+As it stands, we have too many dimensions for `ni --js` to use. We'll need to
+convert our windows to a series of `x y z` points, one per audio sample. Here's
+how we want our coordinates to be mapped:
 
-## Are different types of music visibly different?
-### Bach Cello Suite
-![image](http://storage7.static.itmages.com/i/17/0506/h_1494103922_2126006_26c18b70a0.jpeg)
+```
+             x=1        x=2        x=3   ...
+time1=z  sample1=y  sample2=y  sample3=z ...
+time2=z  sample1=y  sample2=y  ...
+...
+```
 
-Key change:
+...and here's the output we want:
 
-![image](http://storage5.static.itmages.com/i/17/0506/h_1494104437_7701830_0b1e84f207.jpeg)
+```
+x  y        z
+1  sample1  time1
+2  sample2  time1
+3  sample3  time1
+...
+1  sample1  time2
+2  sample2  time2
+...
+```
 
-Large-scale structure:
+This is a form of dense-to-sparse matrix conversion, which is a fairly common
+problem; ni has an operator to do most of the work for us. If we treat each row
+as a separate Nx1 matrix, we can use `Y` (dense -> sparse) to emit one row per
+cell. Those rows will look like this:
 
-![image](http://storage6.static.itmages.com/i/17/0506/h_1494104630_8105947_a8effbe9aa.jpeg)
+```
+time1  0  0  sample1
+time1  0  1  sample2
+time1  0  2  sample3
+...
+time2  0  0  sample1
+time2  0  1  sample2
+...
+```
 
-Harmonics during a scale (since the frequencies are log-transformed, they
-appear to converge):
+From there, we can depth-stack by using `fCDA` to set the correct axes. Here's
+our command so far:
 
-![image](http://storage7.static.itmages.com/i/17/0506/h_1494104708_2211608_86c9859802.jpeg)
+```sh
+$ ni bonobo-black-sands-04.ogg \
+     e[ffmpeg -i - -f wav -] \
+     bf'(sx2)11025' \
+     p'r +($.-3)*0.25, F_, pl(3)' \
+     r-1 YB fCDA
+```
 
-### Beethoven's Ninth Symphony, mvmt 2
-![image](http://storage2.static.itmages.com/i/17/0506/h_1494106709_4616716_ac13c20e92.jpeg)
+...and here's a URL that sets up the view state:
 
-### U2: Mysterious Ways
-![image](http://storage1.static.itmages.com/i/17/0506/h_1494102140_4736862_0dd2d4a590.jpeg)
+```
+http://localhost:8090/#%7B%22ni%22:%22bonobo-black-sands-04.ogg%20e%5Bffmpeg%20-i%20-%20-f%20wav%20-%5D%20bf'(sx2)11025'%20p'r%20+($.-3)*0.25,%20F_,%20pl(3)'%20r-1%20YB%20fCDA%20r5000000%22,%22v%22:%7B%22br%22:8.758284040740838,%22ot%22:%5B-14970.296371687125,10463.88508344731,-5.065896788535407%5D,%22os%22:%5B0.7788007830714045,0.1737739434504448,18958.354802043963%5D,%22sa%22:0.03,%22cr%22:%5B43.6666666666666,-20.333333333333357%5D,%22cd%22:12396.5090779824,%22axes%22:%5B0,1,2,3%5D%7D%7D
+```
 
-### Penguin Cafe Orchestra: Perpetuum Mobile
-![image](http://storage2.static.itmages.com/i/17/0506/h_1494102699_1853566_e0df5678fe.jpeg)
+![image](audio-images/900d924c-c1a5-11e8-a730-6b8de2942a4f.png)
 
-### Molly Johnson: Must have Left My Heart
-![image](http://storage5.static.itmages.com/i/17/0506/h_1494103523_9209194_fc8ba072d8.jpeg)
+It's also possible to use the sparse representation to vertically stack the
+waveforms. Instead of producing a three-column output, we add `65536*z` to `y`:
 
-This one is kind of interesting because the bass drum occupies the same
-frequency range as the electric bass line, but they appear distinct by looking
-at timing:
+![image](audio-images/827d74a2-c1a6-11e8-968f-1b2a71cf8dbf.png)
 
-![image](http://storage2.static.itmages.com/i/17/0506/h_1494103771_4048927_3049f89e53.jpeg)
+## Applying an FFT using `N`
+This is where we pull in NumPy, which provides an FFT function. ni's `N`
+operator runs a series of matrices through a NumPy context. If provided, its
+column spec indicates the first column of matrix data (everything to the left is
+treated as the matrix partition and is preserved).
 
-### Adele: Cold Shoulder
-![image](http://storage1.static.itmages.com/i/17/0506/h_1494106483_6619307_fb6a90cb83.jpeg)
+We can get a simple FFT by transforming each window like this:
 
-### Norah Jones: Sunrise
-![image](http://storage9.static.itmages.com/i/17/0506/h_1494108034_2373520_cdf5d62112.jpeg)
+```
+NB'x = abs(fft.fft(x))'
+```
 
-## What does compression look like?
-I'm going to compress Cold Shoulder because it has frequencies at both
-extremes.
+This is a good opportunity to normalize the window vectors to sum to 1; this way
+we don't have enormous FFT components.
 
-### Original
-![image](http://storage5.static.itmages.com/i/17/0506/h_1494108809_6176614_8717821472.jpeg)
-![image](http://storage7.static.itmages.com/i/17/0506/h_1494108861_5969353_6542d2a754.jpeg)
+```
+NB'x = abs(fft.fft(x / x.sum()))
+```
 
-### MP3, 128kbps
-No noticeable differences:
+![image](audio-images/e779f60e-c1a7-11e8-8485-d30b4d7b3576.png)
 
-![image](http://storage6.static.itmages.com/i/17/0506/h_1494109406_2061431_78d3ed9e9d.jpeg)
-![image](http://storage7.static.itmages.com/i/17/0506/h_1494109449_8849695_b02d4e3ce2.jpeg)
+We should do a few things to these FFTs:
 
-### MP3, 64kbps
-No visible differences here either, though 64kbps is definitely audible:
+1. Drop the top half; it's just a mirror image (`rp'a < 22050'`)
+2. Rescale the spectrum so the low-frequency range is larger (`,LA`)
+3. Log-scale the amplitudes (`,LB`)
+4. Apply a Hann window to each FFT input
+   (`x * sin(array(range(x.shape[1]))*pi / x.shape[1])**2`)
 
-![image](http://storage9.static.itmages.com/i/17/0506/h_1494109941_7149809_9d52503577.jpeg)
-![image](http://storage3.static.itmages.com/i/17/0506/h_1494109978_7560711_333a861524.jpeg)
+`,L` is a cell-level operator that takes the unsigned log of a number. Here's
+what we have in the command bar so far:
 
-### MP3, 32kbps
-Definite differences here. Some high frequencies have disappeared, and the low
-frequencies are now quantized:
+```
+bonobo-black-sands-04.ogg e[ffmpeg -i - -f wav -]
+  bf'(sx2)11025' p'r +($.-3)*0.25, F_, pl(3)' r-1
+  NB'x = abs(fft.fft(x / (1 + x.sum()) * sin(array(range(x.shape[1]))*pi / x.shape[1])**2))'
+  YB fCDA rp'a < 22050' ,LAB p'r a, b + c*30'
+  r5000000
+```
 
-![image](http://storage8.static.itmages.com/i/17/0506/h_1494110345_6954197_2dba09dfce.jpeg)
-![image](http://storage1.static.itmages.com/i/17/0506/h_1494110398_7718929_02656309df.jpeg)
+The final `r5000000` just cuts the datastream after a while so interaction is
+faster. Without it, the backend ni process can outrun Chrome's websocket driver,
+which causes the browser to become unusably slow while data is being streamed.
+
+![image](audio-images/38a613e4-c1aa-11e8-a7c7-d315179b7c93.png)
+
+## Improving the presentation
+**TODO:** explain this part better
+
+We need two new steps: `rxB` to copy each row as many times as the value in
+column `B` (amplitude), and `,AB` to randomly attenuate the resulting copied
+amplitudes by an exponentially-distributed value. This creates a shadow
+downwards from the largest values.
+
+![image](audio-images/6bac5846-c1ac-11e8-8012-abdfe439470f.png)
+
+This transform has the secondary benefit of removing the zero points, which
+makes it easier to see the data we care about.
+
+### Stacking back into 3D and mapping color
+Almost done. Let's remove the `p'r a, b + c*30'` we had to vertically stack the
+FFTs; now we're back to three dimensions. I swapped X and Z so X corresponds to
+time and Z to log(frequency), so we have this:
+
+![image](audio-images/166b0ca0-c1ad-11e8-81e3-37b1eb04ac20.png)
+
+The last thing we want is to add color, which we can do just by setting the axis
+mapping to `ABCB` (copying Y into the chroma channel). I'm also copying Y into
+the opacity channel, so we really have `ABCBB`.
+
+![image](audio-images/0b3e94b8-c1ae-11e8-9f5e-07bb9f9c1cb5.png)
+
+## Final notes: scaling it out
+Right now everything's running in a single stream and we're making fairly
+uneven use of our processors. If we want to process an album's worth of sound
+data, we should parallelize the expensive parts -- in this case, everything
+downstream of our window assembly.
+
+I'm also going to change the exponential distribution for `,AB` by appending
+`8`: this produces a much sharper curve.
+
+I have more processors on `r1` than I have locally, so here's my pipeline
+structure:
+
+```
+bonobo-black-sands-04.ogg               # send data still compressed
+  sr1[
+    e[ffmpeg -i - -f wav -]             # ffmpeg on the server
+    bf'(sx2)11025' p'r +($.-3)*0.25, F_, pl(3)' r-1
+    S24[                                # everything from here is splittable
+      NB'x = abs(fft.fft(x / (1 + x.sum()) * sin(array(range(x.shape[1]))*pi / x.shape[1])**2))'
+      YB fCDA rp'a < 22050' ,LAB rxB ,AB fCBA]]
+```
+
+(Image pending)
