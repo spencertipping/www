@@ -51,7 +51,19 @@
 
   .vert h1 { margin:0; font-size:20px; font-weight:normal; right:0;
              top:0; padding:10px 0; z-index:1; text-transform:lowercase }
-  .vert p { top:0; bottom:0; margin:0; right:20px; z-index:1 }
+  .vert p { top:0; bottom:0; margin:0; z-index:1 }
+
+  .compacts { text-align:left }
+
+  .compact { display:inline-block; vertical-align:top; position:relative;
+             width:240px; margin:0 0 36px 40px; color:#222;
+             border-top:solid 2px #222 }
+
+  .compact:hover { border-top:solid 2px #f92 }
+
+  .compact h1 { margin:0; font-size:16px; font-weight:normal; right:0;
+                top:0; padding:10px 0; z-index:1; text-transform:lowercase }
+  .compact p { top:0; bottom:0; margin:0; z-index:1; text-align:left }
 
   h1.dark { color:black }
 
@@ -92,21 +104,9 @@
   <div class='header'>
     <img class='headerimage' src='small-images/header-datasci.jpg'>
     <div class='text' id='datasci'>
-      <a href='#datasci'><h1>data science</h1></a>
+      <a href='#datasci'><h1>datasci</h1></a>
     </div>
   </div>
-
-  <a href='https://github.com/spencertipping/ni'>
-    <div class='horiz' data-topic='datasci'>
-      <h1>ni: two-fisted data science</h1>
-      <p>
-      I wanted a data analysis tool that leveraged UNIX process pipelines,
-      could install itself using an SSH connection, and that could visualize
-      arbitrarily large data and remain responsive. So I wrote ni.
-      </p>
-      <img src='small-images/ni-jsplot-sinewave2.jpg'/>
-    </div>
-  </a>
 
   <a href='https://github.com/spencertipping/www/blob/master/audio.md'>
     <div class='vert' data-topic='datasci'>
@@ -147,6 +147,62 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/ni'>
+    <div class='horiz' data-topic='datasci'>
+      <h1>ni: two-fisted data science</h1>
+      <p>
+      I wanted a data analysis tool that leveraged UNIX process pipelines,
+      could install itself using an SSH connection, and that could visualize
+      arbitrarily large data and remain responsive. So I wrote ni.
+      </p>
+      <img src='small-images/ni-jsplot-sinewave2.jpg'/>
+    </div>
+  </a>
+
+  <div class='compacts'>
+    <a href='https://github.com/spencertipping/wikipedia-analysis'>
+      <div class='compact' data-topic='datasci'>
+        <h1>Wikipedia analysis</h1>
+        <p>
+        A look at the link structure, trends over time, and general processing
+        for Wikipedia's full history using ni.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/osm'>
+      <div class='compact' data-topic='datasci'>
+        <h1>OpenStreetMap tiling and city animation</h1>
+        <p>
+        A ni-based workflow to shard OSM by geohash tiles, then visualize and
+        efficiently render historical uploads for a given city or region.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/nfu'>
+      <div class='compact' data-topic='datasci'>
+        <h1>nfu: the predecessor of ni</h1>
+        <p>
+        ni is a much more powerful version of nfu, a Perl script I wrote to
+        shorten command-line data queries. ni inherits a lot from nfu, including
+        the central pipeline mechanics and concatenative syntax.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/nfu/blob/master/humongous-survival-guide.md'>
+      <div class='compact' data-topic='datasci'>
+        <h1>Humongous nfu survival guide</h1>
+        <p>
+        A fairly comprehensive look at the types of things you can do with nfu and
+        command-line streaming tools in general. I still use nfu for some of these
+        things, particularly interactive <code>gnuplot</code>.
+        </p>
+      </div>
+    </a>
+  </div>
+
   <a href='https://github.com/spencertipping/www/blob/master/srtm.md'>
     <div class='vert' data-topic='datasci'>
       <h1>Visualizing SRTM1 elevation data</h1>
@@ -156,17 +212,7 @@
       into a more usable geometric format to make it easier to visualize the
       full planet.
       </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/nfu'>
-    <div class='vert' data-topic='datasci'>
-      <h1>nfu: the tool that inspired ni</h1>
-      <p>
-      ni is a much more powerful version of nfu, a Perl script I wrote to
-      shorten command-line data queries. ni inherits a lot from nfu, including
-      the central pipeline mechanics and concatenative syntax.
-      </p>
+      <img src='small-images/933eda04-c121-11e8-bb60-6feb56dbfc6b.jpg'>
     </div>
   </a>
 
@@ -182,35 +228,12 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/nfu/blob/master/humongous-survival-guide.md'>
-    <div class='vert' data-topic='datasci'>
-      <h1>Humongous nfu survival guide</h1>
-      <p>
-      A fairly comprehensive look at the types of things you can do with nfu and
-      command-line streaming tools in general. I still use nfu for some of these
-      things, particularly interactive <code>gnuplot</code>.
-      </p>
-    </div>
-  </a>
-
   <div class='header notfirst'>
     <img class='headerimage' src='small-images/header-compsci.jpg'>
     <div class='text' id='compsci'>
-      <a href='#compsci'><h1 class='bright'>computer science</h1></a>
+      <a href='#compsci'><h1 class='bright'>compsci</h1></a>
     </div>
   </div>
-
-  <a href='https://github.com/spencertipping/jit-tutorial'>
-    <div class='horiz' data-topic='compsci'>
-      <h1>A quick JIT compiler tutorial</h1>
-      <p>
-      A lot of people assume that JIT compilers are complicated, but the core
-      mechanics of writing one are surprisingly straightforward. I wrote up a
-      short tutorial that covers the basics in C.
-      </p>
-      <img src='small-images/jit-tutorial-screenshot.jpg'/>
-    </div>
-  </a>
 
   <a href='https://github.com/spencertipping/shell-tutorial'>
     <div class='vert' data-topic='compsci'>
@@ -220,6 +243,7 @@
       with related background (e.g. <code>fork</code>, <code>exec</code>, and
       file descriptors).
       </p>
+      <img src='small-images/fbdfca8c-c121-11e8-a371-535c8de4f52a.jpg'>
     </div>
   </a>
 
@@ -247,17 +271,76 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/sdoc'>
-    <div class='vert' data-topic='compsci'>
-      <h1>SDoc: literate programming</h1>
+  <a href='https://github.com/spencertipping/jit-tutorial'>
+    <div class='horiz' data-topic='compsci'>
+      <h1>A quick JIT compiler tutorial</h1>
       <p>
-      This format ended up being more trouble than it was worth, but I used it
-      for a number of years. This was the project that got me into the habit of
-      writing literate code, something I still tend to do if the language has
-      adequate block comment support.
+      A lot of people assume that JIT compilers are complicated, but the core
+      mechanics of writing one are surprisingly straightforward. I wrote up a
+      short tutorial that covers the basics in C.
       </p>
+      <img src='small-images/jit-tutorial-screenshot.jpg'/>
     </div>
   </a>
+
+  <div class='compacts'>
+    <a href='https://github.com/spencertipping/information-theory-in-ten-minutes/blob/master/information-theory-in-ten-minutes.pdf'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Information Theory in Ten Minutes</h1>
+        <p>
+        A fairly quick introduction to randomness, entropy, and data compression
+        fundamentals. If you want to know the difference between <code>gzip</code>
+        and <code>ppmd</code> or what arithmetic coding is, this is the guide for
+        you.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/sdoc'>
+      <div class='compact' data-topic='compsci'>
+        <h1>SDoc: literate programming</h1>
+        <p>
+        This format ended up being more trouble than it was worth, but I used it
+        for a number of years. This was the project that got me into the habit of
+        writing literate code, something I still tend to do if the language has
+        adequate block comment support.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/writing-self-modifying-perl/blob/master/writing-self-modifying-perl.pdf'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Writing self-modifying Perl</h1>
+        <p>
+        A writeup that describes step-by-step how you would construct a
+        self-modifying Perl script and why you might want to.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://www.factual.com/blog/data-pipeline-performance/'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Data pipeline performance</h1>
+        <p>
+        A blog post I wrote while I was working at Factual, discussing some
+        considerations for constructing fast data pipelines. A look at assembly
+        and some libc functions from a scripting perspective.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/lazytest'>
+      <div class='compact' data-topic='compsci'>
+        <h1>LazyTest: test your documentation</h1>
+        <p>
+        This is the system I use to generate the unit tests for ni. ni's
+        documentation is written in Markdown and contains examples of interactive
+        shell sessions, which lazytest then converts into a shell script to verify
+        that it behaves as advertised.
+        </p>
+      </div>
+    </a>
+  </div>
 
   <a href='https://github.com/spencertipping/canard/blob/circular/bin/canard.md'>
     <div class='vert' data-topic='compsci'>
@@ -276,18 +359,6 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/information-theory-in-ten-minutes/blob/master/information-theory-in-ten-minutes.pdf'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Information Theory in Ten Minutes</h1>
-      <p>
-      A fairly quick introduction to randomness, entropy, and data compression
-      fundamentals. If you want to know the difference between <code>gzip</code>
-      and <code>ppmd</code> or what arithmetic coding is, this is the guide for
-      you.
-      </p>
-    </div>
-  </a>
-
   <a href='https://www.factual.com/blog/fast-indirect-sorting-in-java'>
     <div class='vert' data-topic='compsci'>
       <h1>Fast indirect sorting in Java</h1>
@@ -297,16 +368,6 @@
       about if you're writing performance-sensitive code.
       </p>
       <img src='small-images/indirect-sorting-screenshot.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/writing-self-modifying-perl/blob/master/writing-self-modifying-perl.pdf'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Writing self-modifying Perl</h1>
-      <p>
-      A writeup that describes step-by-step how you would construct a
-      self-modifying Perl script and why you might want to.
-      </p>
     </div>
   </a>
 
@@ -334,28 +395,66 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/catastrophe'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Catastrophe: a tracing debugger written in Caterwaul</h1>
-      <p>
-      This was a fun project: it would rewrite your code to track the evaluation
-      of specified expressions, logging the results into a searchable data
-      structure you could then query.
-      </p>
-    </div>
-  </a>
+  <div class='compacts'>
+    <a href='https://github.com/spencertipping/catastrophe'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Catastrophe: a tracing debugger written in Caterwaul</h1>
+        <p>
+        This was a fun project: it would rewrite your code to track the evaluation
+        of specified expressions, logging the results into a searchable data
+        structure you could then query.
+        </p>
+      </div>
+    </a>
 
-  <a href='https://github.com/spencertipping/lazytest'>
-    <div class='vert' data-topic='compsci'>
-      <h1>LazyTest: test your documentation</h1>
-      <p>
-      This is the system I use to generate the unit tests for ni. ni's
-      documentation is written in Markdown and contains examples of interactive
-      shell sessions, which lazytest then converts into a shell script to verify
-      that it behaves as advertised.
-      </p>
-    </div>
-  </a>
+    <a href='https://github.com/spencertipping/flotsam'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Flotsam: base-94 floating point serialization</h1>
+        <p>
+        When I wrote this, it was faster (in CPU terms) than serializing floats
+        into JSON; since then v8 has improved and Flotsam is nowhere near
+        competitive. Flotsam was useful, though, because its output could be
+        dropped into JSON without generating very many escaped characters.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/rather-insane-serialization'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Rather Insane Serialization for Javascript</h1>
+        <p>
+        A library that can handle circular references and other such data,
+        resulting a base-94 string that can be packed 1:1 into JSON (i.e. it
+        avoids JSON-escaped characters). I later used a similar format for
+        Flotsam, a floating-point serialization format also written in Javascript.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/infuse-js'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Infuse JS: linked mutable data structures</h1>
+        <p>
+        With Infuse, <code>xs.map(f)</code> returns a value that itself will
+        update if you subsequently append entries to <code>xs</code>. This was
+        challenging to write because it's easy to create space leaks and other
+        pathological behavior when you're tracking object modifications. I never
+        used this project in production, but learned a lot putting it together.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/caterwaul-splunge'>
+      <div class='compact' data-topic='compsci'>
+        <h1>Splunge: a lazy realtime graphing library for Caterwaul</h1>
+        <p>
+        One of my first attempts to write a visualization layer for data too large
+        to fit into memory. This library had some cool ideas, and I ended up using
+        it at Factual to visualize large clusters.
+        </p>
+      </div>
+    </a>
+  </div>
 
   <a href='https://github.com/spencertipping/browserpower'>
     <div class='vert' data-topic='compsci'>
@@ -367,64 +466,6 @@
       if you need to write a raytracer in Javascript for some reason.
       </p>
       <img src='small-images/browserpower.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/caterwaul-splunge'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Splunge: a lazy realtime graphing library for Caterwaul</h1>
-      <p>
-      One of my first attempts to write a visualization layer for data too large
-      to fit into memory. This library had some cool ideas, and I ended up using
-      it at Factual to visualize large clusters.
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/flotsam'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Flotsam: base-94 floating point serialization</h1>
-      <p>
-      When I wrote this, it was faster (in CPU terms) than serializing floats
-      into JSON; since then v8 has improved and Flotsam is nowhere near
-      competitive. Flotsam was useful, though, because its output could be
-      dropped into JSON without generating very many escaped characters.
-      </p>
-    </div>
-  </a>
-
-  <a href='http://spencertipping.com/js-in-ten-minutes/js-in-ten-minutes.pdf'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Javascript in ten minutes</h1>
-      <p>
-      The now-infamous guide I wrote years ago, and which I'm sure is no longer
-      current. I can't vouch for its quality or brevity, but it's my most
-      popular Github project to date.
-      </p>
-      <img src='small-images/js-in-ten-minutes-screenshot.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/rather-insane-serialization'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Rather Insane Serialization for Javascript</h1>
-      <p>
-      A library that can handle circular references and other such data,
-      resulting a base-94 string that can be packed 1:1 into JSON (i.e. it
-      avoids JSON-escaped characters). I later used a similar format for
-      Flotsam, a floating-point serialization format also written in Javascript.
-      </p>
-    </div>
-  </a>
-
-  <a href='https://www.factual.com/blog/data-pipeline-performance/'>
-    <div class='vert' data-topic='compsci'>
-      <h1>Data pipeline performance</h1>
-      <p>
-      A blog post I wrote while I was working at Factual, discussing some
-      considerations for constructing fast data pipelines. A look at assembly
-      and some libc functions from a scripting perspective.
-      </p>
     </div>
   </a>
 
@@ -442,16 +483,15 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/infuse-js'>
+  <a href='http://spencertipping.com/js-in-ten-minutes/js-in-ten-minutes.pdf'>
     <div class='vert' data-topic='compsci'>
-      <h1>Infuse JS: linked mutable data structures</h1>
+      <h1>Javascript in ten minutes</h1>
       <p>
-      With Infuse, <code>xs.map(f)</code> returns a value that itself will
-      update if you subsequently append entries to <code>xs</code>. This was
-      challenging to write because it's easy to create space leaks and other
-      pathological behavior when you're tracking object modifications. I never
-      used this project in production, but learned a lot putting it together.
+      The now-infamous guide I wrote years ago, and which I'm sure is no longer
+      current. I can't vouch for its quality or brevity, but it's my most
+      popular Github project to date.
       </p>
+      <img src='small-images/js-in-ten-minutes-screenshot.jpg'/>
     </div>
   </a>
 
@@ -502,7 +542,7 @@
 
   <a href='https://github.com/spencertipping/cd'>
     <div class='horiz' data-topic='linux'>
-      <h1>A better "cd" for bash</h1>
+      <h1>cd: a replacement for the bash builtin</h1>
       <p>
       sshfs, encfs, and FUSE in general are great tools, but managing the
       mountpoints is more trouble than it could be. I wrote a new
@@ -513,6 +553,47 @@
     </div>
   </a>
 
+  <div class='compacts'>
+    <a href='https://github.com/spencertipping/www/blob/master/open-infrastructure.md'>
+      <div class='compact' data-topic='linux'>
+        <h1>Open-source software deployments</h1>
+        <p>
+        A rundown of open-source infrastructure I run on the servers (and some
+        public EC2s).
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/hesdeadjim'>
+      <div class='compact' data-topic='linux'>
+        <h1>Deadjim: really simple monitoring</h1>
+        <p>
+        Basically the dumbest possible way to monitor stuff. It has problems and
+        doesn't scale, but it gets the job done for now.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/motley'>
+      <div class='compact' data-topic='linux'>
+        <h1>Motley: terrible sysadmin in bash</h1>
+        <p>
+        A sort of cool metaprogramming structure? Nothing that redeems the
+        project, though.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/minion'>
+      <div class='compact' data-topic='linux'>
+        <h1>Minion: terrible sysadmin in self-modifying Perl</h1>
+        <p>
+        A project even worse than Motley. I don't use it anymore.
+        </p>
+      </div>
+    </a>
+  </div>
+
   <a href='https://github.com/spencertipping/www/blob/master/datacenter.md'>
     <div class='vert' data-topic='linux'>
       <h1>The laundry room datacenter</h1>
@@ -522,26 +603,6 @@
       a datacenter from used rackmount equipment.
       </p>
       <img src='small-images/IMG_20161016_193810e.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/www/blob/master/open-infrastructure.md'>
-    <div class='vert' data-topic='linux'>
-      <h1>Open-source software deployments</h1>
-      <p>
-      A rundown of open-source infrastructure I run on the servers (and some
-      public EC2s).
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/hesdeadjim'>
-    <div class='vert' data-topic='linux'>
-      <h1>Deadjim: really simple monitoring</h1>
-      <p>
-      Basically the dumbest possible way to monitor stuff. It has problems and
-      doesn't scale, but it gets the job done for now.
-      </p>
     </div>
   </a>
 
@@ -557,30 +618,105 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/motley'>
-    <div class='vert' data-topic='linux'>
-      <h1>Motley: terrible sysadmin in bash</h1>
-      <p>
-      A sort of cool metaprogramming structure? Nothing that redeems the
-      project, though.
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/minion'>
-    <div class='vert' data-topic='linux'>
-      <h1>Minion: terrible sysadmin in self-modifying Perl</h1>
-      <p>
-      A project even worse than Motley. I don't use it anymore.
-      </p>
-    </div>
-  </a>
-
   <div class='header notfirst'>
     <img class='headerimage stripe' src='small-images/header-research.jpg'>
     <div class='text' id='research'>
     <a href='#research'><h1>research</h1></a>
     </div>
+  </div>
+
+  <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
+    <div class='horiz' data-topic='research'>
+      <h1>The GPS error experiment</h1>
+      <p>
+      GPS error isn't random, particularly for cost-optimized receivers like
+      the ones in cell phones. This writeup involves heading up to the roof to
+      build a horizon profile, then tracking each satellite over time to match
+      observed inaccuracies.
+      </p>
+      <img src='small-images/gpsa-measurement-0.jpg'/>
+    </div>
+  </a>
+
+  <div class='compacts'>
+    <a href='https://github.com/spencertipping/troll-o-matic'>
+      <div class='compact' data-topic='research'>
+        <h1>Finding coordinated trolls on Reddit</h1>
+        <p>
+        Looking for patterns of behavior that would indicate that a set of users
+        are acting in tandem.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/phi'>
+      <div class='compact' data-topic='research'>
+        <h1>phi: my last programming language</h1>
+        <p>
+        A functional JIT-compiled language with a computed grammar, written in
+        machine code. It borrows elements from Lisp, FORTH, and Smalltalk. Hoping
+        to ship this end of 2018.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/xv'>
+      <div class='compact' data-topic='research'>
+        <h1>xv: userspace process virtualization for linux</h1>
+        <p>
+        An unfinished project that replaced the <code>syscall</code> instruction
+        with a two-byte illegal instruction, then trapped <code>SIGILL</code> to
+        provide virtualized behavior. I didn't know about vsyscalls when I
+        designed this, nor did I realize that most people solved the problem by
+        preloading a libc wrapper.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/manhattan-model'>
+      <div class='compact' data-topic='research'>
+        <h1>Reconstructing 3D cities from youtube video</h1>
+        <p>
+        An attempt to build detailed 3D models of cities from youtube footage of
+        people driving through them, in this case starting with Manhattan. Uses ni
+        to unpack streaming video frames, and PDL to do FFT phase correlation of
+        image tiles.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/bake'>
+      <div class='compact' data-topic='research'>
+        <h1>bake: <code>make</code> for bash</h1>
+        <p>
+        An early attempt to provide file-based dependency management to bash. More
+        design than reality; I ran into some fundamental problems with the
+        approach, as well as egregious performance issues with bash arrays (which
+        I think have since been fixed).
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/cpp-template-lisp/blob/master/src/interpreter.pdf'>
+      <div class='compact' data-topic='research'>
+        <h1>Lisp in C++ templates</h1>
+        <p>
+        An unfinished project before I understood how difficult it would be to
+        implement, and before I realized that <code>chaos_pp</code> and
+        <code>order_pp</code> existed.
+        </p>
+      </div>
+    </a>
+
+    <a href='https://github.com/spencertipping/ODrive/tree/master/simulator'>
+      <div class='compact' data-topic='hardware'>
+        <h1>A simulator for the ODrive and BLDC motors</h1>
+        <p>
+        A work in progress; I don't quite understand electrodynamics well enough
+        to get the math right yet.
+        </p>
+      </div>
+    </a>
   </div>
 
   <a href='https://github.com/spencertipping/www/blob/master/arduino-sonar.md'>
@@ -596,53 +732,6 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/troll-o-matic'>
-    <div class='vert' data-topic='research'>
-      <h1>Finding coordinated trolls on Reddit</h1>
-      <p>
-      Looking for patterns of behavior that would indicate that a set of users
-      are acting in tandem.
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/www/blob/master/gps.md'>
-    <div class='vert' data-topic='research'>
-      <h1>The GPS error experiment</h1>
-      <p>
-      GPS error isn't random, particularly for cost-optimized receivers like
-      the ones in cell phones. This writeup involves heading up to the roof to
-      build a horizon profile, then tracking each satellite over time to match
-      observed inaccuracies.
-      </p>
-      <img src='small-images/gpsa-measurement-0.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/phi'>
-    <div class='vert' data-topic='research'>
-      <h1>phi: my last programming language</h1>
-      <p>
-      A functional JIT-compiled language with a computed grammar, written in
-      machine code. It borrows elements from Lisp, FORTH, and Smalltalk. Hoping
-      to ship this end of 2018.
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/xv'>
-    <div class='vert' data-topic='research'>
-      <h1>xv: userspace process virtualization for linux</h1>
-      <p>
-      An unfinished project that replaced the <code>syscall</code> instruction
-      with a two-byte illegal instruction, then trapped <code>SIGILL</code> to
-      provide virtualized behavior. I didn't know about vsyscalls when I
-      designed this, nor did I realize that most people solved the problem by
-      preloading a libc wrapper.
-      </p>
-    </div>
-  </a>
-
   <a href='https://www.factual.com/blog/a-day-in-the-life-of-a-factual-engineer-polygon-compression/'>
     <div class='vert' data-topic='research'>
       <h1>Polygon compression strategies</h1>
@@ -651,30 +740,6 @@
       lengths and angles.
       </p>
       <img src='small-images/2015-03-31-image_13.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/manhattan-model'>
-    <div class='vert' data-topic='research'>
-      <h1>Reconstructing 3D cities from youtube video</h1>
-      <p>
-      An attempt to build detailed 3D models of cities from youtube footage of
-      people driving through them, in this case starting with Manhattan. Uses ni
-      to unpack streaming video frames, and PDL to do FFT phase correlation of
-      image tiles.
-      </p>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/bake'>
-    <div class='vert' data-topic='research'>
-      <h1>bake: <code>make</code> for bash</h1>
-      <p>
-      An early attempt to provide file-based dependency management to bash. More
-      design than reality; I ran into some fundamental problems with the
-      approach, as well as egregious performance issues with bash arrays (which
-      I think have since been fixed).
-      </p>
     </div>
   </a>
 
@@ -688,17 +753,6 @@
       camera angles. Writeup pending...
       </p>
       <img src='small-images/bz-split.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/cpp-template-lisp/blob/master/src/interpreter.pdf'>
-    <div class='vert' data-topic='research'>
-      <h1>Lisp in C++ templates</h1>
-      <p>
-      An unfinished project before I understood how difficult it would be to
-      implement, and before I realized that <code>chaos_pp</code> and
-      <code>order_pp</code> existed.
-      </p>
     </div>
   </a>
 
@@ -721,16 +775,6 @@
     </div>
   </a>
 
-  <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
-    <div class='vert' data-topic='hardware'>
-      <h1>"Uncommon uses for angle grinders," part 1</h1>
-      <p>
-      A pre-lathe turning project.
-      </p>
-      <img src='small-images/IMG_20160827_155611e.jpg'/>
-    </div>
-  </a>
-
   <a href='https://github.com/spencertipping/www/blob/master/rockwall.md'>
     <div class='vert' data-topic='hardware'>
       <h1>Building an indoor bouldering wall</h1>
@@ -742,8 +786,23 @@
     </div>
   </a>
 
+  <a href='https://github.com/spencertipping/arduino-fngen'>
+    <div class='vert' data-topic='hardware'>
+      <h1>An awful two-channel, 12-bit function generator</h1>
+      <p>
+      This was one of my first Arduino projects. It used an R2R DAC and split
+      each of three port registers across both channels so there would be no
+      timing difference. That's where its virtues ended though; because you can
+      only write to one port register per cycle, the signal contained 125ns
+      distortions and it could only emit about 1MS/s. It also had clipping
+      issues due to the op-amp voltage margins. Postmortem pending...
+      </p>
+      <img src='small-images/arduino-fngen.jpg'/>
+    </div>
+  </a>
+
   <a href='https://github.com/spencertipping/www/blob/master/soggy-backplane.md'>
-    <div class='horiz' data-topic='hardware'>
+    <div class='vert' data-topic='hardware'>
       <h1>Repairing a water-damaged RAID server</h1>
       <p>
       I didn't expect this to end well. It turns out that laundry rooms have
@@ -752,31 +811,6 @@
       machine was up and running again.
       </p>
       <img src='small-images/my_photo-183.jpg'/>
-    </div>
-  </a>
-
-  <a href='https://github.com/spencertipping/ODrive/tree/master/simulator'>
-    <div class='vert' data-topic='hardware'>
-      <h1>A simulator for the ODrive and BLDC motors</h1>
-      <p>
-      A work in progress; I don't quite understand electrodynamics well enough
-      to get the math right yet.
-      </p>
-    </div>
-  </a>
-
-  <a>
-    <div class='vert' data-topic='hardware'>
-      <h1>The Safety Ladder</h1>
-      <p>
-      Evaporative coolers require a lot of maintenance, and I like having roof
-      access in general. So rather than dragging out the regular ladder, I
-      built one onto the side of the house using some old deck wood and
-      carriage bolts. Nothing is permanently mounted; the top is held in place
-      with a wooden lever clamp and the weight is transferred straight to the
-      ground. Writeup pending...
-      </p>
-      <img src='small-images/safety-ladder.jpg'/>
     </div>
   </a>
 
@@ -806,6 +840,16 @@
     </div>
   </a>
 
+  <a href='https://gist.github.com/spencertipping/185ab9e107029ab1cf29dc6512e8e141'>
+    <div class='horiz' data-topic='hardware'>
+      <h1>"Uncommon uses for angle grinders," part 1</h1>
+      <p>
+      A pre-lathe turning project.
+      </p>
+      <img src='small-images/IMG_20160827_155611e.jpg'/>
+    </div>
+  </a>
+
   <a>
     <div class='vert' data-topic='hardware'>
       <h1>The Octopipe: the world's ugliest fireplace heat exchanger</h1>
@@ -828,21 +872,6 @@
     </div>
   </a>
 
-  <a href='https://github.com/spencertipping/arduino-fngen'>
-    <div class='vert' data-topic='hardware'>
-      <h1>An awful two-channel, 12-bit function generator</h1>
-      <p>
-      This was one of my first Arduino projects. It used an R2R DAC and split
-      each of three port registers across both channels so there would be no
-      timing difference. That's where its virtues ended though; because you can
-      only write to one port register per cycle, the signal contained 125ns
-      distortions and it could only emit about 1MS/s. It also had clipping
-      issues due to the op-amp voltage margins. Postmortem pending...
-      </p>
-      <img src='small-images/arduino-fngen.jpg'/>
-    </div>
-  </a>
-
   <a>
     <div class='vert' data-topic='hardware'>
       <h1>DIY table saw sled</h1>
@@ -852,6 +881,21 @@
       for the guides. Writeup pending...
       </p>
       <img src='small-images/table-saw-sled.jpg'/>
+    </div>
+  </a>
+
+  <a>
+    <div class='vert' data-topic='hardware'>
+      <h1>The Safety Ladder</h1>
+      <p>
+      Evaporative coolers require a lot of maintenance, and I like having roof
+      access in general. So rather than dragging out the regular ladder, I
+      built one onto the side of the house using some old deck wood and
+      carriage bolts. Nothing is permanently mounted; the top is held in place
+      with a wooden lever clamp and the weight is transferred straight to the
+      ground. Writeup pending...
+      </p>
+      <img src='small-images/safety-ladder.jpg'/>
     </div>
   </a>
 
@@ -874,7 +918,7 @@
       });
 
       Array.prototype.sort.call(
-        $('.vert, .horiz'), function (a, b) {
+        $('.vert, .horiz, .compact'), function (a, b) {
           return $(a).find('h1').text().localeCompare($(b).find('h1').text());
         })
         .each(function () {
@@ -913,10 +957,19 @@
       });
 
       var resize = function () {
-        var w     = $(window).width() - 80 || 1;
-        var cols  = w / 420 | 0;
-        var extra = (w - cols*420) / cols | 0;
-        $('.vert').css({width: Math.min(600, 380 + extra)});
+        var w          = $('body').width() - 40 || 1;
+        var vert_cols  = w / 420 | 0;
+        var vert_extra = (w - vert_cols*420) / vert_cols | 0;
+        $('.vert').css({width: Math.min(600, 380 + vert_extra)});
+
+        $('.compacts').each(function () {
+          var children      = $(this).find('.compact');
+          var compact_cols  = Math.min(children.length, w / 240 | 0) || 1;
+          var compact_extra = (w - compact_cols*240) / compact_cols | 0;
+
+          console.log(children);
+          children.css({width: 200 + compact_extra});
+        });
       };
 
       $(window).on('resize', resize);
