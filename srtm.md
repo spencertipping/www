@@ -118,7 +118,7 @@ Here's the command I'm using in the top bar:
 srtm1.ffnsample bf'ffnx1000'
 ```
 
-![image](strm-images/28fd3fe2-c184-11e8-adf3-5bca1096307d.png)
+![image](srtm-images/28fd3fe2-c184-11e8-adf3-5bca1096307d.png)
 
 We can see some continental outlines, and a bunch of elevation proceeding into
 the screen (+Z axis). Let's do a few things:
