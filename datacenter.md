@@ -136,12 +136,12 @@ Rackmount stuff isn't small, but it is flat. All of the equipment fits in about
 14" of vertical room under the laundry machines, and that's including a fairly
 inefficient rack that adds 2" of overhead per 2U device:
 
-![image](http://pix.toile-libre.org/upload/original/1497631781.jpg)
+![image](datacenter-images/1497631781.jpg)
 
 It's a tight fit though. No more room for anything, including the wifi access
 point (which is why it's hanging out with the dryer):
 
-![image](http://pix.toile-libre.org/upload/original/1497631960.jpg)
+![image](datacenter-images/1497631960.jpg)
 
 It would be possible to get another 2U of space on each side by using thinner
 racking, but in my case power + heat would make that impractical -- and the
@@ -249,7 +249,7 @@ arp timeout 60
 
 This creates two square 2x2 blocks on the front:
 
-![image](http://pix.toile-libre.org/upload/original/1497633404.jpg)
+![image](datacenter-images/1497633404.jpg)
 
 ### TODO: more stuff
 I'm trying to think of other configuration that wasn't obvious when I was doing
@@ -332,7 +332,7 @@ reliability loss, though I have no data to back that up):
 The 2.5" drives tend to be for laptops, but they should work fine for servers.
 The reviews are pretty sketchy, though:
 
-![image](http://pix.toile-libre.org/upload/original/1496945842.png)
+![image](datacenter-images/1496945842.png)
 
 Before I dig around for a more reputable source of 2.5" drives, let's talk
 about power cost for 3.5" units. Here are some configurations and costs,
