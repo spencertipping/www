@@ -1,15 +1,29 @@
 # The cheap home datacenter
-![image](http://pix.toile-libre.org/upload/original/1497628328.jpg)
+![image](datacenter-images/1497628328.jpg)
 
 It's difficult to be cold in our laundry room.
 
-About a year ago I searched for "rackmount servers" on ebay, mostly out of
+About few years ago I searched for "rackmount servers" on ebay, mostly out of
 curiosity. I was surprised to find that you can get a used server for next to
 nothing; in short order I found an HP unit with 12 Xeons, 144GB of memory, and
 four 300GB disks for $500 + $70 shipping. Thus began the Cheap Home Datacenter,
 which has now become a formidable space heating apparatus and provides the
 compute resources for all of my projects. It also runs our internal Gitlab
 server and continuous integration.
+
+## What's happened since initially writing this
+Some sysops adventures and questionable software:
+
+- [Recovering the NFS server from water damage, and making it more water
+  resistant](soggy-backplane.md)
+- [Deploying a bunch of open-source services](open-infrastructure.md)
+- [Hacky DIY monitoring](https://github.com/spencertipping/hesdeadjim)
+- [Hacky DIY remote configuration](https://github.com/spencertipping/motley)
+
+Some data science adventures and questionable software:
+
+- [Rendering all of OpenStreetMap](osm-animation.md)
+- [Visualizing all of SRTM-1 global elevation](srtm.md)
 
 ## Specs + cost
 Here are all the major components (mostly servers):
@@ -36,7 +50,7 @@ hard drives.
 Second, it's _much_ cheaper than EC2 for the specs, even including power. I'm
 running servers 1, 3, and 4 right now and the UPS is showing 822W of output.
 
-![image](http://pix.toile-libre.org/upload/original/1497629398.jpg)
+![image](datacenter-images/1497629398.jpg)
 
 At $0.17/kWh, that comes to:
 
@@ -46,12 +60,9 @@ $ units -t '822W * 0.17USD/(kW*hour)' USD/month
 ```
 
 That sounds like a lot, but EC2 prices for similar hardware are much higher per
-hour. Anything with >100GB of memory is over $1:
-
-![image](http://storage9.static.itmages.com/i/17/0608/h_1496924691_3768431_b3128d7946.png)
-
-If you ran the `r4.4xlarge`, the cheapest >100GB machine, for a month you'd
-have enough to buy your own server:
+hour. Anything with >100GB of memory is over $1. If you ran the `r4.4xlarge`,
+the cheapest >100GB machine, for a month you'd have enough to buy your own
+server:
 
 ```sh
 $ units -t '1.064 USD/hour' USD/month
@@ -81,8 +92,6 @@ suspend CPU-heavy stuff when we're running the laundry.
 If you're just running one or two servers, though, you'll probably be fine. Any
 power issues you run into are probably going to be caused by [homemade chaos
 monkeys](https://github.com/Netflix/SimianArmy/wiki/Chaos-Monkey).
-
-![image](http://storage2.static.itmages.com/i/17/0608/h_1496928747_9496741_92706f5d35.jpeg)
 
 ### Dealing with heat
 Servers are space heaters, and 900W is about equivalent to a 1-square-meter
