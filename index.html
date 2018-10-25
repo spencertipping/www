@@ -977,8 +977,6 @@
           var children      = $(this).find('.compact');
           var compact_cols  = Math.min(children.length, w / 240 | 0) || 1;
           var compact_extra = (w - compact_cols*240) / compact_cols | 0;
-
-          console.log(children);
           children.css({width: 200 + compact_extra});
         });
       };
