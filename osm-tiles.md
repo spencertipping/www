@@ -16,7 +16,7 @@ $ ln -s planet-210208.osm.bz2 planet
 $ ni planet S32r/\<node/p'r /id="([^"]+)"/, /lat="([^"]+)"/, /lon="([^"]+)"/' \
             S64p'r a, ghe b, c, -60' \
             ^{row/sort-buffer=262144M row/sort-parallel=64} \
-            op'wp"QQ", a, b' \>nodes-packed.QQ
+            o p'wp"QQ", a, b' \>nodes-packed.QQ
 
 $ ni planet e[egrep -v '<node|</?changeset'] \
             e[perl -ne 'print if /<way/../<\/way/'] z4\>ways
