@@ -39,18 +39,19 @@ $ mkdir -p tiles
 $ ni ways e'tr "\n" " "' \
      e[ perl -e 'for (my $s = ""; read STDIN, $s, 1<<20, length $s;)
                  { print $1, "\n" if $s =~ s/(<way.*<\/way>)// }' ] \
-     S64p'split /<\/way>/' \
-     S64p'my ($way) = (my $l = $_) =~ /<way ((?:\w+="[^"]*"\s*)*)/;
-          my $attrs = json_encode {$way =~ /(\w+)="([^"]*)"/g};
-          my $tags  = json_encode {$l =~ /tag k="([^"]*)" v="([^"]*)"/g};
-          r $attrs, $tags, /nd ref="(\d+)"/g' \
-     S64p'^{ use Sys::Mmap;
-             open my $fh, "< nodes-packed.QQ";
-             mmap $nodes, 0, PROT_READ, MAP_SHARED, $fh;
-             substr $nodes, $_ << 20, 1048576 for 0..length($nodes) >> 20 }
-          r a, b, map bsflookup($nodes, "Q", 16, $_, "x8Q"), FR 2' \
-     S64p'r "tiles/$_", F_ for uniq map gb3($_ >> 45, 15), FR 2' \
-     ^{row/sort-buffer=65536M row/sort-parallel=64} \
+     S64[p'split /<\/way>/' \
+         p'my ($way) = (my $l = $_) =~ /<way ((?:\w+="[^"]*"\s*)*)/;
+           my $attrs = json_encode {$way =~ /(\w+)="([^"]*)"/g};
+           my $tags  = json_encode {$l =~ /tag k="([^"]*)" v="([^"]*)"/g};
+           r $attrs, $tags, /nd ref="(\d+)"/g' \
+         p'^{ use Sys::Mmap;
+              open my $fh, "< nodes-packed.QQ";
+              mmap $nodes, 0, PROT_READ, MAP_SHARED, $fh;
+              my $x;
+              $x = substr $nodes, $_ << 20, 1048576 for 0..length($nodes) >> 20 }
+           r a, b, map bsflookup($nodes, "Q", 16, $_, "x8Q"), FR 2' \
+         p'r "tiles/$_", F_ for uniq map gb3($_ >> 45, 15), FR 2'] \
+     ^{row/sort-buffer=262144M row/sort-compress=pigz row/sort-parallel=64} \
      g W\> e'xargs -P64 -n1 xz -9e'
 ```
 
