@@ -24,7 +24,7 @@ $ export NI_PIPELINE_IO_SIZE=1048576; \
          p'my ($lat, $lon) = (/lat="([^"]+)"/, /lon="([^"]+)"/);
            r /id="([^"]+)"/, ghe $lat, $lon, -60'] \
      ^{row/sort-buffer=262144M row/sort-parallel=64 row/sort-compress=lz4} \
-     o p'wp"QQ", a, b' \>nodes-packed.QQ
+     o bf^QQ \>nodes-packed.QQ
 ```
 
 
