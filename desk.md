@@ -25,7 +25,7 @@ Here's the final design, which includes all of the pulley mechanics for the stor
 
 This wasn't my first design at all. I had initially intended a much lamer two-level desk that didn't hang from anything:
 
-![blender first design](blender-first-design.png)
+![blender first design](desk-images/blender-first-design.png)
 
 
 ## Suspension cables
@@ -103,4 +103,4 @@ Here's the full list of what's going on below the main desk:
 
 The whole desk is UPS-protected from a single 1500W unit that covers most of the room. Even though all of the computers have batteries, I had to put one in once I set up the RAID array; any power disruption and the array would need to be rebuilt. As a side benefit, now I can see how much power I'm using:
 
-![ups power](/home/spencertipping/r/tmp-desk/darktable_exported/IMG_3754.jpg)
+![ups power](desk-images/ups-power.jpg)
