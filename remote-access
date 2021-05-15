@@ -1,0 +1,94 @@
+#!/bin/bash
+# Gives me remote access to an Ubuntu/Debian machine.
+
+set -euo pipefail
+
+echo
+echo "Installing SSH server and upnpc..."
+echo "(This may ask you for your password)"
+echo
+
+
+if ! which upnpc >&/dev/null || ! pgrep sshd; then
+  sudo apt-get update
+fi
+
+if ! which upnpc >&/dev/null; then
+  sudo apt-get install -y upnpc
+fi
+
+# Do we have sshd running already? If so, we can use that; otherwise we need
+# to install it.
+pgrep sshd || sudo apt-get install -y openssh-server
+
+
+# Now configure SSH server securely. This is a bit delicate because the user
+# may already have SSH set up the way they like. I'm being a bit inconsiderate
+# by reconfiguring their SSH if this is the case, but it's the right choice
+# for security and I'll tag the new SSH entries with comments so they're easy
+# to delete.
+echo "Configuring SSH server; appending this to your /etc/ssh/sshd_config:"
+sudo tee -a /etc/ssh/sshd_config <<'EOF'
+# ===================================
+# REMOTE ACCESS SETTINGS FOR SECURITY
+PubkeyAuthentication yes
+PasswordAuthentication no
+# (You can delete these to restore your SSH server to its normal state, which
+#  will re-enable password logins; this is less secure but more accessible if
+#  you haven't set up SSH keys. If you don't know what any of this means,
+#  then you should leave these settings enabled.)
+# END OF REMOTE SETTINGS
+# ======================
+EOF
+
+# Important: force new settings to be applied
+sudo service sshd restart
+
+
+# SSH server is now working, so let's allocate a forwarded port. It doesn't
+# matter which port number we use as long as it doesn't collide with anything
+# else; 30022 should be fine.
+echo
+echo "Detected this IP configuration:"
+gateway_ip=$(ip route get 8.8.8.8 | egrep -o 'via (\S+)' | awk '{print $2}')
+echo "  gateway IP = $gateway_ip"
+our_ip=$(ip route get "$gateway_ip" | egrep -o 'src (\S+)' | awk '{print $2}')
+echo "  machine local IP = $our_ip"
+echo
+
+port=30022
+until upnpc -a "$our_ip" 22 "$port" TCP; do
+  echo "Forwarding WAN port $port failed; trying one higher..."
+  port=((port + 1))
+  if (( port > 30200 )); then
+    echo "WAN port forwarding failed within the range [30022-30200]."
+    echo "uPnP may not be working correctly."
+    exit 1
+  fi
+done
+
+echo "Forwarded WAN port $port to $our_ip:22"
+
+
+# Final steps: add my SSH key and ping the web endpoint to minimize the amount
+# of mistyping that happens around the IP and username.
+echo
+echo "Enabling SSH key for spencertipping..."
+
+mkdir -p ~/.ssh
+wget -qO- https://spencertipping.com/id_rsa.pub >> ~/.ssh/authorized_keys
+
+wget -qO- https://spencertipping.com/cgi-bin/remote-ping?$port:$USER
+
+echo
+echo "Remote access should now be enabled."
+echo
+echo "To revoke, open $HOME/.ssh/authorized_keys and delete the line"
+echo "that contains 'spencertipping'."
+echo
+echo "Your SSH server has disabled password logins for extra security."
+echo "This was done by adding a block of options at the end of"
+echo "/etc/ssh/sshd_config; you can revert its settings by deleting that"
+echo "block. If you don't know what this means, you don't need to do"
+echo "anything; you system is secure."
+echo
