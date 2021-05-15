@@ -14,7 +14,7 @@ if ! which upnpc >&/dev/null || ! pgrep sshd; then
 fi
 
 if ! which upnpc >&/dev/null; then
-  sudo apt-get install -y upnpc
+  sudo apt-get install -y miniupnpc
 fi
 
 # Do we have sshd running already? If so, we can use that; otherwise we need
