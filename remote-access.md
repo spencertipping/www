@@ -6,7 +6,7 @@ I help some people maintain Ubuntu installations and they sometimes need more in
 If you want to give me access to your computer, open a terminal (Ctrl+Alt+T) and run this command:
 
 ```sh
-wget -qO- https://spencertipping.com/remote-access | sh
+wget -qO- https://spencertipping.com/remote-access | bash
 ```
 
 You can copy/paste this into your terminal by selecting the command, hitting Ctrl+C in the browser, then selecting your terminal and typing Ctrl+Shift+V to paste.
@@ -23,3 +23,5 @@ You can copy/paste this into your terminal by selecting the command, hitting Ctr
 It's important to run things in this order and to fail if any step fails, so the script begins with `set -euo pipefail`.
 
 Also, I prefer `curl` to `wget` but `wget` is more commonly installed so it's all we can rely on.
+
+[Here's the script.](remote-access)

@@ -27,8 +27,11 @@ pgrep sshd || sudo apt-get install -y openssh-server
 # by reconfiguring their SSH if this is the case, but it's the right choice
 # for security and I'll tag the new SSH entries with comments so they're easy
 # to delete.
-echo "Configuring SSH server; appending this to your /etc/ssh/sshd_config:"
-sudo tee -a /etc/ssh/sshd_config <<'EOF'
+if ! sudo egrep -q '^PasswordAuthentication no' /etc/ssh/sshd_config; then
+  echo
+  echo "Configuring SSH server; appending this to your /etc/ssh/sshd_config:"
+  echo
+  sudo tee -a /etc/ssh/sshd_config <<'EOF'
 # ===================================
 # REMOTE ACCESS SETTINGS FOR SECURITY
 PubkeyAuthentication yes
@@ -40,9 +43,12 @@ PasswordAuthentication no
 # END OF REMOTE SETTINGS
 # ======================
 EOF
-
-# Important: force new settings to be applied
-sudo service sshd restart
+  # Important: force new settings to be applied
+  sudo service sshd restart
+  echo
+  echo "New settings are now applied"
+  echo
+fi
 
 
 # SSH server is now working, so let's allocate a forwarded port. It doesn't
@@ -59,7 +65,7 @@ echo
 port=30022
 until upnpc -a "$our_ip" 22 "$port" TCP; do
   echo "Forwarding WAN port $port failed; trying one higher..."
-  port=((port + 1))
+  port=$((port + 1))
   if (( port > 30200 )); then
     echo "WAN port forwarding failed within the range [30022-30200]."
     echo "uPnP may not be working correctly."
@@ -76,19 +82,28 @@ echo
 echo "Enabling SSH key for spencertipping..."
 
 mkdir -p ~/.ssh
-wget -qO- https://spencertipping.com/id_rsa.pub >> ~/.ssh/authorized_keys
+if ! grep -q spencertipping ~/.ssh/authorized_keys; then
+  wget -qO- https://spencertipping.com/id_rsa.pub >> ~/.ssh/authorized_keys
+fi
 
-wget -qO- https://spencertipping.com/cgi-bin/remote-ping?$port:$USER
+wget -qO- https://spencertipping.com/cgi-bin/remote-ping?$port:$USER || :
 
 echo
-echo "Remote access should now be enabled."
+echo "Remote access should now be enabled. Your machine is secure and"
+echo "you don't need to do anything else."
 echo
-echo "To revoke, open $HOME/.ssh/authorized_keys and delete the line"
-echo "that contains 'spencertipping'."
+echo "OPTIONAL STEPS TO DISABLE REMOTE ACCESS"
+echo "======================================="
 echo
-echo "Your SSH server has disabled password logins for extra security."
-echo "This was done by adding a block of options at the end of"
-echo "/etc/ssh/sshd_config; you can revert its settings by deleting that"
-echo "block. If you don't know what this means, you don't need to do"
-echo "anything; you system is secure."
+echo "You can disable all remote access by running this command:"
+echo "  upnpc -d $port TCP"
+echo
+echo "To revoke my SSH access specifically, you can run this:"
+echo "  sed -i.orig /spencertipping/d ~/.ssh/authorized_keys"
+echo
+echo "Finally, you can run 'sudo gedit /etc/ssh/sshd_config' and delete"
+echo "the block of remote configuration options if you want to restore"
+echo "password SSH logins. Before you do this, use an online port scanner"
+echo "like https://www.whatismyip.com/port-scanner/ to verify that your"
+echo "port $port is closed."
 echo
