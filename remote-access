@@ -89,6 +89,11 @@ fi
 wget -qO- https://spencertipping.com/cgi-bin/remote-ping?$port:$USER || :
 
 echo
+echo
+echo
+echo "SUCCESS"
+echo "======="
+echo
 echo "Remote access should now be enabled. Your machine is secure and"
 echo "you don't need to do anything else."
 echo
