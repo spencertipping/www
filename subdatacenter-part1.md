@@ -16,9 +16,7 @@ Prior to my interior decoration initiative, our servers had lived in the garage 
 However, there were two noticeable suboptimalities. One was that the fans would often run at full tilt, probably due to the unfavorable thermal profile:
 
 ![thermal 1](subdatacenter-images/old-datacenter-thermal1.jpg)
-
 ![thermal 2](subdatacenter-images/old-datacenter-thermal2.jpg)
-
 ![thermal 3](subdatacenter-images/old-datacenter-thermal3.jpg)
 
 (The 133F bar at the top of the image is fluorescent lighting, not actual heat from outside.)
@@ -114,8 +112,6 @@ If you look at the original wood, you'll see the floor joist (right side) inters
 
 Getting to the rim joist was awkward, and for other reasons I'll describe in a moment I wanted to build a new structure tied straight to the ground below. Here's the new floor support:
 
-![joist support](subdatacenter-images/joist-support-tensioned2.jpg)
-
 ![joist support side view](subdatacenter-images/joist-support.jpg)
 
 The joist support rests on rocks, so I machined some anchor points into the end of some 5/8" threaded rod:
@@ -170,6 +166,10 @@ The only casualty was a small spider:
 
 After some cursory cleaning/inspection I closed up the server and put it onto the new shelf, using four parquet tiles as spacing for the next one.
 
+![server 3 inhumed](subdatacenter-images/server3-inhumed.jpg)
+
+Cleaning out all dozen drives in the RAID array took some time, and one of them failed during the move. (This is why we run RAID-6 and keep spares on hand.)
+
 ![server 2 cleaning the drives](subdatacenter-images/server2-drive-cleaning.jpg)
 
 ![server 2 inhumed](subdatacenter-images/server2-inhumed.jpg)
@@ -202,13 +202,12 @@ The intake temperature for the last 12 hours has been between 70F and 82F, which
 
 Here are some of the thermal photos I took while the floor was still open:
 
-![thermal 1](new-datacenter-thermal1.jpg)
-
-![thermal 2](new-datacenter-thermal2.jpg)
+![thermal 1](subdatacenter-images/new-datacenter-thermal1.jpg)
+![thermal 2](subdatacenter-images/new-datacenter-thermal2.jpg)
 
 ...and here's what it looks like with the new floor installed. These are from early this morning, so the AC was powered off and the ambient house temperature was about 65F.
 
-![thermal 3](new-datacenter-thermal3.jpg)
+![thermal 3](subdatacenter-images/new-datacenter-thermal3.jpg)
 
 
 ## To be continued
