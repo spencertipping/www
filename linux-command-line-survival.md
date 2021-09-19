@@ -10,6 +10,7 @@ A probably-opinionated list of things I've found useful in 20 years of using Lin
   + `man 1 stat`: show manpage for command-line tool `stat`
   + `man 2 stat`: show manpage for kernel API call `stat`
   + `man 3 stat`: show manpage `libc` API call `stat`
+  + `man 3p stat`: show POSIX definition for `stat`
   + `man 4 sd`: show manpage for devices like `/dev/sda`
   + `man 5 resolv.conf`: show manpage for `/etc/resolv.conf` format
   + `man 7 tcp`: manpage for TCP protocol and APIs
@@ -37,9 +38,15 @@ A probably-opinionated list of things I've found useful in 20 years of using Lin
 ### Serial IO
 + `screen`, e.g. `screen -F /dev/tty0`
 + `minicom`
++ `stty` to set serial-line parameters if you then want to use normal IO, e.g. with `cat`
 
 
-## Remoting
+### Terminal device control
++ `stty`: set terminal parameters, e.g. echo, no-echo, char/line buffering
++ `reset`: fix a borked terminal
+
+
+## Graphical remoting
 ### Whole-screen remoting
 + Remote control
   + `x11vnc`: serve X11 display over VNC
@@ -50,7 +57,7 @@ A probably-opinionated list of things I've found useful in 20 years of using Lin
   + `x11vnc -viewonly`
   + **Poor man's solution:** `ssh user@machine ffmpeg -f x11grab -i $DISPLAY -f flv - | ffplay -`
 + Control nearby computers
-  + `barrier`: used to be `synergy`
+  + `barrier`: used to be `synergy`, soft KVM switch: move mouse onto adjacent computer desktops
 
 
 ### Window-level remoting
@@ -88,34 +95,35 @@ A probably-opinionated list of things I've found useful in 20 years of using Lin
 
 
 ### Compression and archiving
-Compressors:
+Stream compressors:
 
-+ `zstd`
-+ `gzip` (`pigz` for multicore): LZ77 + Huffman
-+ `bzip2` (`pbzip2` for multicore):
-+ `xz`
-+ `lzma`
-+ `zstd`
-+ `lzo`
-+ `lz4`
-+ `ppmd`
-+ `zpaq`
-+ `compress`
++ Small-window LZ family (dictionary compression, medium speed)
+  + `gzip` (`pigz` for multicore)
+  + `lzo`
+  + `lz4`
+  + `compress`
++ Large-window LZ (better+slower compression, more memory usage, fast decompression)
+  + `zstd`
+  + `xz`/`lzma`
++ Statistical/esoteric (slow compressors)
+  + `bzip2` (`pbzip2` for multicore)
+  + `ppmd`
+  + `zpaq`
 
-Archivers (file-level access):
+File archivers:
 
-+ `tar`
-+ `zip` + `unzip`
-+ `7zr` (`apt install p7zip`)
-+ `rar` + `unrar`
-+ `ar`
++ `tar`: serial archive of files, commonly run through a stream compressor, e.g. `.tar.gz` or `.tar.xz`
++ `ar`: manage `.a` archives, commonly used for system libraries
++ `zip` + `unzip`: DEFLATE + archiving
++ `7zr` (`apt install p7zip`): LZMA + archiving
++ `rar` + `unrar`: PPM-style compression + archiving
 
 Random-access compression using filesystems:
 
 + `btrfs` with file compression (fastest, worst compression)
 + `squashfs` (best compresison ratio, single-threaded decompression unless you have a custom kernel)
 + `cramfs`
-+ FUSE `archivemount` (slow, not really random-access)
++ FUSE `archivemount` (read-only, slow, file-level rather than block-level access)
 
 
 ### Moving files over the network
@@ -133,6 +141,9 @@ Random-access compression using filesystems:
   + `python3 -m http.server`: serve current directory on port 8080
   + `curl -sSL https://url`: fetch URL and write to stdout/terminal
   + `wget https://url`: fetch URL and save to file
++ Direct socket IO (unencrypted but very fast)
+  + `nc -l -p 8000 < file`: send `file` to whoever connects to TCP port 8000
+  + `nc host 8000 > local`: connect to host:8000 and save results into `local`
 + BitTorrent
   + `transmission-cli` (uses transmission daemon)
   + `rtorrent` (frontend-only)
@@ -182,7 +193,7 @@ Random-access compression using filesystems:
 
 ### Discovery and diagnostic tools
 + `ping`
-+ `mtr`: `traceroute`
++ `mtr`: enhanced `traceroute`
 + `dig`, `nslookup`: issue DNS queries
 + `fping`: ping many hosts quickly (find reachable machines)
 + `nmap`: port scan
@@ -201,11 +212,34 @@ Random-access compression using filesystems:
 + `ip addr add 10.4.0.0/24 dev wls2`: add address with subnet to `wls2`
 + `ip link set enp3s0f0 up`: manually activate link (e.g. for fiber)
 + `dhclient wls2`: request DHCP configuration on `wls2`
+
+
+### Wi-Fi
 + `iw`: manage wifi adapters
++ `wpa_supplicant`, `wpa_passphrase`: handle WPA2 authentication
+
+For example, here's how I connect to wifi:
+
+```sh
+# show SSIDs
+iw wlp2s0 scan | grep -i ssid: | cut -d: -f2
+
+# if passwordless
+ip link set wlp2s0 up
+iw wlp2s0 connect "$ssid"
+dhclient wlp2s0
+
+# if using WPA2
+ip link set wlp2s0 up
+echo "$password" | wpa_passphrase "$ssid" > /etc/wpa_supplicant.conf
+wpa_supplicant -B -D wext -i wlp2s0 -c /etc/wpa_supplicant.conf
+iw wlp2s0 scan
+dhclient wlp2s0
+```
 
 
 ### Traffic shaping / traffic control
-+ `ip route change default via 192.168.0.1 realm 2`: assign a realm to all traffic sent through gateway
++ `ip route change default via 192.168.0.1 realm 2`: assign a realm to a route (in this case, to all outbound gateway traffic)
 + `tc`: manipulate traffic control rules ([here's a guide](https://tldp.org/HOWTO/html_single/Traffic-Control-HOWTO/))
 
 `tc` is complex and powerful; here's my setup for rate-limiting traffic I try to upload so the modem doesn't saturate the uplink:
@@ -214,7 +248,7 @@ Random-access compression using filesystems:
 # identify this traffic by putting it into a realm, which tc can refer to
 ip route change default via 192.168.0.1 realm 2
 
-# set up tc traffic classes
+# set up tc traffic classes with rate limits
 tc qdisc add dev enp2s0 root handle 1: htb default 12
 tc class add dev enp2s0 parent 1:  classid 1:1  htb rate 1gbit ceil 1gbit
 tc class add dev enp2s0 parent 1:1 classid 1:10 htb rate 5mbit ceil 5mbit
@@ -267,6 +301,7 @@ tc qdisc add dev enp2s0 parent 1:10 handle 20: sfq perturb 10
 + `pkill -CONT rsync`: un-stop all `rsync` processes
 + `kill $pid`: send `SIGTERM` to specific PID
 + `reptyr $pid`: move process with ID `$pid` to this terminal
++ `watch command...`: run `command` every 2s, showing output
 
 
 ### Process inspection/debugging
@@ -278,15 +313,17 @@ tc qdisc add dev enp2s0 parent 1:10 handle 20: sfq perturb 10
 ### Hardware / I2C / SMBus / IPMI
 See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sensors).
 
-+ `sensors` (`apt install lm-sensors`): sensor inspection
-+ `ipmitool sdr list`: sensor inspection for IPMI-equipped machines (servers)
-+ `/sys/class/...`: system devices grouped by type
++ `lshw`: probe for and show all hardware
 + `acpi`: battery and power supply status (for laptops)
++ `sensors` (`apt install lm-sensors`): sensor inspection
++ `/sys/class/...`: system devices grouped by type
++ `ipmitool sdr list`: sensor inspection for IPMI-equipped machines (servers)
 
 
 ### Troubleshooting
 + `dmesg`: low-level kernel events, hardware stuff
 + `tail -f /var/log/syslog`: system events + daemons
++ `tail -f /var/log/auth.log`: attempted and successful logins
 + `journalctl -xe`: show recent systemd service failures
 + `systemctl --status-all`: show all systemd services
 
@@ -303,6 +340,7 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 + `mount /dev/sda1 /mount/point`
 + `umount /mount/point`
 + `lsof /mount/point`: list processes with open files under `/mount/point` (open files prevent a volume from being unmounted)
++ `mount -t tmpfs -o size=1024m ramdisk /tmp/foo`: create a 1GiB memory-resident filesystem
 
 
 ### Block devices
@@ -318,6 +356,8 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
   + `command1 | pv | command2`: measure data throughput
 + Forwarding a block device over the network
   + `nbd` [network block device](https://medium.com/@aysadx/linux-nbd-introduction-to-linux-network-block-devices-143365f1901b)
++ Filesystem checking and repair
+  + `fsck`, for instance `fsck /dev/sda1`
 
 
 ### Partitions / boot sector
@@ -337,20 +377,31 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
   + `btrfs`
   + `zfs`
 + Network filesystems
-  + `nfs`
-+ Filesystem checking and repair
-  + `fsck`, for instance `fsck /dev/sda1`
+  + `nfs` (`apt install nfs-kernel-server`, `apt install nfs-common`)
++ Stacking/unions
+  + `overlayfs`: union filesystem (simpler, mainline, used by Docker)
+  + `aufs`: union filesystem (more powerful/advanced, not mainline)
 
 
 ### FUSE: userspace filesystems
 + `archivemount`: view archive entries as files
 + `encfs`: per-file on-the-fly encryption (not maximally secure, but probably fine for many use cases)
   + `encfs --reverse`: encrypted view of regular files
++ `exfat-fuse`: FAT interop
++ `fusermount -u /path`: unmount FUSE filesystem
++ [And many more](https://awesomeopensource.com/projects/fuse-filesystem)
 
 
-### Software RAID
+### Software RAID, LVM, `dm_crypt`, cryptsetup
 + `mdadm --assemble --scan`: usually the best option
 + `mdadm --assemble /dev/md0 /dev/sda /dev/sdb ...`: manually specify devices
++ LVM
+  + `pvs`: show physical volumes
+  + `lvs`: show logical volumes
+  + `pv*`, `lv*`: more LVM commands
++ Cryptsetup/LUKS (whole-disk encryption)
+  + `cryptsetup` (has `luks` commands for passphrase/key management)
+  + `luksformat`
 
 
 ### Data recovery
@@ -417,7 +468,10 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 
 
 ### Pictures/images
-
++ `ffmpeg` with `image2pipe` format: frames to/from video
++ `convert`: command-line image processing/manipulation/conversion (`apt install imagemagick`)
++ `dcraw`: raw image decoding (e.g. from DSLR cameras)
++ `feh`: image preview, including from stdin (`feh -`)
 
 
 ### Video
@@ -428,6 +482,7 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 + Video playback
   + `vlc`: plays basically everything
   + `mplayer`: plays video, including with ASCII art if you're over SSH
+  + `ffplay`: less-interactive playback, e.g. from video data over stdin (ships with `ffmpeg`)
 + Video processing
   + `ffmpeg`: video encoding/decoding/transcoding
   + `blender`: CGI, 3D modeling, rendering, compositing, production-quality video editing (a handful to learn)
