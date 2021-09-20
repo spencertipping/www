@@ -447,7 +447,7 @@ $ join file1.sorted file2.sorted
 $ join <(zcat file1.gz | sort) <(zcat file2.gz | sort)
 ```
 
-This works anywhere the program doesn't need the filesize or random access -- i.e. it can accept a FIFO.
+This works anywhere the program doesn't need the filesize or random access -- i.e. it can accept a FIFO. Same thing for files to write: `tee >(gzip > file)` for example.
 
 
 ### Parsing data
@@ -496,6 +496,8 @@ This works anywhere the program doesn't need the filesize or random access -- i.
 + `pv -L 100`: like `cat`, but rate-limit data to 100 bytes/second
 + `head -c1000`: pipe first 1000 bytes, then exit
 + `tail -c1000`: pipe last 1000 bytes
++ `tee`: duplicate a stream into a file
+  + `tee >(wc -l)`: ...or another command, using `>()` process redirection
 
 
 ### Profiling shell commands
