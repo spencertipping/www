@@ -1,6 +1,8 @@
 # Linux command-line survival guide
 A probably-opinionated list of things I've found useful in 20 years of using Linux.
 
+`ni` is something I wrote which you can get [here](https://github.com/spencertipping/ni). I tend to use it a lot for sysops and data work, and I've mentioned it inline with other commands when it's especially useful for something. (It's got a steep learning curve, so I consider it a last resort for a page like this.)
+
 
 ## Linux documentation
 + `man ls`: show manpage for `ls`
@@ -15,6 +17,12 @@ A probably-opinionated list of things I've found useful in 20 years of using Lin
   + `man 5 resolv.conf`: show manpage for `/etc/resolv.conf` format
   + `man 7 tcp`: manpage for TCP protocol and APIs
   + `man 8 wg`: manpage for WireGuard config tool
++ To list all your manpages: `ls /usr/share/man/man1` etc (one directory per section)
+  + ...and to find more: `apt list *manpages*`
+
+
+## Shell scripting survival
+I'll try to put together a short version at some point, but for now here's the [bash scripting cheatsheet](https://devhints.io/bash), which covers a lot of ground.
 
 
 ## Terminal and serial IO
@@ -135,7 +143,7 @@ Random-access compression using filesystems:
   + FUSE: `sshfs`
 + Via S3/cloud storage protocols
   + `rclone` (multi-backend adapter + `rsync` for many cloud storage providers)
-  + `aws` (via `awscli`)
+  + `aws` (`apt install awscli`)
   + ... (dedicated packages for other cloud providers)
 + Serving via HTTP, fetching via HTTP
   + `python3 -m http.server`: serve current directory on port 8080
@@ -217,6 +225,9 @@ Random-access compression using filesystems:
 ### Wi-Fi
 + `iw`: manage wifi adapters
 + `wpa_supplicant`, `wpa_passphrase`: handle WPA2 authentication
++ `wicd`: simple wifi management daemon
++ `NetworkManager`: more complicated (and builtin) wifi management
+  + `nmcli` for command-line access, although IIRC it's incomplete
 
 For example, here's how I connect to wifi:
 
@@ -274,6 +285,12 @@ tc qdisc add dev enp2s0 parent 1:10 handle 20: sfq perturb 10
 + `iptables -t FORWARD`: kernel-level gateway behavior
 
 
+### Network/bash adapters
++ `nc`: socket ↔ stdio
++ `socat`: like `nc`, but also supports UNIX domain sockets
++ `curl`: up/download http[s] resources
+
+
 ## System monitoring / process management
 + `conky`: customizable system stats on your desktop
 + `ssh -X user@host conky`: a janky way to have multiple systems on your desktop
@@ -286,7 +303,7 @@ tc qdisc add dev enp2s0 parent 1:10 handle 20: sfq perturb 10
   + `iotop`: IO by process
   + `nethogs`: network by process
   + `powertop`: system power consumption and optimizations
-  + `w`: show CPU by user/login session
+  + `w`: show cumulative CPU by user/login session
 + Containerized resources
   + `kubectl top pod`: CPU/memory for all pods
   + `kubectl top node`: CPU/memory for all nodes
@@ -344,7 +361,7 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 
 
 ### Block devices
-+ Locations
++ Locations (see section `4` of `man` for docs on these)
   + `/dev/mapper/vgx-y`: LVM2 volume `y` from volume group `x`
   + `/dev/sda`: SATA/SAS disk
   + `/dev/sda1`: SATA/SAS disk partition 1
@@ -416,6 +433,23 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 
 
 ## Data processing
+**Pro tip:** `bash` supports process redirection, which turns shell outputs into filenames that can be consumed by other programs. For example:
+
+```sh
+# strategy using tempfiles
+$ gunzip file1.gz
+$ gunzip file2.gz
+$ sort file1 > file1.sorted
+$ sort file2 > file2.sorted
+$ join file1.sorted file2.sorted
+
+# same thing, but no tempfiles (output is streamed as join reads it)
+$ join <(zcat file1.gz | sort) <(zcat file2.gz | sort)
+```
+
+This works anywhere the program doesn't need the filesize or random access -- i.e. it can accept a FIFO.
+
+
 ### Parsing data
 + `jq`: encode/decode/transform JSON
 + `wc`: count words/lines/characters
@@ -423,17 +457,45 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 + `sed`: transform text with regex (`sed -r` for more regex support)
 + `awk`: general text processing (`mawk` for JIT performance)
 + `grep`: select lines by regex (`egrep` for more regex support)
++ `csvkit` for small data
++ `ni` is extremely useful for this but it's a lot to learn
+
+
+### Parallel processing
++ `xargs -P`
++ `parallel` (`apt install parallel`)
++ `ni`
+  + `ni S` for parallel mappers on line boundaries
+  + `ni S\>` for sharded outputs
+  + `ni \*\>` for parallel processing
+  + `ni fx[]` for `xargs` streaming
 
 
 ### Rearranging data
 + `sort`: disk-backed mergesort with tempfile compression (can sort data larger than your free disk space)
 + `tsort`: topological sort, topsort
++ `ni`
+  + `ni g`: `sort`
+  + `ni o`: `sort -n`
+  + `ni O`: `sort -rn`
+  + `ni gg`: sort within grouped data
+
+
+### Joins and set operations
++ `join`: incrementally join sorted streams
++ `comm`: set operations on sorted streams
++ `paste`: zip files together
++ `ni`
+  + `ni j` for streaming/sorted joins
+  + `ni J` for in-memory joins
 
 
 ### Piping data
 + `cat`: read data from file(s), copy stdin to stdout
 + `pv`: like `cat`, but with progress reporting
 + `pv -L 100`: like `cat`, but rate-limit data to 100 bytes/second
++ `head -c1000`: pipe first 1000 bytes, then exit
++ `tail -c1000`: pipe last 1000 bytes
 
 
 ### Profiling shell commands
@@ -442,23 +504,37 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 
 
 ### Plotting
-+ `gnuplot`: scriptable online/offline graphing tool
++ `gnuplot`: scriptable online/offline graphing tool (works well with `ffmpeg -f image2pipe` if you want to animate graphs, for example)
 + `labplot`: interactive graphing
 
 
 ### Calculators and math
-+ `factor`: factor integers quickly (surprisingly useful)
++ `factor`: factor arbitrarily large integers quickly (surprisingly useful; it's sort of like a "where did this number come from" tool)
 + `units`: unit conversions, physics, real-world math (e.g. `units -t '500GB/4Mbps' hours`)
 + `bc`: command-line calculator
 + `maxima`, `axiom`, `pari`, `singular`: computer algebra systems
 + `octave`: Matlab-style environment
++ `ni`: one-liners in a number of languages
+  + `ni 1p'3 + 4'`: perl
+  + `ni 1y'3 + 4'`: python
+  + `ni 1m'3 + 4'`: ruby
+  + `ni 1l'(+ 3 4)'`: SBCL
+  + `ni 1js'3 + 4'`: nodeJS
+  + `ni 1hs'main = putStrLn (show (3 + 4))'`: Haskell, if you really want this
+  + `ni 1c++$'#include <stdio.h>\nint main(){printf("%d\\n", 3 + 4);}': C++
+
+If you want to do matrix math, the fastest thing I've found is numpy. `octave` is good too but doesn't always use multicore ops and sometimes uses more memory. `ni` can stream data into numpy in binary using the `N` operator, or you can use `by''`.
 
 
 ## Media
+Short version: `ffmpeg` and `convert` can do almost everything in a scripted way. `ffmpeg`'s grammar is basically `ffmpeg [-f format -i input] transformers... [-f format output]`. `convert` is stack-based but often works in a similar way. Its command-line grammar is more powerful than `ffmpeg`'s.
+
+
 ### Audio
 + Audio playback
   + `mplayer`: general-purpose command-line audio player
   + `aplay`/`pacat`: play WAV files or raw sample data
+  + `arecord`/`parec`: record WAV audio
   + `audacious`: graphical audio player (like WinAmp)
   + `pianobar`: Pandora streaming from command-line (ad-free)
 + Audio processing
@@ -472,6 +548,8 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 + `convert`: command-line image processing/manipulation/conversion (`apt install imagemagick`)
 + `dcraw`: raw image decoding (e.g. from DSLR cameras)
 + `feh`: image preview, including from stdin (`feh -`)
++ `gimp`: photoshop-style image editing
++ `ni` has some operators for repeated `convert` calls, and for image/video conversions with `ffmpeg`
 
 
 ### Video
@@ -479,6 +557,7 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
   + `ffmpeg -f x11grab -i :0.0`: record X11 display `:0.0` as video
   + `ffmpeg -f v4l2 -i /dev/video0`: stream video from local camera device
   + `youtube-dl`: download video from youtube/vimeo/dailymotion/etc
+  + `ni` has shorthands for things like this
 + Video playback
   + `vlc`: plays basically everything
   + `mplayer`: plays video, including with ASCII art if you're over SSH
