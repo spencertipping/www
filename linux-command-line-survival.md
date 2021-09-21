@@ -70,6 +70,7 @@ I'll try to put together a short version at some point, but for now here's the [
 
 ### Window-level remoting
 + `xpra`: like `tmux` but for windows (fast, uses adaptive video codecs)
+  + See [bashrc-tmux](https://github.com/spencertipping/bashrc-tmux) some automation to help with `xpra` server-side
 + `ssh -X`: native X11 remoting over SSH tunnel (slow)
 
 
@@ -129,9 +130,22 @@ File archivers:
 Random-access compression using filesystems:
 
 + `btrfs` with file compression (fastest, worst compression)
-+ `squashfs` (best compresison ratio, single-threaded decompression unless you have a custom kernel)
++ `squashfs` (best compression ratio, single-threaded decompression unless you have a custom kernel -- `grep SQUASHFS /boot/config-$(uname -r)` to check)
 + `cramfs`
 + FUSE `archivemount` (read-only, slow, file-level rather than block-level access)
+
+
+### Accessing compressed files
++ `file` to detect filetype
++ `ni` will autodetect and decompress things, including as streams
+  + `ni file.gz` -- same as `zcat file.gz`
+  + `cat file.gz | ni`
+  + `cat file.lz4 | ni`
+  + `ni zip://file.zip` will show you zip entries without extracting
+  + `ni zipentry://file.zip:foo` will stream out a single entry
+  + `ni tar://file.tar.gz`: same thing for tar
+  + `ni 7z://file.7z`
+  + `ni ar://libfoo.a`
 
 
 ### Moving files over the network
@@ -351,6 +365,9 @@ See [this ArchWiki page for more tools](https://wiki.archlinux.org/title/Lm_sens
 
 
 ## Filesystems and block devices
+If you don't use a custom `cd` for bash, I wrote a [cd script](https://github.com/spencertipping/cd) that does some useful things like automounting filesystems. So I say `cd machine:/tmp` to FUSE-mount its `/tmp` dir and cd there; then `cd`-ing out will unmount and clean everything. (It supports a lot of other stuff like `cd /dev/sda1`, `cd enc:foo`, etc.)
+
+
 ### Mounting block devices and image files
 + `mount` with no arguments: show all mounted filesystems
 + `mount -o loop file /mount/point`: mount a file as a block device
