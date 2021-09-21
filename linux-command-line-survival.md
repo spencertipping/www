@@ -139,6 +139,20 @@ Random-access compression using filesystems:
 + FUSE `archivemount` (read-only, slow, file-level rather than block-level access)
 
 
+### Encryption and hashing
++ Encrypting/decrypting data
+  + `openssl rand -out file 64`: generate 64 bytes of secure random data
+  + `openssl`, e.g. `echo 'hi there' | openssl enc -aes-256-cbc -e -pbkdf2 -k 'password'`
+  + `aespipe`
+  + `gpg` for full PGP-style encryption
+  + [Using OpenSSL to encrypt data with SSH key files](https://www.bjornjohansen.com/encrypt-file-using-ssh-key)
++ Hashing
+  + `md5sum`
+  + `sha1sum` (compatible with git hashes)
+  + `sha256sum`, `sha384sum`
+  + `sha512sum` (often the fastest on 64-bit machines)
+
+
 ### Accessing compressed files
 + `file` to detect filetype
 + `ni` will autodetect and decompress things, including as streams
@@ -163,7 +177,7 @@ Random-access compression using filesystems:
   + `rclone` (multi-backend adapter + `rsync` for many cloud storage providers)
   + `aws` (`apt install awscli`)
   + ... (dedicated packages for other cloud providers)
-+ Serving via HTTP, fetching via HTTP
++ Via HTTP
   + `python3 -m http.server`: serve current directory on port 8080
   + `curl -sSL https://url`: fetch URL and write to stdout/terminal
   + `wget https://url`: fetch URL and save to file
@@ -429,6 +443,8 @@ If you don't use a custom `cd` for bash, I wrote a [cd script](https://github.co
   + `encfs --reverse`: encrypted view of regular files
 + `exfat-fuse`: FAT interop
 + `fusermount -u /path`: unmount FUSE filesystem
++ `rclone`: cloud storage
++ `s3fs`: S3 in particular
 + [And many more](https://awesomeopensource.com/projects/fuse-filesystem)
 
 
@@ -440,7 +456,7 @@ If you don't use a custom `cd` for bash, I wrote a [cd script](https://github.co
   + `lvs`: show logical volumes
   + `pv*`, `lv*`: more LVM commands
 + Cryptsetup/LUKS (whole-disk encryption)
-  + `cryptsetup` (has `luks` commands for passphrase/key management)
+  + `cryptsetup` (has `luks` commands for passphrase/key management, e.g. changing the disk-encryption password)
   + `luksformat`
 
 
