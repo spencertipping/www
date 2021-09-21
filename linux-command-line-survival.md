@@ -101,6 +101,10 @@ I'll try to put together a short version at some point, but for now here's the [
   + `find`: depth-first search for files by attributes
   + `grep`: depth-first search for files by contents (also consider `ack` or `ag`)
   + `locate`: indexed search for files by name (`apt install mlocate`)
++ Viewing contents, aside from the obvious
+  + `| xxd | less`: hexdump (ships with `vim`)
+  + `| {echo -e "P3\n200 200\n255\n"; cat;} | feh -`: show raw binary data as grayscale 200x200 image (expects 40000 bytes of input)
+  + `| {echo -e "P6\n200 200\n255\n"; cat;} | feh -`: show raw binary data as RGB 200x200 image (expects 120000 bytes of input)
 
 
 ### Compression and archiving
@@ -340,6 +344,7 @@ tc qdisc add dev enp2s0 parent 1:10 handle 20: sfq perturb 10
 + `gdb ls`: debug `ls` (catch segfaults, set breakpoints, etc)
 + `gdb -p $pid`: debug running process `$pid`
 + `radare2`: binary reverse engineering tool
++ `objdump`: disassembler and ELF file inspection (`apt install binutils`)
 
 
 ### Hardware / I2C / SMBus / IPMI
