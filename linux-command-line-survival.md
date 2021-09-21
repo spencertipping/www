@@ -339,6 +339,7 @@ tc qdisc add dev enp2s0 parent 1:10 handle 20: sfq perturb 10
 + `strace ls`: show all system calls made when running `ls`
 + `gdb ls`: debug `ls` (catch segfaults, set breakpoints, etc)
 + `gdb -p $pid`: debug running process `$pid`
++ `radare2`: binary reverse engineering tool
 
 
 ### Hardware / I2C / SMBus / IPMI
