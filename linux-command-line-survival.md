@@ -98,6 +98,7 @@ I'll try to put together a short version at some point, but for now here's the [
   + `cloc`: count lines of code within a repo/subdirectory/etc
 + Finding files
   + `tree`: multi-level `ls`
+  + `ranger`: Finder-style command-line file browser with vim keybindings
   + `find`: depth-first search for files by attributes
   + `grep`: depth-first search for files by contents (also consider `ack` or `ag`)
   + `locate`: indexed search for files by name (`apt install mlocate`)
