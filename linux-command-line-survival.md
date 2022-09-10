@@ -490,6 +490,12 @@ $ join <(zcat file1.gz | sort) <(zcat file2.gz | sort)
 This works anywhere the program doesn't need the filesize or random access -- i.e. it can accept a FIFO. Same thing for files to write: `tee >(gzip > file)` for example.
 
 
+### Extracting data
++ `unzip -p foo.zip bar`: print the `bar` entry of `foo.zip` to stdout, without extracting to disk
++ `ni zip://foo.zip`: list all zip entries
++ `ni file`: `cat file`, `zcat file`, `bzcat file`, `xz -dc file`, `lz4 -dc file`, `lzo -dc flie`, or `zstd -dc file` depending on contents
+
+
 ### Parsing data
 + `jq`: encode/decode/transform JSON
 + `wc`: count words/lines/characters
@@ -514,11 +520,12 @@ This works anywhere the program doesn't need the filesize or random access -- i.
 ### Rearranging data
 + `sort`: disk-backed mergesort with tempfile compression (can sort data larger than your free disk space)
 + `tsort`: topological sort, topsort
++ `rl`: memory-efficient reservoir sampling from a dataset
 + `ni`
   + `ni g`: `sort`
   + `ni o`: `sort -n`
   + `ni O`: `sort -rn`
-  + `ni gg`: sort within grouped data
+  + `ni gg`: sort within grouped data (no `sort` equivalent)
 
 
 ### Joins and set operations
