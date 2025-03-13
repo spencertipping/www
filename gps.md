@@ -25,7 +25,7 @@ $ nfu --run 'use Date::Parse' *.gpx \
 I used Google Maps' satellite view to find the coordinates of the phone inside
 (to within a meter or so):
 
-![phone location](http://spencertipping.com/gpsa-home-charging-location.png)
+![phone location](https://tipping.haus/gpsa-home-charging-location.png)
 
 ### Initial results
 Here are the traced data points sourced from the GPS. The plus-sign on the map
@@ -40,7 +40,7 @@ $ nfu trace.gz -k '%3 eq "gps" && %4 eq "20150616"' \
       -m 'row(%1, %0), row(%3, %2)' -p %d
 ```
 
-![phone gps](http://spencertipping.com/gpsa-home-tracemap.png)
+![phone gps](https://tipping.haus/gpsa-home-tracemap.png)
 
 The most distant point was 35.5m away:
 
@@ -64,7 +64,7 @@ Here's a map of the location deltas (by ascending time):
 $ nfu trace.gz -k '%3 eq "gps" && %4 eq "20150616"' -f10S01D1p %d
 ```
 
-![gps deltas](http://spencertipping.com/gpsa-home-deltas.png)
+![gps deltas](https://tipping.haus/gpsa-home-deltas.png)
 
 Here's the absolute error rate (x axis = meters, y axis is frequency):
 
@@ -74,7 +74,7 @@ $ nfu trace.gz -k '%3 eq "gps" && %4 eq "20150616"' \
       -q0.1ocf10p %l
 ```
 
-![error rate](http://spencertipping.com/gpsa-home-error-rate.png)
+![error rate](https://tipping.haus/gpsa-home-error-rate.png)
 
 So a typical error amount is 20 meters, quite a lot more than the phone's
 estimated 4-8 meter accuracy. It's clear there's some kind of interference
@@ -84,7 +84,7 @@ whether the errors were consistent.
 ### Trying again on the other side of the house
 Just in case.
 
-![west location](http://spencertipping.com/gpsa-home-location2.png)
+![west location](https://tipping.haus/gpsa-home-location2.png)
 
 ```sh
 $ nfu trace2.gz -k '%3 eq "gps"' \
@@ -95,7 +95,7 @@ $ nfu trace2.gz -k '%3 eq "gps"' \
       -m 'row(%1, %0), row(%3, %2)' -p %d
 ```
 
-![west errors](http://spencertipping.com/gpsa-west-errors.png)
+![west errors](https://tipping.haus/gpsa-west-errors.png)
 
 Looks surprisingly similar. Here's the delta map:
 
@@ -103,7 +103,7 @@ Looks surprisingly similar. Here's the delta map:
 $ nfu trace2.gz -k '%3 eq "gps"' -f10S01D1p %d
 ```
 
-![west deltas](http://spencertipping.com/gpsa-west-deltas.png)
+![west deltas](https://tipping.haus/gpsa-west-deltas.png)
 
 Ok, so the error is not being caused by the house itself (and probably also not
 by sporadic ionospheric interference, since the logs were from two separate
@@ -131,21 +131,21 @@ used the tower as the zero-degree point because I could later find its exact
 coordinates on a satellite map (in practice it's 112 degrees from north, an
 adjustment factor I apply just before saving the horizon profile).
 
-![camera transit](http://spencertipping.com/gpsa-camera-transit.jpg)
+![camera transit](https://tipping.haus/gpsa-camera-transit.jpg)
 
-![tower coordinates](http://spencertipping.com/gpsa-survey-tower.png)
+![tower coordinates](https://tipping.haus/gpsa-survey-tower.png)
 
 Vertically calibrated with incredible precision...
 
-![camera vertical](http://spencertipping.com/gpsa-camera-transit-vertical.jpg)
+![camera vertical](https://tipping.haus/gpsa-camera-transit-vertical.jpg)
 
 Here are some examples of the measurement photos, going clockwise from the
 tower:
 
-![measurement 0](http://spencertipping.com/gpsa-transit-snap0.png)
-![measurement 1](http://spencertipping.com/gpsa-transit-snap1.png)
-![measurement 2](http://spencertipping.com/gpsa-transit-snap2.png)
-![measurement 3](http://spencertipping.com/gpsa-transit-snap3.png)
+![measurement 0](https://tipping.haus/gpsa-transit-snap0.png)
+![measurement 1](https://tipping.haus/gpsa-transit-snap1.png)
+![measurement 2](https://tipping.haus/gpsa-transit-snap2.png)
+![measurement 3](https://tipping.haus/gpsa-transit-snap3.png)
 
 My hand is in some of them because I was indicating the horizontal angles in
 the original video. The first thing to do is load one up in Octave and
@@ -160,7 +160,7 @@ $ octave
 > imshow(edge(rgb2gray(i)))
 ```
 
-![edges](http://spencertipping.com/gpsa-edge1.png)
+![edges](https://tipping.haus/gpsa-edge1.png)
 
 Nowhere near good enough for automatic line extraction, so I did some
 experimentation and ended up with this:
@@ -170,12 +170,12 @@ experimentation and ended up with this:
 > imshow(abs(dy) * 5)                           % 5 just helps visibility
 ```
 
-![better edges](http://spencertipping.com/gpsa-edge2.png?0)
+![better edges](https://tipping.haus/gpsa-edge2.png)
 
 Once the camera was facing away from the sun, though, the value channel became
 insufficient:
 
-![blurry edge](http://spencertipping.com/gpsa-edge3.png?0)
+![blurry edge](https://tipping.haus/gpsa-edge3.png)
 
 I fixed it by using the hue instead:
 
@@ -184,7 +184,7 @@ I fixed it by using the hue instead:
 > imshow(abs(dy) * 5)
 ```
 
-![better edge](http://spencertipping.com/gpsa-edge4.png?0)
+![better edge](https://tipping.haus/gpsa-edge4.png)
 
 #### Lens distortion
 As a quick aside, before we rely too much on any line tracing from the camera
@@ -193,7 +193,7 @@ be pincushion or barrel distortion. Either of these will deform a grid, so I
 found one online and took a picture, then copied cells to other locations to
 check for consistency:
 
-![lens distortion test](http://spencertipping.com/gpsa-distortion-test.jpg)
+![lens distortion test](https://tipping.haus/gpsa-distortion-test.jpg)
 
 This is really good; there's a little bit of pincushion distortion towards the
 middle and some barrel distortion at the corners, but for the most part sizes
@@ -224,12 +224,12 @@ the right of the ruler):
 $ octave --persist trace-profile 1
 ```
 
-![good alignment](http://spencertipping.com/gpsa-good-alignment.png)
+![good alignment](https://tipping.haus/gpsa-good-alignment.png)
 
 Only one of them didn't; the pattern of rocks created a high-contrast path that
 diverted the measurement.
 
-![bogus alignment](http://spencertipping.com/gpsa-bogus-alignment.png)
+![bogus alignment](https://tipping.haus/gpsa-bogus-alignment.png)
 
 Fixing it was just a matter of convolving with a narrow Gaussian; this removed
 enough detail that the tracer took the upper path.
@@ -238,7 +238,7 @@ enough detail that the tracer took the upper path.
 @(i) conv2(rgb2hsv(i)(:,:,3), normpdf(1:10, 5, 2))(:,5:end-5);
 ```
 
-![fixed alignment](http://spencertipping.com/gpsa-fixed-alignment.png?0)
+![fixed alignment](https://tipping.haus/gpsa-fixed-alignment.png)
 
 #### Alignment
 Each image is a plane (as opposed to the spherical horizon profile we're
@@ -274,7 +274,7 @@ $ nfu cylindrical.gz -k '%1 >= 1000' \
 
 We have three degrees of freedom due to mechanical imprecision in the transit:
 
-![dof diagram](http://spencertipping.com/gpsa-dof-diagram.png)
+![dof diagram](https://tipping.haus/gpsa-dof-diagram.png)
 
 Since the curves overlap, the goal is to solve for these variables by
 minimizing error. The first step is to find the overlap amount by generating
@@ -304,7 +304,7 @@ $ nfu dx.gz \
       -m 'map row(%0, -$_), @_[1..$#_]' -p %d
 ```
 
-![valigned curves](http://spencertipping.com/gpsa-valigned-curves.png)
+![valigned curves](https://tipping.haus/gpsa-valigned-curves.png)
 
 Looks good. Now let's use those overlaps to solve for dy and dθ. This is a
 little tricky because if we're not careful we'll infer some crazy angles for
@@ -345,7 +345,7 @@ $ nfu solved-initial.gz \
 $ nfu horizon.gz -m 'row %1, -%2' -p %d
 ```
 
-![aligned curves](http://spencertipping.com/gpsa-aligned-curves.png)
+![aligned curves](https://tipping.haus/gpsa-aligned-curves.png)
 
 This really isn't bad considering how egregious the setup was. We can finalize
 the profile by inserting the run of zero data between 45 and 165 degrees,
@@ -377,7 +377,7 @@ $ nfu horizon.gz \
   | gzip > horizon-final.gz
 ```
 
-![final horizon](http://spencertipping.com/gpsa-horizon-final.png?0)
+![final horizon](https://tipping.haus/gpsa-horizon-final.png)
 
 Awesome. Now it's time to get satellite positions for each moment in time and
 figure out when each one was visible.
@@ -506,7 +506,7 @@ Let's take a quick look at some satellite positions in ECI:
 $ nfu satellite-angles.gz -E100f567 --splot %d
 ```
 
-![orbit diagram](http://spencertipping.com/gpsa-orbit-diagram.png?0)
+![orbit diagram](https://tipping.haus/gpsa-orbit-diagram.png)
 
 Here's what they look like in ECEF:
 
@@ -514,7 +514,7 @@ Here's what they look like in ECEF:
 $ nfu satellite-angles.gz -E100f8. --splot %d
 ```
 
-![orbit diagram](http://spencertipping.com/gpsa-orbit-diagram-ecef.png)
+![orbit diagram](https://tipping.haus/gpsa-orbit-diagram-ecef.png)
 
 ### Horizon and visibility
 Right now we have a bunch of azimuth+elevation coordinates, but some of these
@@ -544,7 +544,7 @@ do for [i = 0:360] {
 EOF
 ```
 
-![](http://spencertipping.com/gpsa-visible-hemisphere.gif)
+![](https://tipping.haus/gpsa-visible-hemisphere.gif)
 
 ### Correlating satellite visibility with error
 The first thing to do here is to join one of the GPS traces to the visible
@@ -569,7 +569,7 @@ $ nfu 20150616-satellite.gz \
 ```
 
 ![satellite error
-correlation](http://spencertipping.com/gpsa-satellite-error-correlation.png?1)
+correlation](https://tipping.haus/gpsa-satellite-error-correlation.png)
 
 This doesn't line up particularly well, so let's see whether it could be a
 byproduct of measurement errors. The gnuplot image above represents the trace
@@ -643,7 +643,7 @@ do for [i = 0:360] {
 EOF
 ```
 
-![image](http://spencertipping.com/gpsa-error-animation.gif?2)
+![image](https://tipping.haus/gpsa-error-animation.gif)
 
 **TODO:** Be a little more resourceful here; given the nature/direction of the
 multipath error, I think we can still do the terrain surface mapping stuff.
@@ -666,7 +666,7 @@ This is where things start to get challenging. In order to predict how
 multipath interaction is going to work, we need to first construct a 3D model
 of the landscape. To do this, I used a rooftop crane I had made earlier:
 
-![roof crane](http://spencertipping.com/gpsa-parallax-device.jpg)
+![roof crane](https://tipping.haus/gpsa-parallax-device.jpg)
 
 The idea here is to attach the camera 9ft away from the hinge point and sweep
 it across a circular path. The hinges are precise enough that the resulting
@@ -674,9 +674,9 @@ images should be mostly coplanar, and since we know the radius we can recover
 the horizontal displacement by comparing angles. Here are some stills from the
 resulting video:
 
-![beginning of arc](http://spencertipping.com/gpsa-parallax-1.png)
-![middle of arc](http://spencertipping.com/gpsa-parallax-4.png)
-![end of arc](http://spencertipping.com/gpsa-parallax-7.png)
+![beginning of arc](https://tipping.haus/gpsa-parallax-1.png)
+![middle of arc](https://tipping.haus/gpsa-parallax-4.png)
+![end of arc](https://tipping.haus/gpsa-parallax-7.png)
 
 One problem with these pictures, or really with the video, is that my cell
 phone has a cheap camera that captures frames using a rolling shutter. This
@@ -694,11 +694,11 @@ willing to assume a constant rotational speed for the board because it's
 lightweight and mostly balanced (which means the primary force acting on it
 should be air resistance). Here's a frame from the video:
 
-![drill frame](http://spencertipping.com/gpsa-drill-frame.png)
+![drill frame](https://tipping.haus/gpsa-drill-frame.png)
 
 The rolling shutter produces the curved distortion here. Here's the next frame:
 
-![drill frame 2](http://spencertipping.com/gpsa-drill-frame2.png)
+![drill frame 2](https://tipping.haus/gpsa-drill-frame2.png)
 
 I need to solve for `Δt` as a fraction of the framerate. A simple strategy is
 to take all measurements in terms of rotation of the board. I can't measure it
@@ -718,13 +718,13 @@ $ nfu n:1 --octave "for i = 1:150
           -p %i
 ```
 
-![drill fft](http://spencertipping.com/gpsa-drill-fft.png)
+![drill fft](https://tipping.haus/gpsa-drill-fft.png)
 
 The mode is 62 over 150 frames, so the board's speed is 74.4 degrees per frame.
 Now we just need to measure the rotation between two shutter positions:
 
 ![drill angle
-measurement](http://spencertipping.com/gpsa-drill-angle-measurement.png)
+measurement](https://tipping.haus/gpsa-drill-angle-measurement.png)
 
 So in 1010 vertical pixels the board has rotated about 40 degrees, which gives
 a total of 44.772 degrees of rotation within each frame. This means the shutter
@@ -814,7 +814,7 @@ $ octave
 > imshow(lp(imread("parallax-fixed/0002.png")))
 ```
 
-![logpolar example](http://spencertipping.com/gpsa-logpolar-example.png)
+![logpolar example](https://tipping.haus/gpsa-logpolar-example.png)
 
 Log-polar space is useful because like polar coordinates, an image rotation
 becomes a log-polar translation. This makes it possible to use FFT-based phase
@@ -1407,23 +1407,23 @@ I live near some mountains that are probably blocking the GPS signal by quite a
 bit. For context, here's what it looks like from the roof facing NE, SE, SW,
 and NW respectively:
 
-![northeast](http://spencertipping.com/gpsa-cw3.jpg)
-![southeast](http://spencertipping.com/gpsa-cw0.jpg)
-![southwest](http://spencertipping.com/gpsa-cw1.jpg)
-![northwest](http://spencertipping.com/gpsa-cw2.jpg)
+![northeast](https://tipping.haus/gpsa-cw3.jpg)
+![southeast](https://tipping.haus/gpsa-cw0.jpg)
+![southwest](https://tipping.haus/gpsa-cw1.jpg)
+![northwest](https://tipping.haus/gpsa-cw2.jpg)
 
 The phone will tell you which GPS satellites it can see, but since they aren't
 geosynchronous (and therefore change as the log is running) I needed to first
 get a rough horizon profile to find out when each satellite would be blocked.
 To do this, I built a simple surveying transit:
 
-![surveying transit](http://spencertipping.com/gpsa-transit-survey.jpg)
+![surveying transit](https://tipping.haus/gpsa-transit-survey.jpg)
 
 I didn't have a magnetic compass, so I calibrated the zero angle to something
 that would be visible on a satellite map:
 
-![zero calibration](http://spencertipping.com/gpsa-transit-survey-zero.jpg)
-![tower coordinates](http://spencertipping.com/gpsa-survey-tower.png)
+![zero calibration](https://tipping.haus/gpsa-transit-survey-zero.jpg)
+![tower coordinates](https://tipping.haus/gpsa-survey-tower.png)
 
 Then I measured the horizon angle every 15 degrees. The transit was on top of
 the air conditioner at 35.194155, -106.481735, and the tower is at 35.191365,
