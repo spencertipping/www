@@ -1,4 +1,6 @@
 # GPS accuracy
+An experiment from around 2015 while I was working with GPS data at Factual.
+
 I work with a lot of GPS data at my day job, and I always wondered how accurate
 it was in practice. Devices will report things like "within 4-8 meters," but in
 many ways that's an ideal case; what about noise or reflected signals? So I
