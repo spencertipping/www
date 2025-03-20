@@ -552,37 +552,37 @@ default phase differences.
 The testing setup was straightforward. I took an Arduino Nano with pin headers
 and set up a 1kΩ/6.8nF output filter like this:
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7458_BURST001e.jpg)
+![](sonar-images/IMAG7458_BURST001e.jpg)
 
 Once I fixed some bugs in the software, I got this waveform:
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7457e.jpg)
+![](sonar-images/IMAG7457e.jpg)
 
 The modulated wave wasn't coming in very clearly; here's the detail of the
 carrier:
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7460_BURST010e.jpg)
+![](sonar-images/IMAG7460_BURST010e.jpg)
 
 The problem was that the lowpass filter wasn't being aggressive enough (as [Kurt](https://github.com/kurtstoll)
 had suspected would happen). Replacing the 1kΩ with a 3.3kΩ resistor fixed it:
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7461_BURST012e.jpg)
+![](sonar-images/IMAG7461_BURST012e.jpg)
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7462_BURST009e.jpg)
+![](sonar-images/IMAG7462_BURST009e.jpg)
 
 The final assembly with all four channels and 3.3kΩ resistors (the outputs are
 on the capacitor-sides of the resistors):
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7464_BURST006e.jpg)
+![](sonar-images/IMAG7464_BURST006e.jpg)
 
 All that's left is to wire up the speakers. First I made sure the input
 impedance was sufficiently high:
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7467_BURST001e.jpg)
+![](sonar-images/IMAG7467_BURST001e.jpg)
 
 Then created some super hi-fi connectors and plugged them into the breadboard:
 
-![](http://spencertipping.com/eecf1f9a-d73c-11e5-b63e-3c970ea2ac16/IMAG7470_BURST007e.jpg)
+![](sonar-images/IMAG7470_BURST007e.jpg)
 
 And that's it! The sonar transmitter emitted one of the worst sounds I've ever
 heard in my life. Success.

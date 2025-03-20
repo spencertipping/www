@@ -10,13 +10,13 @@ the manufacturing process. It's probably going to take a while.
 This was my fourth attempt. I managed to break the first three during
 manufacture in various ways. (**TODO:** upload some photos of those)
 
-![image](http://spencertipping.com/feh_004757_000007_IMG_20170925_080734.jpg)
+![image](metalpen-images/feh_004757_000007_IMG_20170925_080734.jpg)
 
-![image](http://spencertipping.com/feh_004757_000008_IMG_20170925_080900.jpg)
+![image](metalpen-images/feh_004757_000008_IMG_20170925_080900.jpg)
 
-![image](http://spencertipping.com/feh_004757_000004_IMG_20170925_072803.jpg)
+![image](metalpen-images/feh_004757_000004_IMG_20170925_072803.jpg)
 
-![image](http://spencertipping.com/feh_004757_000005_IMG_20170925_072824.jpg)
+![image](metalpen-images/feh_004757_000005_IMG_20170925_072824.jpg)
 
 ### What works
 1. It feels great to write with, once you get used to the weight.
